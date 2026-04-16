@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City-Wide Reuse Ecosystem — Gold Coast</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root { --dk:#141413; --lt:#faf9f5; --bg:#EDE8E0; --mid:#b0aea5; --lg:#e8e6dc; --or:#d97757; --bl:#6a9bcc; --gn:#788c5d; --am:#c4956a; --wt:#8a7d6d; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--dk);font-family:'Lora',Georgia,serif;overflow:hidden}
+
+  .hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dk);color:var(--lt);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .hdr h1{font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px}
+  .hdr .sub{font-size:11px;color:var(--mid);margin-top:1px}
+  .hdr-r{display:flex;align-items:center;gap:14px}
+  .hdr .brand{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1.5px}
+  .sbtn{font-family:'Poppins',sans-serif;font-size:10.5px;font-weight:500;padding:5px 12px;border-radius:4px;background:0 0;border:1px solid rgba(250,249,245,.25);color:var(--lt);cursor:pointer}
+  .sbtn:hover{border-color:var(--or);background:rgba(250,249,245,.08)}
+  .sbtn.on{background:var(--or);border-color:var(--or)}
+
+  .stages{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(20,20,19,.96);display:flex}
+  .stg{flex:1;padding:12px 14px;background:0 0;border:none;color:rgba(250,249,245,.35);cursor:pointer;text-align:left;border-top:3px solid transparent;transition:all .25s}
+  .stg:hover{color:rgba(250,249,245,.6);background:rgba(250,249,245,.03)}
+  .stg.on{color:var(--lt);border-top-color:var(--or);background:rgba(250,249,245,.05)}
+  .stg .sn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;display:block;margin-bottom:2px;opacity:.5}
+  .stg.on .sn{opacity:1;color:var(--or)}
+  .stg .st{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;display:block;margin-bottom:1px}
+  .stg .sd{font-size:10px;opacity:.45;display:block;line-height:1.3}
+  .stg.on .sd{opacity:.75}
+
+  .ipan{position:fixed;top:58px;right:16px;z-index:200;background:rgba(250,249,245,.97);border:1px solid var(--lg);border-radius:8px;padding:18px 20px;width:320px;box-shadow:0 4px 20px rgba(20,20,19,.1);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5;font-size:13px}
+  .ipan.vis{opacity:1;pointer-events:auto;transform:none}
+  .ipan h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px}
+  .ipan .itag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px;display:inline-block}
+  .ipan .idesc{color:#4a4a46}
+  .ipan .ilev{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
+  .ipan .ilev b{font-family:'Poppins',sans-serif;font-size:11px;color:var(--or);display:block;margin-bottom:3px}
+  .ipan .ilev p{font-size:12px;color:#5a5a56;line-height:1.45}
+  .ix{position:absolute;top:10px;right:12px;cursor:pointer;font-size:18px;color:var(--mid);background:0 0;border:none;font-family:'Poppins',sans-serif}
+
+  .leg{position:fixed;bottom:84px;left:14px;z-index:200;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:7px;padding:12px 15px;font-size:11px;box-shadow:0 2px 10px rgba(20,20,19,.07);max-width:200px}
+  .leg h4{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;letter-spacing:.8px;color:var(--mid);margin-bottom:6px}
+  .li{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+  .lc{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid}
+  .ld{width:9px;height:9px;transform:rotate(45deg);flex-shrink:0;border:1.5px solid}
+  .leg hr{border:none;border-top:1px solid var(--lg);margin:7px 0}
+
+  .ctrl{position:fixed;bottom:84px;right:14px;z-index:200;display:flex;gap:4px}
+  .ctrl button{width:32px;height:32px;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:5px;font-family:'Poppins',sans-serif;font-size:17px;cursor:pointer;color:var(--dk);display:flex;align-items:center;justify-content:center}
+
+  .tip{position:fixed;pointer-events:none;z-index:300;background:var(--dk);color:var(--lt);font-size:11.5px;padding:6px 10px;border-radius:4px;opacity:0;transition:opacity .12s;max-width:220px;line-height:1.35}
+
+  .spanel{position:fixed;top:50px;right:0;bottom:68px;z-index:210;width:360px;background:rgba(20,20,19,.97);color:var(--lt);padding:28px 26px;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(20,20,19,.3)}
+  .spanel.vis{transform:none}
+  .spanel h2{font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;letter-spacing:.4px;margin-bottom:4px}
+  .spanel .ss{font-size:11.5px;color:var(--mid);margin-bottom:24px;line-height:1.5}
+  .sevt{display:flex;gap:14px}
+  .stl{display:flex;flex-direction:column;align-items:center;width:18px;flex-shrink:0}
+  .sdot{width:9px;height:9px;border-radius:50%;background:var(--or);flex-shrink:0;margin-top:3px}
+  .sdot.now{width:11px;height:11px;box-shadow:0 0 0 3px rgba(217,119,87,.3)}
+  .sline{width:1px;flex:1;background:rgba(250,249,245,.1);margin:3px 0}
+  .scon{padding-bottom:20px}
+  .syr{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--or);margin-bottom:3px}
+  .stt{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;margin-bottom:3px;line-height:1.3}
+  .stx{font-size:11.5px;color:var(--mid);line-height:1.45}
+
+  #svg{position:fixed;top:0;left:0;width:100%;height:100%;cursor:grab;z-index:1}
+  #svg:active{cursor:grabbing}
+  .ng{cursor:pointer}
+  .ng:hover circle, .ng:hover polygon{filter:brightness(0.96)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div><h1>CITY-WIDE REUSE ECOSYSTEM — GOLD COAST</h1><div class="sub">Circular packaging in hospitality · Internal strategy map</div></div>
+  <div class="hdr-r">
+    <button class="sbtn" id="storyBtn" onclick="toggleStory()">MUUSE ORIGIN STORY</button>
+    <div class="brand">ENZYME CONSULTING</div>
+  </div>
+</div>
+
+<div class="stages" id="stageBar"></div>
+
+<div class="leg">
+  <h4>STAKEHOLDER GROUPS</h4>
+  <div class="li"><div class="lc" style="background:rgba(120,140,93,.12);border-color:var(--gn)"></div><span>Venues (adopters)</span></div>
+  <div class="li"><div class="lc" style="background:rgba(196,149,106,.12);border-color:var(--am)"></div><span>Operations</span></div>
+  <div class="li"><div class="lc" style="background:rgba(138,125,109,.12);border-color:var(--wt)"></div><span>Waste &amp; recycling</span></div>
+  <div class="li"><div class="lc" style="background:rgba(106,155,204,.12);border-color:var(--bl)"></div><span>Government &amp; policy</span></div>
+  <div class="li"><div class="lc" style="background:rgba(176,174,165,.12);border-color:var(--mid)"></div><span>Enablers</span></div>
+  <div class="li"><div class="ld" style="background:rgba(20,20,19,.06);border-color:var(--dk)"></div><span>Enzyme (integrator)</span></div>
+  <hr>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--dk)" stroke-width="2" stroke-opacity=".45"/></svg><span>Physical flow</span></div>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--dk)" stroke-width="1.2" stroke-opacity=".3" stroke-dasharray="4,3"/></svg><span>Enabling / data</span></div>
+</div>
+
+<div class="ipan" id="ipan">
+  <button class="ix" onclick="closeInfo()">&times;</button>
+  <div class="itag" id="itag"></div>
+  <h3 id="iname"></h3>
+  <div class="idesc" id="idesc"></div>
+  <div class="ilev" id="ilev" style="display:none"><b id="ilevt"></b><p id="ilevd"></p></div>
+</div>
+
+<div class="ctrl">
+  <button onclick="doZoom(1.25)">+</button>
+  <button onclick="doZoom(1/1.25)">&minus;</button>
+  <button onclick="resetView()" style="font-size:14px">&#8634;</button>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<div class="spanel" id="storyPanel">
+  <h2>MUUSE: FROM BALI BEACH TO CITY-WIDE SYSTEM</h2>
+  <div class="ss">A reuse platform born from frustration with beach plastic, scaled through proof points across Asia, now entering Australia.</div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2018</div><div class="stt">Bali — surfers against plastic</div><div class="stx">Founded as "revolv" by surfers frustrated by takeaway waste. The insight: recycling wasn't enough. They needed reuse infrastructure.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2019</div><div class="stt">Analogue pilots</div><div class="stx">Cup-exchange networks with local cafés. No app, no tech. Learning what makes people return packaging.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2020</div><div class="stt">Digital pivot → "Muuse"</div><div class="stx">Serialised containers, QR codes, chain-of-custody tracking. Grassroots campaign becomes scalable infrastructure.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2021–22</div><div class="stt">Singapore — proving the model</div><div class="stx">Our Tampines Hub (1.2t CO₂/yr saved). Hawker centre: 200k items diverted. No-deposit, late-fee behaviour model emerges.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2023–24</div><div class="stt">Hong Kong — mainstream scale</div><div class="stx">Starbucks (35 stores). Swire Properties. 1M items diverted by end 2024. Proves model in premium retail.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2025</div><div class="stt">98–99% return rates</div><div class="stx">Near-total return without deposits. ~USD 4.2M revenue. Impact data feeding partner ESG disclosures.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot now"></div></div><div class="scon"><div class="syr">2026</div><div class="stt">Gold Coast — the next chapter</div><div class="stx">City-wide market entry via Haymarket HQ. Enzyme as system integrator. Aarhus model as reference. QLD bans creating push, 13M+ visitors creating pull.</div></div></div>
+</div>
+
+<svg id="svg"><g id="world"></g></svg>
+
+<script>
+/* ======================================================
+   CANVAS: 2400 × 2000  — generous space, no overlap
+   ====================================================== */
+const CX = 1200, CY = 1000;
+
+/* --- NODE DATA ---
+   Positions manually placed on a 2400×2000 grid.
+   Minimum 120px centre-to-centre for standard nodes.
+   Labels below each circle have 20px clearance.
+*/
+const N = [
+  // ── CIRCULAR FLOW (centre ring, radius ~300) ──
+  {id:'f_ven', lbl:'Venues',               cat:'flow', x:1200, y:660,  r:32, c:'#788c5d',
+   desc:'The point of service. Hotels, cafés, restaurants, tourism operators, events and corporate venues serve food and drinks in reusable containers via Muuse\'s platform.'},
+  {id:'f_con', lbl:'Consumer',              cat:'flow', x:1500, y:820,  r:30, c:'#788c5d',
+   desc:'Residents (600k+) and visitors (13M+/yr). Borrow a reusable by scanning a QR code at any participating venue. No deposit, no app signup required.'},
+  {id:'f_ret', lbl:'Return point\n(multiple)', cat:'flow', x:1500, y:1120, r:26, c:'#788c5d',
+   desc:'Distributed drop-off locations across the city — at venues, public spaces, transport hubs. Density is the single biggest variable determining return rates. Aarhus deployed 25+ automated points.'},
+  {id:'f_col', lbl:'Collection &\ntransport', cat:'flow', x:1200, y:1300, r:26, c:'#c4956a',
+   desc:'Used containers gathered from return points and transported to the washing facility. Frequency and reliability are critical.'},
+  {id:'f_wsh', lbl:'Commercial\nwashing & QC', cat:'flow', x:900, y:1120, r:28, c:'#c4956a',
+   desc:'Industrial sanitisation, quality inspection, redistribution prep. THE infrastructure bottleneck for any new market. Needs a dedicated facility or partnership with existing commercial operations.'},
+  {id:'f_red', lbl:'Redistribution',         cat:'flow', x:900, y:820,  r:26, c:'#c4956a',
+   desc:'Washed and inspected containers sent back to participating venues. In Aarhus, retailers order clean stock via webshop. The loop closes here.'},
+  {id:'f_lk',  lbl:'Lost / damaged\n(1–5%)', cat:'flow', x:1200, y:1520, r:18, c:'#d97757',
+   desc:'A small percentage of containers are lost, damaged, or not returned. Muuse\'s 98–99% return rate means 1–2% leakage in mature systems. Must be planned for in fleet sizing.'},
+
+  // ── VENUE TYPES (right side, well spaced vertically) ──
+  {id:'hotels',  lbl:'Hotels &\nresorts',              cat:'venue', x:1780, y:440,  r:24, c:'#788c5d',
+   desc:'Gold Coast\'s 400+ accommodation providers. F&B, in-room dining, pool bars, conference catering. High-volume, repeat-visit. The anchor adopter that sets the norm.'},
+  {id:'cafes',   lbl:'Cafés &\nrestaurants',           cat:'venue', x:1960, y:620,  r:22, c:'#788c5d',
+   desc:'Independent and chain F&B operators. Highest takeaway volume. Already adjusting to QLD SUP bans. Need convenient, affordable switch from disposable.'},
+  {id:'tourism', lbl:'Tourism &\nattractions',          cat:'venue', x:1960, y:820,  r:21, c:'#788c5d',
+   desc:'Theme parks (Dreamworld, Sea World, Movie World), attractions, tour operators. Captive audiences, brand-conscious, contained environments where reuse logistics are simpler.'},
+  {id:'events',  lbl:'Events &\nstadiums',              cat:'venue', x:1960, y:1020, r:20, c:'#788c5d',
+   desc:'Festivals, sports stadiums (Cbus Super Stadium, Metricon), cinemas, entertainment precincts. High foot traffic, contained environments, year-round event calendar. Proven Muuse deployment format.'},
+  {id:'fmcg',   lbl:'FMCG partners\n(Coca-Cola etc.)', cat:'venue', x:1780, y:1180, r:19, c:'#788c5d',
+   desc:'Partnerships with major FMCG brands for branded reusable cups at venues and events. Coca-Cola, PepsiCo, Nestlé have sustainability commitments. Co-branding creates marketing value for brand and system.'},
+
+  // ── OPERATIONS (bottom centre) ──
+  {id:'muuse', lbl:'Muuse tech\nplatform',         cat:'ops', x:1480, y:1560, r:24, c:'#c4956a',
+   desc:'QR scanning, serialised container tracking, chain-of-custody data, partner dashboards, return analytics. The digital backbone — turns cups into data.'},
+  {id:'impact',lbl:'Impact data\n& ESG reporting', cat:'ops', x:1200, y:1720, r:19, c:'#c4956a',
+   desc:'Dashboards tracking items circulated, waste diverted, return rates, emissions savings. Feeds partner ESG disclosures and municipal reporting.'},
+  {id:'fleet', lbl:'Container fleet\n& materials',  cat:'ops', x:920,  y:1560, r:18, c:'#c4956a',
+   desc:'Stainless steel cups (75% recycled, ~1,000 uses), PP food containers. Serialised and trackable. Fleet sizing accounts for 1–5% leakage rate.'},
+
+  // ── WASTE & RECYCLING (lower-left) ──
+  {id:'waste',   lbl:'Waste sector\n(Veolia etc.)',  cat:'waste', x:520, y:1320, r:20, c:'#8a7d6d',
+   desc:'Veolia holds the current Gold Coast waste contract. Cleanaway, SUEZ also in QLD. Potential partners for collection and washing infrastructure — or disruptees if reuse scales.'},
+  {id:'eol',     lbl:'End-of-life\nupcycling',       cat:'waste', x:520, y:1540, r:17, c:'#8a7d6d',
+   desc:'Containers reaching end of life go to upcycling (preferred) or recycling. Muuse + Unravel Carbon LCA shows upcycling cuts lifecycle emissions ~5.5% vs recycling.'},
+  {id:'aureuse', lbl:'Existing AU\nreuse operators', cat:'waste', x:320, y:1430, r:17, c:'#8a7d6d',
+   desc:'Green Caffeen (swap cups), Returnr (deposit containers), HuskeeSwap. Fragmented, none city-wide. Potential collaborators, acquisition targets, or competitors.'},
+
+  // ── GOVERNMENT & POLICY (top band) ──
+  {id:'aarhus', lbl:'Aarhus\nREUSEABLE model', cat:'gov', x:620,  y:260,  r:20, c:'#6a9bcc',
+   desc:'World\'s first city-wide reusable takeaway system (TOMRA + Aarhus Municipality, Jan 2024). DKK 5 deposit, 25+ return points, 88% return rate, 1.8M cups in 2 years. The reference model.'},
+  {id:'gccc',   lbl:'City of\nGold Coast',      cat:'gov', x:960,  y:340,  r:24, c:'#6a9bcc',
+   desc:'Towards Zero Waste Plan 2025–28. 80% recovery by 2030. THE critical municipal partner — permits for return infrastructure, co-ownership of the system. The Aarhus lesson: city as partner, not gatekeeper.'},
+  {id:'qldgov', lbl:'QLD State\nGovernment',    cat:'gov', x:1280, y:260,  r:20, c:'#6a9bcc',
+   desc:'Single-use plastics ban since Sep 2021. Shelf-ready exemptions expired Dec 2025. Increasingly supportive regulatory environment pushing operators toward reuse.'},
+  {id:'fedpol', lbl:'Federal policy\nAPCO / EPR', cat:'gov', x:1560, y:340,  r:18, c:'#6a9bcc',
+   desc:'2026 national packaging regulations converging. APCO targets: 100% reusable/recyclable/compostable. EPR shifting costs to producers.'},
+
+  // ── ENABLERS (left side) ──
+  {id:'inv', lbl:'Impact\ninvestors',       cat:'enable', x:200, y:660,  r:17, c:'#b0aea5',
+   desc:'Impact/ESG capital for reuse infrastructure. AU Clean Energy Finance Corp, ARENA, state green funds. Critical for scaling from pilot to city-wide.'},
+  {id:'dgc', lbl:'Destination\nGold Coast', cat:'enable', x:200, y:860,  r:16, c:'#b0aea5',
+   desc:'The DMO. A city-wide reuse system becomes a destination-level sustainability story — differentiation in a competitive tourism market.'},
+  {id:'hay', lbl:'Haymarket HQ\n(Andrea)',  cat:'enable', x:200, y:1060, r:16, c:'#b0aea5',
+   desc:'Singapore–Australia trade bridge. Accelerator supporting SG tech companies entering AU. Andrea Plawutsky facilitating the Muuse–Enzyme connection.'},
+  {id:'ind', lbl:'Industry\nassociations',  cat:'enable', x:1780, y:260, r:16, c:'#b0aea5',
+   desc:'Accommodation Association, Restaurant & Catering Australia, TTF, Circular Australia. Channels for adoption, credibility, standards.'},
+  {id:'uni', lbl:'Universities\n& research',cat:'enable', x:200, y:1260, r:15, c:'#b0aea5',
+   desc:'Griffith, Bond, JCU. Behaviour research, LCA studies, pilot partnerships. Muuse has strong university track record via HKU.'},
+
+  // ── ENZYME ──
+  {id:'enzyme', lbl:'Enzyme\nConsulting', cat:'enzyme', x:480, y:820, r:28, c:'#141413',
+   desc:'System integrator. Bridges Muuse\'s platform with AU hospitality, government, and infrastructure. Designs the city-wide pilot, secures anchor adopters, onboards stakeholders, connects funding.', diamond:true},
+];
+
+const E = [
+  // CIRCULAR FLOW
+  {f:'f_ven',t:'f_con', lbl:'serve reusable',   w:3, op:.6, d:0, s:1},
+  {f:'f_con',t:'f_ret', lbl:'return anywhere',  w:3, op:.6, d:0, s:1},
+  {f:'f_ret',t:'f_col', lbl:'picked up',        w:3, op:.6, d:0, s:1},
+  {f:'f_col',t:'f_wsh', lbl:'dirty → sanitise', w:3, op:.6, d:0, s:1},
+  {f:'f_wsh',t:'f_red', lbl:'clean & inspected',w:3, op:.6, d:0, s:1},
+  {f:'f_red',t:'f_ven', lbl:'resupply',         w:3, op:.6, d:0, s:1},
+  {f:'f_col',t:'f_lk',  lbl:'1–5% lost',       w:1.5, op:.45, d:1, s:1, clr:'#d97757'},
+  {f:'f_wsh',t:'f_lk',  lbl:'damaged',          w:1.2, op:.35, d:1, s:1, clr:'#d97757'},
+
+  // VENUES → FLOW
+  {f:'hotels', t:'f_ven', lbl:'anchor adopter',     w:1.8, op:.45, d:0, s:2},
+  {f:'cafes',  t:'f_ven', lbl:'highest volume',     w:1.6, op:.4,  d:0, s:2},
+  {f:'tourism',t:'f_ven', lbl:'captive audience',   w:1.5, op:.38, d:0, s:2},
+  {f:'events', t:'f_ven', lbl:'event deployment',   w:1.5, op:.38, d:0, s:2},
+  {f:'fmcg',  t:'f_ven',  lbl:'branded containers', w:1.4, op:.35, d:1, s:2},
+  {f:'fmcg',  t:'events', lbl:'event sponsorship',  w:1.1, op:.28, d:1, s:2},
+
+  // OPS → FLOW
+  {f:'muuse',t:'f_ret',  lbl:'QR tracking',        w:1.4, op:.4, d:1, s:2},
+  {f:'muuse',t:'f_col',  lbl:'logistics data',     w:1.3, op:.35,d:1, s:2},
+  {f:'muuse',t:'f_ven',  lbl:'reuse-as-a-service', w:1.6, op:.45,d:0, s:2},
+  {f:'impact',t:'muuse', lbl:'generates',           w:1.2, op:.32,d:1, s:2},
+  {f:'fleet',t:'f_red',  lbl:'new stock',           w:1.4, op:.38,d:0, s:2},
+  {f:'fleet',t:'f_lk',   lbl:'replacement',         w:1.1, op:.28,d:1, s:2},
+
+  // WASTE → FLOW
+  {f:'waste', t:'f_col',  lbl:'collection partner', w:1.4, op:.38, d:1, s:2},
+  {f:'waste', t:'f_wsh',  lbl:'washing partner',    w:1.4, op:.38, d:1, s:2},
+  {f:'eol',   t:'f_lk',   lbl:'upcycle / recycle',  w:1.2, op:.32, d:1, s:2},
+  {f:'aureuse',t:'cafes',  lbl:'existing presence', w:1.1, op:.28, d:1, s:2},
+
+  // GOV → SYSTEM
+  {f:'gccc',  t:'f_ret',  lbl:'permits infrastructure', w:1.5, op:.45, d:0, s:3},
+  {f:'gccc',  t:'f_col',  lbl:'waste contracts',        w:1.3, op:.35, d:1, s:3},
+  {f:'qldgov',t:'gccc',   lbl:'policy mandate',         w:1.4, op:.4,  d:0, s:3},
+  {f:'fedpol',t:'qldgov', lbl:'national framework',     w:1.2, op:.32, d:1, s:3},
+  {f:'fedpol',t:'hotels',  lbl:'APCO targets',          w:1.1, op:.28, d:1, s:3},
+  {f:'aarhus',t:'gccc',   lbl:'replicable model',       w:1.4, op:.4,  d:1, s:3},
+
+  // ENABLERS → SYSTEM
+  {f:'inv',t:'muuse',    lbl:'capital',            w:1.2, op:.32, d:1, s:3},
+  {f:'ind',t:'hotels',   lbl:'member network',     w:1.1, op:.28, d:1, s:3},
+  {f:'dgc',t:'tourism',  lbl:'destination brand',  w:1.1, op:.28, d:1, s:3},
+  {f:'hay',t:'muuse',    lbl:'SG → AU bridge',     w:1.3, op:.38, d:0, s:3},
+  {f:'uni',t:'impact',   lbl:'research / LCA',     w:1.1, op:.28, d:1, s:3},
+  {f:'impact',t:'gccc',  lbl:'impact reporting',   w:1.1, op:.28, d:1, s:3},
+  {f:'impact',t:'inv',   lbl:'impact evidence',    w:1.1, op:.28, d:1, s:3},
+  {f:'impact',t:'hotels',lbl:'ESG metrics',         w:1.1, op:.28, d:1, s:3},
+
+  // ENZYME
+  {f:'enzyme',t:'muuse',  lbl:'market entry strategy', w:1.8, op:.55, d:0, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'hotels', lbl:'enterprise deals',      w:1.8, op:.55, d:0, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'gccc',   lbl:'municipal engagement',  w:1.8, op:.55, d:0, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'ind',    lbl:'sector mobilisation',   w:1.5, op:.45, d:0, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'inv',    lbl:'funding strategy',      w:1.3, op:.38, d:1, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'aarhus', lbl:'reference model',       w:1.3, op:.38, d:1, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'dgc',    lbl:'destination strategy',  w:1.3, op:.38, d:1, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'waste',  lbl:'partner onboarding',    w:1.5, op:.45, d:0, s:4, clr:'#d97757'},
+  {f:'enzyme',t:'events', lbl:'event pilots',          w:1.4, op:.42, d:0, s:4, clr:'#d97757'},
+  {f:'hay',   t:'enzyme', lbl:'introduction',          w:1.4, op:.45, d:0, s:4, clr:'#d97757'},
+];
+
+const LEVERS = {
+  f_ret:  {t:'Return point density',       d:'Single biggest determinant of return rates. Aarhus: 25+ automated points. Below a threshold, the whole system stalls.'},
+  gccc:   {t:'Municipal co-ownership',      d:'City as co-owner — not just regulator. Public space access, policy alignment, shared accountability. The Aarhus lesson.'},
+  f_wsh:  {t:'Commercial washing capacity',  d:'The infrastructure bottleneck. Without local sanitisation, the loop breaks. Purpose-built or partnership with existing operations.'},
+  hotels: {t:'Anchor adopter',               d:'One major hotel group adopting triggers: visibility → proof → FOMO → cascade. The first mover sets the norm.'},
+  muuse:  {t:'Behaviour design via tech',    d:'No-deposit + late fees = 98–99% returns. Higher than most deposit systems. Make reuse easier than disposable.'},
+};
+
+const STAGES = [
+  {num:'',  name:'FULL MAP',             desc:'All layers visible',                                            mx:99, lev:0, enz:1},
+  {num:'01',name:'THE CIRCULAR FLOW',    desc:'The container lifecycle — borrow, use, return, wash, repeat.',  mx:1,  lev:0, enz:0},
+  {num:'02',name:'WHO\'S IN THE SYSTEM', desc:'Venues, operations, waste & recycling — the key stakeholders.', mx:2,  lev:0, enz:0},
+  {num:'03',name:'ENABLING CONDITIONS',  desc:'Policy, investment, research, industry — what makes it work.',  mx:3,  lev:0, enz:0},
+  {num:'04',name:'WHAT ENZYME DOES',     desc:'System integrator — pilots, deals, stakeholder onboarding.',    mx:4,  lev:1, enz:1},
+];
+
+const CS = {flow:1, venue:2, ops:2, waste:2, gov:3, enable:3, enzyme:4};
+let cur = 0, storyOn = false;
+
+// ZONES — backgrounds behind stakeholder groups
+const ZONES = [
+  {lbl:'VENUES',             c:'#788c5d', x:1680, y:360,  w:370, h:920, cat:'venue'},
+  {lbl:'OPERATIONS',         c:'#c4956a', x:830,  y:1480, w:740, h:310, cat:'ops'},
+  {lbl:'WASTE & RECYCLING',  c:'#8a7d6d', x:230,  y:1250, w:380, h:380, cat:'waste'},
+  {lbl:'GOVERNMENT & POLICY',c:'#6a9bcc', x:530,  y:180,  w:1130,h:250, cat:'gov'},
+];
+
+// ── PAN / ZOOM ──
+const svgEl = document.getElementById('svg');
+const world  = document.getElementById('world');
+const tipEl  = document.getElementById('tip');
+let pan = {x:0, y:-50}, zm = 0.52, dragging = false, dl = {x:0, y:0}, dragMoved = false;
+
+function tx() { world.setAttribute('transform', `translate(${pan.x},${pan.y})scale(${zm})`) }
+function doZoom(f) {
+  const cx = innerWidth/2, cy = innerHeight/2;
+  const nz = Math.max(.2, Math.min(3, zm*f));
+  pan.x = cx - (cx - pan.x) * (nz/zm);
+  pan.y = cy - (cy - pan.y) * (nz/zm);
+  zm = nz; tx();
+}
+function resetView() { zm = 0.52; pan = {x:0, y:-50}; tx() }
+
+svgEl.addEventListener('pointerdown', e => {
+  if (e.target.closest('.ng')) return;
+  dragging = true; dragMoved = false;
+  dl = {x: e.clientX, y: e.clientY};
+  svgEl.style.cursor = 'grabbing';
+});
+window.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - dl.x, dy = e.clientY - dl.y;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) dragMoved = true;
+  pan.x += dx; pan.y += dy;
+  dl = {x: e.clientX, y: e.clientY}; tx();
+});
+window.addEventListener('pointerup', () => { dragging = false; svgEl.style.cursor = 'grab' });
+svgEl.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const nz = Math.max(.2, Math.min(3, zm*f));
+  const mx = e.clientX, my = e.clientY;
+  pan.x = mx - (mx - pan.x) * (nz/zm);
+  pan.y = my - (my - pan.y) * (nz/zm);
+  zm = nz; tx();
+}, {passive: false});
+
+// ── CLICK / HOVER ──
+svgEl.addEventListener('click', e => {
+  const ng = e.target.closest('.ng');
+  if (ng) {
+    e.stopPropagation();
+    const n = N.find(v => v.id === ng.dataset.id);
+    if (n && (CS[n.cat]||1) <= STAGES[cur].mx) showInfo(n);
+    return;
+  }
+  if (!dragMoved) closeInfo();
+});
+
+svgEl.addEventListener('pointerover', e => {
+  const ng = e.target.closest('.ng');
+  if (!ng) return;
+  const n = N.find(v => v.id === ng.dataset.id);
+  if (!n || (CS[n.cat]||1) > STAGES[cur].mx) return;
+  tipEl.textContent = n.desc.substring(0, 120) + (n.desc.length > 120 ? '…' : '');
+  tipEl.style.opacity = 1;
+  tipEl.style.left = (e.clientX + 14) + 'px';
+  tipEl.style.top  = (e.clientY - 32) + 'px';
+});
+svgEl.addEventListener('pointermove', e => {
+  if (tipEl.style.opacity === '1') {
+    tipEl.style.left = (e.clientX + 14) + 'px';
+    tipEl.style.top  = (e.clientY - 32) + 'px';
+  }
+});
+svgEl.addEventListener('pointerout', e => {
+  if (e.target.closest('.ng')) tipEl.style.opacity = 0;
+});
+
+// ── HELPERS ──
+function nById(id) { return N.find(v => v.id === id) }
+
+function edgePath(a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy) || 1;
+  const sx = a.x + dx/dist * (a.r + 6), sy = a.y + dy/dist * (a.r + 6);
+  const ex = b.x - dx/dist * (b.r + 14), ey = b.y - dy/dist * (b.r + 14);
+  const mx = (sx + ex) / 2, my = (sy + ey) / 2;
+  // Slight curve away from centre
+  const dcx = mx - CX, dcy = my - CY, dl2 = Math.hypot(dcx, dcy) || 1;
+  const cx2 = mx + dcx/dl2 * 35, cy2 = my + dcy/dl2 * 35;
+  return {d: `M${sx},${sy}Q${cx2},${cy2} ${ex},${ey}`, lx: (cx2+mx)/2, ly: (cy2+my)/2};
+}
+
+function mkEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+// ── RENDER ──
+function render() {
+  world.innerHTML = '';
+  const stg = STAGES[cur], mx = stg.mx, lev = stg.lev, enz = stg.enz;
+
+  // Defs
+  const defs = mkEl('defs', {});
+  defs.innerHTML = `
+    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#141413" fill-opacity=".45"/></marker>
+    <marker id="ad" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#141413" fill-opacity=".06"/></marker>
+    <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#d97757" fill-opacity=".55"/></marker>`;
+  world.appendChild(defs);
+
+  // Zone backgrounds
+  ZONES.forEach(z => {
+    const vis = (CS[z.cat]||1) <= mx;
+    const g = mkEl('g', {opacity: vis ? 1 : .04});
+    g.appendChild(mkEl('rect', {x:z.x, y:z.y, width:z.w, height:z.h, rx:16,
+      fill:z.c, 'fill-opacity':.06, stroke:z.c, 'stroke-opacity':.2, 'stroke-width':1.5}));
+    const t = mkEl('text', {x:z.x+16, y:z.y+22, 'font-family':'Poppins,sans-serif',
+      'font-size':10, 'font-weight':600, fill:z.c, 'fill-opacity':.55, 'letter-spacing':'1.5'});
+    t.textContent = z.lbl;
+    g.appendChild(t);
+    world.appendChild(g);
+  });
+
+  // Flow ring background
+  world.appendChild(mkEl('circle', {cx:CX, cy:CY-30, r:380, fill:'#788c5d', 'fill-opacity':.02,
+    stroke:'#788c5d', 'stroke-opacity':.1, 'stroke-width':1.5}));
+  const flbl = mkEl('text', {x:CX, y:CY-430, 'text-anchor':'middle',
+    'font-family':'Poppins,sans-serif', 'font-size':'10', 'font-weight':600,
+    fill:'#788c5d', 'fill-opacity':.45, 'letter-spacing':'2'});
+  flbl.textContent = 'THE CIRCULAR FLOW';
+  world.appendChild(flbl);
+
+  // Enzyme callout box (stage 4)
+  if (enz) {
+    const bx = 40, by = 80, bw = 290, bh = 390;
+    world.appendChild(mkEl('rect', {x:bx, y:by, width:bw, height:bh, rx:8,
+      fill:'#141413', stroke:'#d97757', 'stroke-width':1.5, 'stroke-opacity':.4}));
+    const lines = [
+      ['ENZYME CONSULTING',       by+30,  'Poppins,sans-serif',10,  600,'#d97757','1.2'],
+      ['WHAT WE SHOULD DO',       by+54,  'Poppins,sans-serif',14,  700,'#faf9f5','.3'],
+      ['1.  Design city-wide pilot framework', by+90,  'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['2.  Secure anchor hotel group',        by+116, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['3.  Municipal engagement',             by+142, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['     (City of Gold Coast partnership)', by+160, 'Lora,serif',10,  400,'#b0aea5','0'],
+      ['4.  Onboard industry stakeholders',    by+190, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['5.  Connect Aarhus reference model',   by+216, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['6.  Build the investment case',        by+242, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['7.  Partner with waste sector',        by+268, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['     (collection & washing infra)',     by+286, 'Lora,serif',10,  400,'#b0aea5','0'],
+      ['8.  Event & stadium pilots',           by+316, 'Lora,serif',11.5,400,'#e8e6dc','0'],
+      ['Pilots → Proof → Scale',               by+354, 'Poppins,sans-serif',12,600,'#d97757','.5'],
+      ['Precinct first, then city-wide',       by+376, 'Lora,serif',10.5,400,'#b0aea5','0'],
+    ];
+    lines.forEach(([txt, y, ff, fs, fw, fill, ls]) => {
+      const t = mkEl('text', {x:bx+20, y:y, 'font-family':ff, 'font-size':fs,
+        'font-weight':fw, fill:fill, 'letter-spacing':ls});
+      t.textContent = txt;
+      world.appendChild(t);
+    });
+  }
+
+  // ── EDGES (drawn before nodes so nodes are on top) ──
+  E.forEach(e => {
+    const a = nById(e.f), b = nById(e.t);
+    if (!a || !b) return;
+    const vis = e.s <= mx;
+    const {d, lx, ly} = edgePath(a, b);
+    const clr = e.clr || '#141413';
+    const mk = vis ? (clr === '#d97757' ? 'url(#ao)' : 'url(#a)') : 'url(#ad)';
+    const p = mkEl('path', {d:d, fill:'none', stroke:clr,
+      'stroke-opacity': vis ? e.op : .02, 'stroke-width': e.w, 'marker-end': mk});
+    if (e.d) p.setAttribute('stroke-dasharray', '6,4');
+    world.appendChild(p);
+    // Edge label
+    if (e.lbl && vis && e.op > .2) {
+      const tw = e.lbl.length * 4.5 + 14;
+      world.appendChild(mkEl('rect', {x:lx-tw/2, y:ly-8, width:tw, height:16, rx:3,
+        fill:'#EDE8E0', 'fill-opacity':.94}));
+      const lt = mkEl('text', {x:lx, y:ly+4, 'text-anchor':'middle',
+        'font-family':'DM Mono,monospace', 'font-size':8.5,
+        fill: clr === '#d97757' ? '#d97757' : '#141413',
+        'fill-opacity': clr === '#d97757' ? .55 : .4});
+      lt.textContent = e.lbl;
+      world.appendChild(lt);
+    }
+  });
+
+  // ── NODES (drawn last = on top = clickable) ──
+  N.forEach(n => {
+    const ns = CS[n.cat] || 1;
+    const vis = ns <= mx;
+    const isLev = lev && LEVERS[n.id];
+
+    const g = mkEl('g', {'data-id': n.id, opacity: vis ? 1 : .05});
+    g.classList.add('ng');
+    g.style.pointerEvents = vis ? 'auto' : 'none';
+
+    // Lever pulse ring
+    if (isLev) {
+      g.appendChild(mkEl('circle', {cx:n.x, cy:n.y, r:n.r+14, fill:'none',
+        stroke:'#d97757', 'stroke-width':2, 'stroke-dasharray':'5,4', 'stroke-opacity':.6}));
+      const pulse = mkEl('circle', {cx:n.x, cy:n.y, r:n.r+14, fill:'none', stroke:'#d97757', 'stroke-width':1.5});
+      const a1 = mkEl('animate', {attributeName:'r', from:n.r+14, to:n.r+38, dur:'2.2s', repeatCount:'indefinite'});
+      const a2 = mkEl('animate', {attributeName:'stroke-opacity', from:'.4', to:'0', dur:'2.2s', repeatCount:'indefinite'});
+      pulse.appendChild(a1); pulse.appendChild(a2); g.appendChild(pulse);
+    }
+
+    // Invisible hit area (larger than visual shape, makes clicking easier)
+    g.appendChild(mkEl('circle', {cx:n.x, cy:n.y, r:n.r+10, fill:'transparent', stroke:'none'}));
+
+    // Shape
+    if (n.diamond) {
+      const s = n.r + 6;
+      g.appendChild(mkEl('polygon', {
+        points:`${n.x},${n.y-s} ${n.x+s},${n.y} ${n.x},${n.y+s} ${n.x-s},${n.y}`,
+        fill:'#EDE8E0', stroke:n.c, 'stroke-width':2.5}));
+    } else if (n.id === 'f_lk') {
+      g.appendChild(mkEl('circle', {cx:n.x, cy:n.y, r:n.r, fill:'#EDE8E0',
+        stroke:n.c, 'stroke-width':1.5, 'stroke-dasharray':'5,4'}));
+    } else {
+      g.appendChild(mkEl('circle', {cx:n.x, cy:n.y, r:n.r, fill:'#EDE8E0',
+        stroke: isLev ? '#d97757' : n.c, 'stroke-width': n.cat === 'flow' ? 2.5 : 2}));
+    }
+
+    // Label below node — with background halo
+    const lines = n.lbl.split('\n');
+    const lbw = Math.max(...lines.map(l => l.length)) * 7 + 12;
+    const lbh = lines.length * 15 + 6;
+    const lby = n.y + n.r + 12;
+    g.appendChild(mkEl('rect', {x:n.x - lbw/2, y:lby - 2, width:lbw, height:lbh, rx:3,
+      fill:'#EDE8E0', 'fill-opacity':.85}));
+    lines.forEach((line, i) => {
+      const t = mkEl('text', {x:n.x, y:lby + 12 + i*15, 'text-anchor':'middle',
+        'font-family':'Poppins,sans-serif', 'font-size': n.cat === 'flow' ? '11.5' : '10.5',
+        'font-weight':600, fill:'#141413'});
+      t.textContent = line;
+      g.appendChild(t);
+    });
+
+    world.appendChild(g);
+  });
+}
+
+// ── INFO PANEL ──
+function showInfo(n) {
+  const cats = {flow:'CIRCULAR FLOW', venue:'VENUES', ops:'OPERATIONS', waste:'WASTE & RECYCLING', gov:'GOVERNMENT & POLICY', enable:'ENABLERS', enzyme:'SYSTEM INTEGRATOR'};
+  document.getElementById('itag').textContent = cats[n.cat] || '';
+  document.getElementById('itag').style.background = n.c + '18';
+  document.getElementById('itag').style.color = n.c;
+  document.getElementById('iname').textContent = n.lbl.replace(/\n/g, ' ');
+  document.getElementById('idesc').textContent = n.desc;
+  const lv = LEVERS[n.id];
+  const el = document.getElementById('ilev');
+  if (lv) {
+    el.style.display = 'block';
+    document.getElementById('ilevt').textContent = '⬡ LEVERAGE POINT: ' + lv.t;
+    document.getElementById('ilevd').textContent = lv.d;
+  } else {
+    el.style.display = 'none';
+  }
+  document.getElementById('ipan').classList.add('vis');
+}
+function closeInfo() { document.getElementById('ipan').classList.remove('vis') }
+
+// ── STAGE BAR ──
+function renderStages() {
+  const bar = document.getElementById('stageBar');
+  bar.innerHTML = '';
+  STAGES.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.className = 'stg' + (i === cur ? ' on' : '');
+    b.innerHTML = `<span class="sn">${s.num}</span><span class="st">${s.name}</span><span class="sd">${s.desc}</span>`;
+    b.onclick = () => { cur = i; renderStages(); render() };
+    bar.appendChild(b);
+  });
+}
+
+function toggleStory() {
+  storyOn = !storyOn;
+  document.getElementById('storyPanel').classList.toggle('vis', storyOn);
+  document.getElementById('storyBtn').classList.toggle('on', storyOn);
+}
+
+// INIT
+tx(); renderStages(); render();
+</script>
+</body>
+</html>
