@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Intelligence System Map — 25 April 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--dk:#141413;--lt:#faf9f5;--bg:#EDE8E0;--mid:#b0aea5;--lg:#e8e6dc;--or:#d97757;--bl:#6a9bcc;--gn:#2D5F5D;--gn2:#788c5d;--am:#c4956a;--hr:#C9983A;--dk2:#1e2d2c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--dk);font-family:'Lora',Georgia,serif;overflow:hidden}
+
+  .hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dk);color:var(--lt);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .hdr h1{font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px}
+  .hdr .sub{font-size:11px;color:var(--mid);margin-top:1px}
+  .hdr-r{display:flex;align-items:center;gap:14px}
+  .hdr .brand{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1.5px}
+  .feeling-chip{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.8px;color:var(--hr);border:1px solid rgba(201,152,58,.3);padding:3px 9px;border-radius:3px}
+
+  .stages{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(20,20,19,.96);display:flex}
+  .stg{flex:1;padding:12px 14px;background:0 0;border:none;color:rgba(250,249,245,.35);cursor:pointer;text-align:left;border-top:3px solid transparent;transition:all .25s}
+  .stg:hover{color:rgba(250,249,245,.6);background:rgba(250,249,245,.03)}
+  .stg.on{color:var(--lt);border-top-color:var(--or);background:rgba(250,249,245,.05)}
+  .stg .sn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;display:block;margin-bottom:2px;opacity:.5}
+  .stg.on .sn{opacity:1;color:var(--or)}
+  .stg .st{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;display:block;margin-bottom:1px}
+  .stg .sd{font-size:10px;opacity:.45;display:block;line-height:1.3}
+  .stg.on .sd{opacity:.75}
+
+  .ipan{position:fixed;top:58px;right:16px;z-index:300;background:rgba(250,249,245,.97);border:1px solid var(--lg);border-radius:8px;padding:18px 20px;width:310px;box-shadow:0 4px 20px rgba(20,20,19,.1);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5;font-size:13px}
+  .ipan.vis{opacity:1;pointer-events:auto;transform:none}
+  .ipan h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px}
+  .ipan .itag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px;display:inline-block}
+  .ipan .idesc{color:#4a4a46;font-size:12.5px;line-height:1.6}
+  .ipan .ilev{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
+  .ipan .ilev b{font-family:'Poppins',sans-serif;font-size:11px;color:var(--or);display:block;margin-bottom:3px}
+  .ipan .ilev p{font-size:12px;color:#5a5a56;line-height:1.45}
+  .ix{position:absolute;top:10px;right:12px;cursor:pointer;font-size:18px;color:var(--mid);background:0 0;border:none;font-family:'Poppins',sans-serif}
+
+  .ppan{position:fixed;top:58px;left:14px;z-index:300;background:rgba(20,20,19,.95);border:1px solid rgba(250,249,245,.08);border-radius:8px;padding:20px 22px;width:300px;box-shadow:0 4px 24px rgba(20,20,19,.3);opacity:0;pointer-events:none;transform:translateX(-8px);transition:all .25s;max-height:calc(100vh - 180px);overflow-y:auto}
+  .ppan.vis{opacity:1;pointer-events:auto;transform:none}
+  .ppan .pnum{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;color:var(--or);margin-bottom:6px;text-transform:uppercase}
+  .ppan h3{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:var(--lt);margin-bottom:10px;line-height:1.3;letter-spacing:.3px}
+  .ppan .pbody{font-family:'Lora',serif;font-size:12px;color:rgba(250,249,245,.72);line-height:1.65;margin-bottom:14px}
+  .ppan .psigs{border-top:1px solid rgba(250,249,245,.08);padding-top:12px}
+  .ppan .psigs-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.8px;color:rgba(250,249,245,.3);text-transform:uppercase;margin-bottom:8px}
+  .ppan .psig{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start}
+  .ppan .psig-dot{width:5px;height:5px;border-radius:50%;background:var(--or);flex-shrink:0;margin-top:5px}
+  .ppan .psig-txt{font-family:'Lora',serif;font-size:11.5px;color:rgba(250,249,245,.65);line-height:1.5}
+  .ppan .psig-txt strong{color:rgba(250,249,245,.9);font-style:italic}
+  .ppan .pimpl{background:rgba(217,119,87,.08);border:1px solid rgba(217,119,87,.18);border-radius:5px;padding:10px 12px;margin-top:12px}
+  .ppan .pimpl-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.8px;color:var(--or);margin-bottom:4px;text-transform:uppercase}
+  .ppan .pimpl p{font-family:'Poppins',sans-serif;font-size:11px;color:rgba(250,249,245,.8);line-height:1.5}
+  .ppan .pcx{position:absolute;top:10px;right:12px;cursor:pointer;font-size:16px;color:rgba(250,249,245,.25);background:0 0;border:none}
+  .ppan .pcx:hover{color:rgba(250,249,245,.5)}
+
+  .leg{position:fixed;bottom:84px;left:14px;z-index:150;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:6px;padding:10px 14px;font-size:11px;transition:opacity .3s}
+  .leg-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .leg-row:last-child{margin-bottom:0}
+  .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .leg-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36}
+
+  .ctrl{position:fixed;bottom:84px;right:14px;z-index:150;display:flex;flex-direction:column;gap:6px}
+  .ctrl button{width:32px;height:32px;border-radius:5px;border:1px solid var(--lg);background:rgba(250,249,245,.95);cursor:pointer;font-size:15px;color:var(--dk);display:flex;align-items:center;justify-content:center}
+  .ctrl button:hover{background:var(--lt)}
+
+  .tip{position:fixed;z-index:400;background:rgba(20,20,19,.88);color:var(--lt);padding:5px 10px;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;pointer-events:none;opacity:0;transition:opacity .15s}
+  .tip.vis{opacity:1}
+
+  #svg{position:fixed;top:0;left:0;width:100%;height:100%;cursor:grab}
+  #svg:active{cursor:grabbing}
+  .ng{cursor:pointer;transition:opacity .3s}
+  .ng:hover circle{filter:brightness(1.08)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>DAILY INTELLIGENCE SYSTEM MAP</h1>
+    <div class="sub">25 April 2026 · Fertiliser shock meets the regenerative transition</div>
+  </div>
+  <div class="hdr-r">
+    <div class="feeling-chip">COMPRESSED FERTILITY</div>
+    <div class="brand">ENZYME</div>
+  </div>
+</div>
+
+<svg id="svg" viewBox="0 0 2000 1600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a"  markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#141413" fill-opacity=".55"/></marker>
+    <marker id="ag" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#2D5F5D" fill-opacity=".7"/></marker>
+    <marker id="ao" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#d97757" fill-opacity=".65"/></marker>
+    <marker id="ad" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#141413" fill-opacity=".08"/></marker>
+    <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <g id="world"></g>
+</svg>
+
+<div class="ipan" id="ipan">
+  <button class="ix" onclick="closeInfo()">×</button>
+  <span class="itag" id="itag"></span>
+  <h3 id="iname"></h3>
+  <div class="idesc" id="idesc"></div>
+  <div class="ilev" id="ilev" style="display:none">
+    <b id="ilevt"></b>
+    <p id="ilevd"></p>
+  </div>
+</div>
+
+<div class="ppan" id="ppan">
+  <button class="pcx" onclick="closePhase()">×</button>
+  <div class="pnum" id="pnum"></div>
+  <h3 id="pname"></h3>
+  <div class="pbody" id="pbody"></div>
+  <div class="psigs" id="psigs"></div>
+  <div class="pimpl" id="pimpl">
+    <div class="pimpl-lbl">Implication for Andrew's world</div>
+    <p id="pimplp"></p>
+  </div>
+</div>
+
+<div class="leg" id="leg">
+  <div class="leg-row"><div class="leg-dot" style="background:#B0AEA5"></div><span class="leg-lbl">MACRO / GEOPOLITICS</span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:#C9983A"></div><span class="leg-lbl">FOOD SYSTEMS</span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:#2D5F5D"></div><span class="leg-lbl">HOSPITALITY / TOURISM</span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:#6A9BCC"></div><span class="leg-lbl">INSTITUTIONAL / POLICY</span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:#788C5D"></div><span class="leg-lbl">OPPORTUNITY</span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:#D97757"></div><span class="leg-lbl">TENSION</span></div>
+  <div class="leg-row"><div class="leg-dot" style="background:#6A9BCC;opacity:.5"></div><span class="leg-lbl">CULTURAL / WELLNESS</span></div>
+</div>
+
+<div class="ctrl">
+  <button onclick="zm=Math.min(zm*1.25,4);tx()" title="Zoom in">+</button>
+  <button onclick="zm=Math.max(zm*.8,.3);tx()" title="Zoom out">−</button>
+  <button onclick="zm=1;pan={x:0,y:0};tx()" title="Reset">↺</button>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<div class="stages" id="stages"></div>
+
+<script>
+const CAT_COLOURS = {
+  'Macro':'#B0AEA5','Food Systems':'#C9983A','Hospitality':'#2D5F5D',
+  'Institutional':'#6A9BCC','Opportunity':'#788C5D','Tension':'#D97757',
+  'Cultural':'#8AAEC8'
+};
+
+const N = [
+  {id:'conflict', lbl:'Middle East\nConflict', cat:'Macro', x:320, y:220, r:34, c:'#B0AEA5', s:1,
+   desc:'Escalating Iran war triggers Strait of Hormuz closure. IMF April 2026 WEO: "Global Economy in the Shadow of War." Global growth downgraded to 3.1%. Largest oil market disruption in history.',
+   lever:{t:'Macro forcing function', d:'The conflict is not a discrete event — it is restructuring global supply chains, energy costs, and food economics simultaneously.'}},
+
+  {id:'hormuz', lbl:'Hormuz\nClosure', cat:'Macro', x:540, y:300, r:28, c:'#B0AEA5', s:1,
+   desc:'De facto closure of the Strait of Hormuz cuts ~1/3 of globally traded fertiliser and significant LNG flows. No strategic reserve. No fast substitute. Planting season already underway.',
+   lever:{t:'Critical chokepoint', d:'One narrow strait controls a disproportionate share of global agricultural inputs. This single-point fragility is the hidden infrastructure of global food security.'}},
+
+  {id:'fert_shock', lbl:'Fertiliser\nShock', cat:'Food Systems', x:760, y:200, r:40, c:'#C9983A', s:1,
+   desc:'Urea prices up ~50% in three weeks ($450→$700/tonne). FAO warns of severe food security risks. 70% of US farmers cannot afford all fertiliser needed for 2026 planting season. Clock is ticking on the planting window.',
+   lever:{t:'Bio-fertiliser acceleration', d:'The shock makes biological and precision alternatives cost-competitive for the first time at scale — accelerating a transition that has been stalled on economics.'}},
+
+  {id:'food_inflation', lbl:'Food Price\nInflation 12–18%', cat:'Food Systems', x:960, y:320, r:30, c:'#C9983A', s:1,
+   desc:'Helios AI forecasts food prices 12–18% above pre-crisis levels by end of 2026, even if conflict ends now. Harvest shortfalls locked in for late 2026. South Asia and North Africa most exposed.',
+   lever:{t:'Hospitality cost pressure', d:'Food inflation hits hospitality directly — forcing procurement decisions now that will define operator resilience through 2027.'}},
+
+  {id:'commitment_gap', lbl:'Regen Ag\nCommitment Gap', cat:'Tension', x:760, y:520, r:32, c:'#D97757', s:2,
+   desc:'Earth Day 2026 diagnosis: regen farming has a commitment problem, not a practice problem. Supply-chain economic alignment is missing. The sector cannot scale practices without contracts, procurement models, and financing structures.',
+   lever:{t:'Structural not ideological', d:'The commitment gap is a systems design problem. Solving it requires contracts and incentives, not more evidence that regen farming works.'}},
+
+  {id:'usda', lbl:'USDA $700M\nRegen Pilot', cat:'Institutional', x:480, y:580, r:26, c:'#6A9BCC', s:2,
+   desc:'USDA launches $700M regenerative agriculture pilot. Welcomed by agrifood sector; called greenwashing by organic advocates who argue it diverts resources from organic transition. Signals institutional momentum regardless of design quality.',
+   lever:null},
+
+  {id:'rockefeller', lbl:'Rockefeller\n$220M Food', cat:'Institutional', x:260, y:500, r:24, c:'#6A9BCC', s:2,
+   desc:'Rockefeller Foundation commits $220M to food systems transformation: $100M for regenerative school meals, $100M for Food is Medicine, $20M+ for the Periodic Table of Food Initiative. Anchors institutional capital in regen food systems.',
+   lever:null},
+
+  {id:'hotel_yearbook', lbl:'"The Regenerative\nQuestion"', cat:'Hospitality', x:300, y:320, r:30, c:'#2D5F5D', s:2,
+   desc:'Hotel Yearbook 2026 Sustainability Edition title: "The Regenerative Question — What Hospitality Must Become." The framing shift is complete. ITB 2026 recap shows practitioners sharing regenerative-by-design stories with operational substance.',
+   lever:{t:'Identity before delivery', d:'The industry has shifted its self-conception. The question now is whether operations can follow the framing — and the fertiliser shock is making that test immediate.'}},
+
+  {id:'consumer', lbl:'Consumer\nRegen Demand', cat:'Cultural', x:140, y:460, r:28, c:'#8AAEC8', s:2,
+   desc:'73% of travellers want spending to benefit local communities. 69% want to leave places better than they found them. 60% want travel to positively impact destinations. Consumer demand for genuine regenerative experience is no longer niche.',
+   lever:null},
+
+  {id:'healthspan', lbl:'Healthspan\nShift', cat:'Cultural', x:140, y:650, r:26, c:'#8AAEC8', s:2,
+   desc:'Global Wellness Summit: longevity market $67B by 2035. "Anti-aging" language dying — replaced by functional longevity: strength, mobility, cognitive clarity, independence. Cities being designed for healthy ageing. Insilico Medicine launches first industry Longevity Board.',
+   lever:{t:'Experience economy convergence', d:'The consumer seeking functional longevity and the consumer wanting regenerative travel are converging. Place-based wellness, real food, genuine rest — the same offer serves both.'}},
+
+  {id:'biofert', lbl:'Bio-fertiliser\n& Precision Ag', cat:'Opportunity', x:1100, y:200, r:28, c:'#788C5D', s:3,
+   desc:'The fertiliser shock makes biological alternatives and precision agriculture economically competitive for the first time at scale. What was an environmental argument is now a cost argument. More durable transition.',
+   lever:{t:'Structural opportunity', d:'Operators and agrifood players who invest in biological inputs now gain both cost resilience and a compelling regen narrative — at a moment when both have maximum strategic value.'}},
+
+  {id:'localised_food', lbl:'Localised Food\nSovereignty', cat:'Opportunity', x:1100, y:440, r:28, c:'#788C5D', s:3,
+   desc:'African CSOs shifting from green revolution to locally-adapted farming. Fertiliser shock globally drives restructuring toward localised production. Food sovereignty gaining structural momentum — not ideological but economic.',
+   lever:{t:'System redesign lever', d:'The disruption creates conditions for permanent supply chain restructuring — from globalised just-in-time to localised, diverse, biological. This is the transition the regen movement has argued for.'}},
+
+  {id:'regen_hosp_ops', lbl:'Regen Hospitality\nOperationalisation', cat:'Opportunity', x:520, y:760, r:36, c:'#2D5F5D', s:4,
+   desc:'The gap between regen aspiration and delivery is being forced by external pressure. Hotels with localised supply chains, producer relationships, and biological inputs are insulated from food inflation and aligned with consumer demand. Those without are exposed.',
+   lever:{t:'Now or never window', d:'Build genuine regen supply chain relationships now — before food inflation makes reactive sourcing expensive, exposed, and narratively indefensible. This is the 6–9 month window that separates leaders from followers.'}},
+
+  {id:'sorting', lbl:'Crisis as\nSorting Mechanism', cat:'Tension', x:820, y:700, r:30, c:'#D97757', s:3,
+   desc:'The fertiliser shock and food inflation are simultaneously an accelerant for regen transition AND a sorting mechanism that distinguishes genuine regen operators from those with aspirational language and conventional supply chains.',
+   lever:{t:'Strategic clarifier', d:'The crisis does not create new leaders — it reveals who was already building substance behind the framing.'}}
+];
+
+const E = [
+  {f:'conflict',  t:'hormuz',       lbl:'escalates',        w:2.5, op:.7, d:0, s:1},
+  {f:'hormuz',    t:'fert_shock',   lbl:'cuts 1/3 supply',  w:3,   op:.8, d:0, s:1},
+  {f:'fert_shock',t:'food_inflation',lbl:'→ harvest shortfall', w:2.5,op:.7,d:0,s:1},
+  {f:'fert_shock',t:'commitment_gap',lbl:'worsens economics', w:2, op:.6, d:1, s:2, clr:'#d97757'},
+  {f:'fert_shock',t:'biofert',      lbl:'accelerates alternatives', w:2, op:.65, d:0, s:3, clr:'#2D5F5D'},
+  {f:'food_inflation',t:'regen_hosp_ops', lbl:'cost pressure', w:2, op:.55, d:1, s:4, clr:'#d97757'},
+  {f:'commitment_gap',t:'regen_hosp_ops', lbl:'creates urgency', w:2, op:.6, d:0, s:4, clr:'#2D5F5D'},
+  {f:'usda',      t:'commitment_gap', lbl:'institutional push', w:1.5, op:.5, d:0, s:2, clr:'#2D5F5D'},
+  {f:'rockefeller',t:'commitment_gap',lbl:'capital signal',  w:1.5, op:.5, d:0, s:2, clr:'#2D5F5D'},
+  {f:'hotel_yearbook',t:'regen_hosp_ops',lbl:'frames the ask', w:2, op:.65, d:0, s:4, clr:'#2D5F5D'},
+  {f:'consumer',  t:'hotel_yearbook', lbl:'demand signal',  w:1.5, op:.55, d:0, s:2},
+  {f:'consumer',  t:'regen_hosp_ops', lbl:'pulls delivery', w:1.5, op:.55, d:0, s:4, clr:'#2D5F5D'},
+  {f:'healthspan',t:'consumer',     lbl:'converges with',  w:1.5, op:.5, d:0, s:2},
+  {f:'biofert',   t:'localised_food',lbl:'enables',        w:1.5, op:.55, d:0, s:3, clr:'#2D5F5D'},
+  {f:'localised_food',t:'regen_hosp_ops',lbl:'supply foundation', w:2, op:.6, d:0, s:4, clr:'#2D5F5D'},
+  {f:'sorting',   t:'regen_hosp_ops', lbl:'reveals leaders', w:1.5, op:.5, d:1, s:4, clr:'#d97757'},
+  {f:'fert_shock',t:'sorting',     lbl:'acts as',         w:1.5, op:.5, d:1, s:3, clr:'#d97757'}
+];
+
+const LEVERS = {fert_shock:true, regen_hosp_ops:true, biofert:true};
+
+const ZONES = [
+  {x:80, y:120, w:700, h:500, lbl:'MACRO DISRUPTION LAYER', c:'rgba(176,174,165,.06)'},
+  {x:80, y:580, w:700, h:580, lbl:'REGENERATIVE TRANSITION LAYER', c:'rgba(45,95,93,.04)'},
+  {x:800, y:120, w:480, h:700, lbl:'SYSTEMS OPPORTUNITY LAYER', c:'rgba(120,140,93,.05)'}
+];
+
+const STAGES = [
+  {id:'full', n:'FULL MAP', d:'All signals and connections visible', mx:99},
+  {id:'s1', n:'MACRO SHOCK', d:'Conflict → Hormuz → Fertiliser → Food prices', mx:1},
+  {id:'s2', n:'INSTITUTIONAL RESPONSE', d:'Policy, capital, and industry framing', mx:2},
+  {id:'s3', n:'TRANSITION DYNAMICS', d:'Tensions, opportunities, and sorting', mx:3},
+  {id:'s4', n:'OPPORTUNITY', d:'Where to act in the next 6–9 months', mx:4}
+];
+
+const CX = 1000, CY = 800;
+let cur = 0, zm = 1, pan = {x:0,y:0}, drag = null, tip = document.getElementById('tip');
+
+function mkEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+
+function edgePath(a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+  const ox = -dy*0.18, oy = dx*0.18;
+  const cx = mx+ox, cy = my+oy;
+  const lx = mx + ox*0.5, ly = my + oy*0.5;
+  return {d:`M${a.x},${a.y} Q${cx},${cy} ${b.x},${b.y}`, lx, ly};
+}
+
+function nodeVisible(n) { return n.s <= STAGES[cur].mx; }
+
+function render() {
+  const world = document.getElementById('world');
+  if (!world) return;
+  while (world.firstChild) world.removeChild(world.firstChild);
+
+  // Zones
+  ZONES.forEach(z => {
+    world.appendChild(mkEl('rect',{x:z.x,y:z.y,width:z.w,height:z.h,fill:z.c,rx:'12'}));
+    const zt = mkEl('text',{x:z.x+16,y:z.y+24,'font-family':'DM Mono, monospace','font-size':'9','fill':'rgba(20,20,19,.2)','letter-spacing':'1.2'});
+    zt.textContent = z.lbl;
+    world.appendChild(zt);
+  });
+
+  // Edges
+  E.forEach(e => {
+    const fn = N.find(n=>n.id===e.f), tn = N.find(n=>n.id===e.t);
+    if (!fn || !tn) return;
+    const visF = nodeVisible(fn), visT = nodeVisible(tn);
+    const edgeVis = e.s <= STAGES[cur].mx && visF && visT;
+    const op = edgeVis ? e.op : 0.04;
+    const {d, lx, ly} = edgePath(fn, tn);
+    const clr = e.clr || '#141413';
+    const markerId = edgeVis ? (e.clr ? (e.clr==='#d97757'?'ao':'ag') : 'a') : 'ad';
+    const path = mkEl('path',{d,fill:'none',stroke:clr,'stroke-width':e.w,'stroke-opacity':op,
+      'marker-end':`url(#${markerId})`});
+    if (e.d) path.setAttribute('stroke-dasharray','5,3');
+    world.appendChild(path);
+    if (edgeVis && e.lbl) {
+      const bg = mkEl('rect',{x:lx-28,y:ly-8,width:56,height:14,fill:'#EDE8E0',rx:'2',opacity:.88});
+      world.appendChild(bg);
+      const lt = mkEl('text',{x:lx,y:ly+3,'text-anchor':'middle','font-family':'DM Mono, monospace',
+        'font-size':'7.5','fill':'rgba(20,20,19,.55)'});
+      lt.textContent = e.lbl;
+      world.appendChild(lt);
+    }
+  });
+
+  // Nodes
+  N.forEach(n => {
+    const vis = nodeVisible(n);
+    const g = mkEl('g',{class:'ng',opacity: vis ? '1':'0.07',transform:`translate(${n.x},${n.y})`});
+
+    const circle = mkEl('circle',{r:n.r, fill:n.c, 'fill-opacity': n.cat==='Tension'?'.15':'.88',
+      stroke: n.cat==='Tension'?n.c:'none', 'stroke-width':'1.5',
+      'stroke-dasharray': n.cat==='Tension'?'5,3':'none'});
+    if (LEVERS[n.id] && vis) circle.setAttribute('filter','url(#glow)');
+    g.appendChild(circle);
+
+    if (LEVERS[n.id] && vis) {
+      const anim = mkEl('animate',{attributeName:'r',from:n.r,to:n.r+5,dur:'2.4s',repeatCount:'indefinite',
+        values:`${n.r};${n.r+5};${n.r}`,keyTimes:'0;0.5;1'});
+      const animO = mkEl('animate',{attributeName:'opacity',from:'.35',to:'0',dur:'2.4s',repeatCount:'indefinite',
+        values:'.35;0;.35',keyTimes:'0;0.5;1'});
+      const pulse = mkEl('circle',{r:n.r, fill:'none', stroke:n.c, 'stroke-width':'1.5','stroke-opacity':'.35'});
+      pulse.appendChild(anim); pulse.appendChild(animO);
+      g.appendChild(pulse);
+    }
+
+    const lines = n.lbl.split('\n');
+    lines.forEach((line, i) => {
+      const t = mkEl('text',{
+        'text-anchor':'middle',
+        y: (lines.length===1 ? 4 : (i===0?-6:8)),
+        'font-family':'Poppins, sans-serif','font-size':'10.5','font-weight':'600',
+        fill: n.cat==='Tension'?n.c:
+              (n.cat==='Macro'?'#141413':'#faf9f5'),
+        'pointer-events':'none'
+      });
+      t.textContent = line;
+      g.appendChild(t);
+    });
+
+    if (vis) {
+      g.addEventListener('mouseenter', ev => {
+        tip.textContent = n.lbl.replace('\n',' ');
+        tip.classList.add('vis');
+      });
+      g.addEventListener('mouseleave', () => tip.classList.remove('vis'));
+      g.addEventListener('mousemove', ev => {
+        tip.style.left = (ev.clientX+14)+'px';
+        tip.style.top = (ev.clientY-28)+'px';
+      });
+      g.addEventListener('click', () => showInfo(n));
+    }
+    world.appendChild(g);
+  });
+
+  // Watermark
+  const wm = mkEl('text',{x:CX,y:1520,'text-anchor':'middle','font-family':'DM Mono, monospace',
+    'font-size':'11','fill-opacity':'.05','fill':'#141413','letter-spacing':'2'});
+  wm.textContent = 'COMPRESSED FERTILITY · 25 APRIL 2026 · ENZYME CONSULTING';
+  world.appendChild(wm);
+
+  // Stage 4 opportunity callout
+  if (STAGES[cur].mx >= 4) {
+    const cx2=520, cy2=890;
+    const callout = mkEl('rect',{x:cx2-160,y:cy2-18,width:320,height:52,rx:'6',fill:'#141413',opacity:'.82'});
+    world.appendChild(callout);
+    const ct = mkEl('text',{x:cx2,y:cy2+2,'text-anchor':'middle','font-family':'Poppins, sans-serif',
+      'font-size':'10.5','font-weight':'600','fill':'#faf9f5'});
+    ct.textContent = 'STRATEGIC WINDOW: 6–9 MONTHS';
+    world.appendChild(ct);
+    const cd = mkEl('text',{x:cx2,y:cy2+18,'text-anchor':'middle','font-family':'DM Mono, monospace',
+      'font-size':'9','fill':'rgba(250,249,245,.6)'});
+    cd.textContent = 'Build regen supply relationships before food inflation locks in';
+    world.appendChild(cd);
+  }
+}
+
+const stageData = [
+  {n:'Full Map', body:'All signals and their causal relationships across macro, food systems, hospitality, and opportunity layers.',
+   sigs:[
+     {t:'Hormuz → Fertiliser → Food prices', d:'The direct causal chain from geopolitical shock to global food economics.'},
+     {t:'Regen Ag commitment gap', d:'Earth Day 2026 diagnosis: economic confidence and supply-chain alignment, not practices, are the barrier.'},
+     {t:'Regen Hospitality: the question in the title', d:'Hotel Yearbook 2026 asks "What Hospitality Must Become" — framing shift is complete.'},
+     {t:'Healthspan + regen experience converging', d:'The same consumer. Two reinforcing demand currents for operators who can hold both.'}
+   ],
+   impl:'The crisis is simultaneously a threat to conventional food systems and a forcing function for genuine regen transition. The 6–9 month window is the strategic moment.'},
+  {n:'Stage 1: Macro Shock', body:'The Strait of Hormuz closure triggered by Middle East conflict cuts fertiliser supply at the worst possible time — Northern Hemisphere planting season.',
+   sigs:[
+     {t:'IMF WEO April 2026: "Shadow of War"', d:'Global growth cut to 3.1%. Largest oil market disruption in history.'},
+     {t:'Urea +50% in three weeks', d:'From $450 to $700+/tonne. 70% of US farmers cannot afford all they need.'},
+     {t:'Food prices +12–18% by end of 2026', d:'Helios AI forecast — even if conflict ends now. Harvest shortfalls locked in.'}
+   ],
+   impl:'This is not an oil price story. It is a food security story that will arrive as real-world inflation in hospitality procurement in Q3–Q4 2026.'},
+  {n:'Stage 2: Institutional Response', body:'Policy, capital, and industry framing respond — with mixed quality but directional momentum.',
+   sigs:[
+     {t:'USDA $700M Regen Pilot', d:'Institutional endorsement, though credibility contested by organic advocates.'},
+     {t:'Rockefeller $220M Food Systems', d:'Anchors serious capital in regenerative school meals and food-as-medicine.'},
+     {t:'Hotel Yearbook + consumer demand', d:'Consumer alignment (73% community benefit) meets industry self-identification as regenerative.'}
+   ],
+   impl:'Institutional money and consumer demand are aligned. The missing piece is supply-chain design and operator commitment — which the macro shock is now forcing.'},
+  {n:'Stage 3: Transition Dynamics', body:'The fertiliser shock functions as both accelerant and sorting mechanism for the regenerative transition.',
+   sigs:[
+     {t:'Bio-fertiliser now cost-competitive', d:'Involuntary transitions forced by cost tend to hold. This one is real.'},
+     {t:'Localised food sovereignty gaining structural momentum', d:'Economic argument now stronger than ideological one.'},
+     {t:'Crisis as sorting mechanism', d:'Genuine regen operators vs. aspirational language — the gap is becoming visible.'}
+   ],
+   impl:'The crisis reveals which operators were building substance and which were building story. Act on the substance side of this distinction.'},
+  {n:'Stage 4: Opportunity', body:'The 6–9 month window in which supply-chain decisions made now will determine operator resilience and narrative credibility through 2027.',
+   sigs:[
+     {t:'Regen hospitality operationalisation', d:'Build producer relationships and biological input strategies before food inflation locks in procurement disadvantage.'},
+     {t:'Localised food sovereignty as supply foundation', d:'Hotels with diversified, localised sourcing are insulated from global input shocks.'},
+     {t:'Healthspan + regen experience convergence', d:'Position the offer at the intersection — the consumer who wants both already exists.'}
+   ],
+   impl:'This is the window. Not the time to refine the framing — the time to make the supply-chain commitments that give the framing substance.'}
+];
+
+function renderStages() {
+  const bar = document.getElementById('stages');
+  if (!bar) return;
+  bar.innerHTML = '';
+  STAGES.forEach((s,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'stg' + (i===cur?' on':'');
+    btn.innerHTML = `<span class="sn">0${i+1}</span><span class="st">${s.n}</span><span class="sd">${s.d}</span>`;
+    btn.addEventListener('click', () => { cur=i; renderStages(); render(); showPhase(i); });
+    bar.appendChild(btn);
+  });
+}
+
+function showInfo(n) {
+  document.getElementById('iname').textContent = n.lbl.replace('\n',' ');
+  document.getElementById('idesc').textContent = n.desc;
+  const itag = document.getElementById('itag');
+  itag.textContent = n.cat;
+  itag.style.background = (CAT_COLOURS[n.cat]||'#888') + '22';
+  itag.style.color = CAT_COLOURS[n.cat]||'#888';
+  const ilev = document.getElementById('ilev');
+  if (n.lever) {
+    ilev.style.display = '';
+    document.getElementById('ilevt').textContent = n.lever.t;
+    document.getElementById('ilevd').textContent = n.lever.d;
+  } else { ilev.style.display='none'; }
+  document.getElementById('ipan').classList.add('vis');
+}
+function closeInfo() { document.getElementById('ipan').classList.remove('vis'); }
+
+function showPhase(i) {
+  const d = stageData[i];
+  document.getElementById('pnum').textContent = `STAGE 0${i+1}`;
+  document.getElementById('pname').textContent = d.n;
+  document.getElementById('pbody').textContent = d.body;
+  const psigs = document.getElementById('psigs');
+  psigs.innerHTML = '<div class="psigs-lbl">Key signals</div>';
+  d.sigs.forEach(s => {
+    psigs.innerHTML += `<div class="psig"><div class="psig-dot"></div><div class="psig-txt"><strong>${s.t}</strong> — ${s.d}</div></div>`;
+  });
+  document.getElementById('pimplp').textContent = d.impl;
+  document.getElementById('ppan').classList.add('vis');
+  document.getElementById('leg').style.opacity = '0.2';
+}
+function closePhase() {
+  document.getElementById('ppan').classList.remove('vis');
+  document.getElementById('leg').style.opacity = '1';
+}
+
+function tx() {
+  document.getElementById('world').setAttribute('transform',`translate(${pan.x},${pan.y})scale(${zm})`);
+}
+
+const svg = document.getElementById('svg');
+svg.addEventListener('mousedown', e => { drag = {x:e.clientX-pan.x, y:e.clientY-pan.y}; });
+svg.addEventListener('mousemove', e => {
+  if (drag) { pan.x=e.clientX-drag.x; pan.y=e.clientY-drag.y; tx(); }
+});
+svg.addEventListener('mouseup', () => { drag=null; });
+svg.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = e.deltaY < 0 ? 1.1 : 0.91;
+  zm = Math.max(.3, Math.min(4, zm*f));
+  tx();
+}, {passive:false});
+
+renderStages();
+render();
+</script>
+</body>
+</html>
