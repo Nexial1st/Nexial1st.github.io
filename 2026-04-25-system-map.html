@@ -6,7 +6,7 @@
 <title>Daily Intelligence System Map — 25 April 2026</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
-  :root{--dk:#141413;--lt:#faf9f5;--bg:#EDE8E0;--mid:#b0aea5;--lg:#e8e6dc;--or:#d97757;--bl:#6a9bcc;--gn:#2D5F5D;--gn2:#788c5d;--am:#c4956a;--hr:#C9983A;--dk2:#1e2d2c}
+  :root{--dk:#141413;--lt:#faf9f5;--bg:#EDE8E0;--mid:#b0aea5;--lg:#e8e6dc;--or:#d97757;--bl:#6a9bcc;--gn:#2D5F5D;--gn2:#788c5d;--am:#c4956a;--hr:#C9983A}
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--bg);color:var(--dk);font-family:'Lora',Georgia,serif;overflow:hidden}
 
@@ -27,17 +27,17 @@
   .stg .sd{font-size:10px;opacity:.45;display:block;line-height:1.3}
   .stg.on .sd{opacity:.75}
 
-  .ipan{position:fixed;top:58px;right:16px;z-index:300;background:rgba(250,249,245,.97);border:1px solid var(--lg);border-radius:8px;padding:18px 20px;width:310px;box-shadow:0 4px 20px rgba(20,20,19,.1);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5;font-size:13px}
+  .ipan{position:fixed;top:58px;right:16px;z-index:200;background:rgba(250,249,245,.97);border:1px solid var(--lg);border-radius:8px;padding:18px 20px;width:320px;box-shadow:0 4px 20px rgba(20,20,19,.1);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5;font-size:13px}
   .ipan.vis{opacity:1;pointer-events:auto;transform:none}
   .ipan h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px}
   .ipan .itag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px;display:inline-block}
-  .ipan .idesc{color:#4a4a46;font-size:12.5px;line-height:1.6}
+  .ipan .idesc{color:#4a4a46;font-size:12px;line-height:1.6}
   .ipan .ilev{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
   .ipan .ilev b{font-family:'Poppins',sans-serif;font-size:11px;color:var(--or);display:block;margin-bottom:3px}
   .ipan .ilev p{font-size:12px;color:#5a5a56;line-height:1.45}
   .ix{position:absolute;top:10px;right:12px;cursor:pointer;font-size:18px;color:var(--mid);background:0 0;border:none;font-family:'Poppins',sans-serif}
 
-  .ppan{position:fixed;top:58px;left:14px;z-index:300;background:rgba(20,20,19,.95);border:1px solid rgba(250,249,245,.08);border-radius:8px;padding:20px 22px;width:300px;box-shadow:0 4px 24px rgba(20,20,19,.3);opacity:0;pointer-events:none;transform:translateX(-8px);transition:all .25s;max-height:calc(100vh - 180px);overflow-y:auto}
+  .ppan{position:fixed;top:58px;left:14px;z-index:200;background:rgba(20,20,19,.95);border:1px solid rgba(250,249,245,.08);border-radius:8px;padding:20px 22px;width:300px;box-shadow:0 4px 24px rgba(20,20,19,.3);opacity:0;pointer-events:none;transform:translateX(-8px);transition:all .25s;max-height:calc(100vh - 180px);overflow-y:auto}
   .ppan.vis{opacity:1;pointer-events:auto;transform:none}
   .ppan .pnum{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;color:var(--or);margin-bottom:6px;text-transform:uppercase}
   .ppan h3{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:var(--lt);margin-bottom:10px;line-height:1.3;letter-spacing:.3px}
@@ -54,23 +54,22 @@
   .ppan .pcx{position:absolute;top:10px;right:12px;cursor:pointer;font-size:16px;color:rgba(250,249,245,.25);background:0 0;border:none}
   .ppan .pcx:hover{color:rgba(250,249,245,.5)}
 
-  .leg{position:fixed;bottom:84px;left:14px;z-index:150;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:6px;padding:10px 14px;font-size:11px;transition:opacity .3s}
-  .leg-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-  .leg-row:last-child{margin-bottom:0}
-  .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-  .leg-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36}
+  .leg{position:fixed;bottom:84px;left:14px;z-index:200;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:7px;padding:12px 15px;font-size:11px;box-shadow:0 2px 10px rgba(20,20,19,.07);max-width:200px;transition:opacity .3s}
+  .leg h4{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;letter-spacing:.8px;color:var(--mid);margin-bottom:6px}
+  .li{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+  .lc{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid}
+  .leg hr{border:none;border-top:1px solid var(--lg);margin:7px 0}
 
-  .ctrl{position:fixed;bottom:84px;right:14px;z-index:150;display:flex;flex-direction:column;gap:6px}
-  .ctrl button{width:32px;height:32px;border-radius:5px;border:1px solid var(--lg);background:rgba(250,249,245,.95);cursor:pointer;font-size:15px;color:var(--dk);display:flex;align-items:center;justify-content:center}
+  .ctrl{position:fixed;bottom:84px;right:14px;z-index:200;display:flex;gap:4px}
+  .ctrl button{width:32px;height:32px;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:5px;font-family:'Poppins',sans-serif;font-size:17px;cursor:pointer;color:var(--dk);display:flex;align-items:center;justify-content:center}
   .ctrl button:hover{background:var(--lt)}
 
-  .tip{position:fixed;z-index:400;background:rgba(20,20,19,.88);color:var(--lt);padding:5px 10px;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;pointer-events:none;opacity:0;transition:opacity .15s}
-  .tip.vis{opacity:1}
+  .tip{position:fixed;pointer-events:none;z-index:300;background:var(--dk);color:var(--lt);font-size:11px;padding:6px 10px;border-radius:4px;opacity:0;transition:opacity .12s;max-width:220px;line-height:1.35;font-family:'DM Mono',monospace}
 
-  #svg{position:fixed;top:0;left:0;width:100%;height:100%;cursor:grab}
+  #svg{position:fixed;top:0;left:0;width:100%;height:100%;cursor:grab;z-index:1}
   #svg:active{cursor:grabbing}
-  .ng{cursor:pointer;transition:opacity .3s}
-  .ng:hover circle{filter:brightness(1.08)}
+  .ng{cursor:pointer}
+  .ng:hover circle{filter:brightness(0.96)}
 </style>
 </head>
 <body>
@@ -82,24 +81,28 @@
   </div>
   <div class="hdr-r">
     <div class="feeling-chip">COMPRESSED FERTILITY</div>
-    <div class="brand">ENZYME</div>
+    <div class="brand">ENZYME CONSULTING</div>
   </div>
 </div>
 
-<svg id="svg" viewBox="0 0 2000 1600" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <marker id="a"  markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#141413" fill-opacity=".55"/></marker>
-    <marker id="ag" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#2D5F5D" fill-opacity=".7"/></marker>
-    <marker id="ao" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#d97757" fill-opacity=".65"/></marker>
-    <marker id="ad" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#141413" fill-opacity=".08"/></marker>
-    <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  </defs>
-  <g id="world"></g>
-</svg>
+<div class="leg" id="leg">
+  <h4>SIGNAL DOMAINS</h4>
+  <div class="li"><div class="lc" style="background:rgba(176,174,165,.12);border-color:#B0AEA5"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Macro / Geopolitics</span></div>
+  <div class="li"><div class="lc" style="background:rgba(201,152,58,.12);border-color:#C9983A"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Food Systems</span></div>
+  <div class="li"><div class="lc" style="background:rgba(45,95,93,.12);border-color:#2D5F5D"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Hospitality</span></div>
+  <div class="li"><div class="lc" style="background:rgba(106,155,204,.12);border-color:#6A9BCC"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Institutional</span></div>
+  <div class="li"><div class="lc" style="background:rgba(120,140,93,.12);border-color:#788C5D"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Opportunity</span></div>
+  <div class="li"><div class="lc" style="background:rgba(217,119,87,.12);border-color:#D97757;border-style:dashed"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Tension</span></div>
+  <div class="li"><div class="lc" style="background:rgba(138,174,200,.12);border-color:#8AAEC8"></div><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px;color:#3a3a36">Cultural / Wellness</span></div>
+  <hr>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="#141413" stroke-width="1.8" stroke-opacity=".45"/></svg><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a3a36">Reinforcing</span></div>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="#d97757" stroke-width="1.4" stroke-opacity=".6" stroke-dasharray="4,3"/></svg><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a3a36">Tension / pressure</span></div>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="#2D5F5D" stroke-width="1.8" stroke-opacity=".55"/></svg><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a3a36">Regen enabling</span></div>
+</div>
 
 <div class="ipan" id="ipan">
-  <button class="ix" onclick="closeInfo()">×</button>
-  <span class="itag" id="itag"></span>
+  <button class="ix" onclick="closeInfo()">&times;</button>
+  <div class="itag" id="itag"></div>
   <h3 id="iname"></h3>
   <div class="idesc" id="idesc"></div>
   <div class="ilev" id="ilev" style="display:none">
@@ -109,7 +112,7 @@
 </div>
 
 <div class="ppan" id="ppan">
-  <button class="pcx" onclick="closePhase()">×</button>
+  <button class="pcx" onclick="closePhase()">&times;</button>
   <div class="pnum" id="pnum"></div>
   <h3 id="pname"></h3>
   <div class="pbody" id="pbody"></div>
@@ -120,27 +123,21 @@
   </div>
 </div>
 
-<div class="leg" id="leg">
-  <div class="leg-row"><div class="leg-dot" style="background:#B0AEA5"></div><span class="leg-lbl">MACRO / GEOPOLITICS</span></div>
-  <div class="leg-row"><div class="leg-dot" style="background:#C9983A"></div><span class="leg-lbl">FOOD SYSTEMS</span></div>
-  <div class="leg-row"><div class="leg-dot" style="background:#2D5F5D"></div><span class="leg-lbl">HOSPITALITY / TOURISM</span></div>
-  <div class="leg-row"><div class="leg-dot" style="background:#6A9BCC"></div><span class="leg-lbl">INSTITUTIONAL / POLICY</span></div>
-  <div class="leg-row"><div class="leg-dot" style="background:#788C5D"></div><span class="leg-lbl">OPPORTUNITY</span></div>
-  <div class="leg-row"><div class="leg-dot" style="background:#D97757"></div><span class="leg-lbl">TENSION</span></div>
-  <div class="leg-row"><div class="leg-dot" style="background:#6A9BCC;opacity:.5"></div><span class="leg-lbl">CULTURAL / WELLNESS</span></div>
-</div>
-
 <div class="ctrl">
-  <button onclick="zm=Math.min(zm*1.25,4);tx()" title="Zoom in">+</button>
-  <button onclick="zm=Math.max(zm*.8,.3);tx()" title="Zoom out">−</button>
-  <button onclick="zm=1;pan={x:0,y:0};tx()" title="Reset">↺</button>
+  <button onclick="doZoom(1.25)">+</button>
+  <button onclick="doZoom(1/1.25)">&minus;</button>
+  <button onclick="resetView()" style="font-size:14px">&#8634;</button>
 </div>
 
 <div class="tip" id="tip"></div>
 
-<div class="stages" id="stages"></div>
+<div class="stages" id="stageBar"></div>
+
+<svg id="svg"><g id="world"></g></svg>
 
 <script>
+const CX = 1000, CY = 800;
+
 const CAT_COLOURS = {
   'Macro':'#B0AEA5','Food Systems':'#C9983A','Hospitality':'#2D5F5D',
   'Institutional':'#6A9BCC','Opportunity':'#788C5D','Tension':'#D97757',
@@ -206,248 +203,363 @@ const N = [
 ];
 
 const E = [
-  {f:'conflict',  t:'hormuz',       lbl:'escalates',        w:2.5, op:.7, d:0, s:1},
-  {f:'hormuz',    t:'fert_shock',   lbl:'cuts 1/3 supply',  w:3,   op:.8, d:0, s:1},
-  {f:'fert_shock',t:'food_inflation',lbl:'→ harvest shortfall', w:2.5,op:.7,d:0,s:1},
-  {f:'fert_shock',t:'commitment_gap',lbl:'worsens economics', w:2, op:.6, d:1, s:2, clr:'#d97757'},
-  {f:'fert_shock',t:'biofert',      lbl:'accelerates alternatives', w:2, op:.65, d:0, s:3, clr:'#2D5F5D'},
-  {f:'food_inflation',t:'regen_hosp_ops', lbl:'cost pressure', w:2, op:.55, d:1, s:4, clr:'#d97757'},
-  {f:'commitment_gap',t:'regen_hosp_ops', lbl:'creates urgency', w:2, op:.6, d:0, s:4, clr:'#2D5F5D'},
-  {f:'usda',      t:'commitment_gap', lbl:'institutional push', w:1.5, op:.5, d:0, s:2, clr:'#2D5F5D'},
-  {f:'rockefeller',t:'commitment_gap',lbl:'capital signal',  w:1.5, op:.5, d:0, s:2, clr:'#2D5F5D'},
-  {f:'hotel_yearbook',t:'regen_hosp_ops',lbl:'frames the ask', w:2, op:.65, d:0, s:4, clr:'#2D5F5D'},
-  {f:'consumer',  t:'hotel_yearbook', lbl:'demand signal',  w:1.5, op:.55, d:0, s:2},
-  {f:'consumer',  t:'regen_hosp_ops', lbl:'pulls delivery', w:1.5, op:.55, d:0, s:4, clr:'#2D5F5D'},
-  {f:'healthspan',t:'consumer',     lbl:'converges with',  w:1.5, op:.5, d:0, s:2},
-  {f:'biofert',   t:'localised_food',lbl:'enables',        w:1.5, op:.55, d:0, s:3, clr:'#2D5F5D'},
-  {f:'localised_food',t:'regen_hosp_ops',lbl:'supply foundation', w:2, op:.6, d:0, s:4, clr:'#2D5F5D'},
-  {f:'sorting',   t:'regen_hosp_ops', lbl:'reveals leaders', w:1.5, op:.5, d:1, s:4, clr:'#d97757'},
-  {f:'fert_shock',t:'sorting',     lbl:'acts as',         w:1.5, op:.5, d:1, s:3, clr:'#d97757'}
+  {f:'conflict',  t:'hormuz',        lbl:'escalates',              w:2.5, op:.7,  d:0, s:1},
+  {f:'hormuz',    t:'fert_shock',    lbl:'cuts 1/3 supply',        w:3,   op:.8,  d:0, s:1},
+  {f:'fert_shock',t:'food_inflation',lbl:'→ harvest shortfall',    w:2.5, op:.7,  d:0, s:1},
+  {f:'fert_shock',t:'commitment_gap',lbl:'worsens economics',      w:2,   op:.6,  d:1, s:2, clr:'#d97757'},
+  {f:'fert_shock',t:'biofert',       lbl:'accelerates alternatives',w:2,  op:.65, d:0, s:3, clr:'#2D5F5D'},
+  {f:'food_inflation',t:'regen_hosp_ops',lbl:'cost pressure',      w:2,   op:.55, d:1, s:4, clr:'#d97757'},
+  {f:'commitment_gap',t:'regen_hosp_ops',lbl:'creates urgency',    w:2,   op:.6,  d:0, s:4, clr:'#2D5F5D'},
+  {f:'usda',      t:'commitment_gap',lbl:'institutional push',     w:1.5, op:.5,  d:0, s:2, clr:'#2D5F5D'},
+  {f:'rockefeller',t:'commitment_gap',lbl:'capital signal',        w:1.5, op:.5,  d:0, s:2, clr:'#2D5F5D'},
+  {f:'hotel_yearbook',t:'regen_hosp_ops',lbl:'frames the ask',     w:2,   op:.65, d:0, s:4, clr:'#2D5F5D'},
+  {f:'consumer',  t:'hotel_yearbook',lbl:'demand signal',          w:1.5, op:.55, d:0, s:2},
+  {f:'consumer',  t:'regen_hosp_ops',lbl:'pulls delivery',         w:1.5, op:.55, d:0, s:4, clr:'#2D5F5D'},
+  {f:'healthspan',t:'consumer',      lbl:'converges with',         w:1.5, op:.5,  d:0, s:2},
+  {f:'biofert',   t:'localised_food',lbl:'enables',                w:1.5, op:.55, d:0, s:3, clr:'#2D5F5D'},
+  {f:'localised_food',t:'regen_hosp_ops',lbl:'supply foundation',  w:2,   op:.6,  d:0, s:4, clr:'#2D5F5D'},
+  {f:'sorting',   t:'regen_hosp_ops',lbl:'reveals leaders',        w:1.5, op:.5,  d:1, s:4, clr:'#d97757'},
+  {f:'fert_shock',t:'sorting',       lbl:'acts as',                w:1.5, op:.5,  d:1, s:3, clr:'#d97757'}
 ];
 
+// Lever nodes — drives double-ring pulse render
 const LEVERS = {fert_shock:true, regen_hosp_ops:true, biofert:true};
 
 const ZONES = [
-  {x:80, y:120, w:700, h:500, lbl:'MACRO DISRUPTION LAYER', c:'rgba(176,174,165,.06)'},
-  {x:80, y:580, w:700, h:580, lbl:'REGENERATIVE TRANSITION LAYER', c:'rgba(45,95,93,.04)'},
-  {x:800, y:120, w:480, h:700, lbl:'SYSTEMS OPPORTUNITY LAYER', c:'rgba(120,140,93,.05)'}
+  {lbl:'MACRO DISRUPTION',       c:'#B0AEA5', x:80,  y:120, w:680, h:480},
+  {lbl:'REGENERATIVE TRANSITION',c:'#2D5F5D', x:80,  y:580, w:680, h:540},
+  {lbl:'SYSTEMS OPPORTUNITY',    c:'#788C5D', x:810, y:120, w:470, h:700}
 ];
 
 const STAGES = [
-  {id:'full', n:'FULL MAP', d:'All signals and connections visible', mx:99},
-  {id:'s1', n:'MACRO SHOCK', d:'Conflict → Hormuz → Fertiliser → Food prices', mx:1},
-  {id:'s2', n:'INSTITUTIONAL RESPONSE', d:'Policy, capital, and industry framing', mx:2},
-  {id:'s3', n:'TRANSITION DYNAMICS', d:'Tensions, opportunities, and sorting', mx:3},
-  {id:'s4', n:'OPPORTUNITY', d:'Where to act in the next 6–9 months', mx:4}
+  {num:'',   name:'FULL MAP',              desc:'All signals and connections visible',            mx:99},
+  {num:'01', name:'MACRO SHOCK',           desc:'Conflict → Hormuz → Fertiliser → Food prices',  mx:1},
+  {num:'02', name:'INSTITUTIONAL RESPONSE',desc:'Policy, capital, and industry framing',         mx:2},
+  {num:'03', name:'TRANSITION DYNAMICS',   desc:'Tensions, opportunities, and sorting',          mx:3},
+  {num:'04', name:'OPPORTUNITY',           desc:'Where to act in the next 6–9 months',           mx:4}
 ];
 
-const CX = 1000, CY = 800;
-let cur = 0, zm = 1, pan = {x:0,y:0}, drag = null, tip = document.getElementById('tip');
+const stageData = [
+  {n:'Full Map',
+   body:'All signals and their causal relationships across macro, food systems, hospitality, and opportunity layers.',
+   sigs:[
+     {t:'Hormuz → Fertiliser → Food prices',         d:'The direct causal chain from geopolitical shock to global food economics.'},
+     {t:'Regen Ag commitment gap',                    d:'Earth Day 2026 diagnosis: economic confidence and supply-chain alignment, not practices, are the barrier.'},
+     {t:'Regen Hospitality: the question in the title',d:'Hotel Yearbook 2026 asks "What Hospitality Must Become" — framing shift is complete.'},
+     {t:'Healthspan + regen experience converging',   d:'The same consumer. Two reinforcing demand currents for operators who can hold both.'}
+   ],
+   impl:'The crisis is simultaneously a threat to conventional food systems and a forcing function for genuine regen transition. The 6–9 month window is the strategic moment.'},
+  {n:'Stage 1: Macro Shock',
+   body:'The Strait of Hormuz closure triggered by Middle East conflict cuts fertiliser supply at the worst possible time — Northern Hemisphere planting season.',
+   sigs:[
+     {t:'IMF WEO April 2026: "Shadow of War"', d:'Global growth cut to 3.1%. Largest oil market disruption in history.'},
+     {t:'Urea +50% in three weeks',            d:'From $450 to $700+/tonne. 70% of US farmers cannot afford all they need.'},
+     {t:'Food prices +12–18% by end of 2026',  d:'Helios AI forecast — even if conflict ends now. Harvest shortfalls locked in.'}
+   ],
+   impl:'This is not an oil price story. It is a food security story that will arrive as real-world inflation in hospitality procurement in Q3–Q4 2026.'},
+  {n:'Stage 2: Institutional Response',
+   body:'Policy, capital, and industry framing respond — with mixed quality but directional momentum.',
+   sigs:[
+     {t:'USDA $700M Regen Pilot',          d:'Institutional endorsement, though credibility contested by organic advocates.'},
+     {t:'Rockefeller $220M Food Systems',  d:'Anchors serious capital in regenerative school meals and food-as-medicine.'},
+     {t:'Hotel Yearbook + consumer demand',d:'Consumer alignment (73% community benefit) meets industry self-identification as regenerative.'}
+   ],
+   impl:'Institutional money and consumer demand are aligned. The missing piece is supply-chain design and operator commitment — which the macro shock is now forcing.'},
+  {n:'Stage 3: Transition Dynamics',
+   body:'The fertiliser shock functions as both accelerant and sorting mechanism for the regenerative transition.',
+   sigs:[
+     {t:'Bio-fertiliser now cost-competitive',             d:'Involuntary transitions forced by cost tend to hold. This one is real.'},
+     {t:'Localised food sovereignty gaining momentum',     d:'Economic argument now stronger than ideological one.'},
+     {t:'Crisis as sorting mechanism',                     d:'Genuine regen operators vs. aspirational language — the gap is becoming visible.'}
+   ],
+   impl:'The crisis reveals which operators were building substance and which were building story. Act on the substance side of this distinction.'},
+  {n:'Stage 4: Opportunity',
+   body:'The 6–9 month window in which supply-chain decisions made now will determine operator resilience and narrative credibility through 2027.',
+   sigs:[
+     {t:'Regen hospitality operationalisation',     d:'Build producer relationships and biological input strategies before food inflation locks in procurement disadvantage.'},
+     {t:'Localised food sovereignty as supply foundation',d:'Hotels with diversified, localised sourcing are insulated from global input shocks.'},
+     {t:'Healthspan + regen experience convergence',d:'Position the offer at the intersection — the consumer who wants both already exists.'}
+   ],
+   impl:'This is the window. Not the time to refine the framing — the time to make the supply-chain commitments that give the framing substance.'}
+];
+
+// ── PAN / ZOOM ──
+const svgEl = document.getElementById('svg');
+const world  = document.getElementById('world');
+const tipEl  = document.getElementById('tip');
+let pan = {x:0, y:-40}, zm = 0.62, dragging = false, dl = {x:0, y:0}, dragMoved = false;
+let cur = 0;
+
+function tx() { world.setAttribute('transform', `translate(${pan.x},${pan.y})scale(${zm})`) }
+
+function doZoom(f) {
+  const cx = innerWidth/2, cy = innerHeight/2;
+  const nz = Math.max(.2, Math.min(4, zm*f));
+  pan.x = cx - (cx - pan.x) * (nz/zm);
+  pan.y = cy - (cy - pan.y) * (nz/zm);
+  zm = nz; tx();
+}
+function resetView() { zm = 0.62; pan = {x:0, y:-40}; tx(); }
+
+svgEl.addEventListener('pointerdown', e => {
+  if (e.target.closest('.ng')) return;
+  dragging = true; dragMoved = false;
+  dl = {x: e.clientX, y: e.clientY};
+  svgEl.style.cursor = 'grabbing';
+});
+window.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - dl.x, dy = e.clientY - dl.y;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) dragMoved = true;
+  pan.x += dx; pan.y += dy;
+  dl = {x: e.clientX, y: e.clientY}; tx();
+});
+window.addEventListener('pointerup', () => { dragging = false; svgEl.style.cursor = 'grab'; });
+svgEl.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const nz = Math.max(.2, Math.min(4, zm*f));
+  pan.x = e.clientX - (e.clientX - pan.x) * (nz/zm);
+  pan.y = e.clientY - (e.clientY - pan.y) * (nz/zm);
+  zm = nz; tx();
+}, {passive:false});
+
+// ── CLICK / HOVER — delegated on svgEl ──
+svgEl.addEventListener('click', e => {
+  const ng = e.target.closest('.ng');
+  if (ng) {
+    e.stopPropagation();
+    const n = N.find(v => v.id === ng.dataset.id);
+    if (n && n.s <= STAGES[cur].mx) showInfo(n);
+    return;
+  }
+  if (!dragMoved) { closeInfo(); }
+});
+
+svgEl.addEventListener('pointerover', e => {
+  const ng = e.target.closest('.ng');
+  if (!ng) return;
+  const n = N.find(v => v.id === ng.dataset.id);
+  if (!n || n.s > STAGES[cur].mx) return;
+  tipEl.textContent = n.lbl.replace('\n', ' ');
+  tipEl.style.opacity = 1;
+  tipEl.style.left = (e.clientX + 14) + 'px';
+  tipEl.style.top  = (e.clientY - 32) + 'px';
+});
+svgEl.addEventListener('pointermove', e => {
+  if (tipEl.style.opacity === '1') {
+    tipEl.style.left = (e.clientX + 14) + 'px';
+    tipEl.style.top  = (e.clientY - 32) + 'px';
+  }
+});
+svgEl.addEventListener('pointerout', e => {
+  if (e.target.closest('.ng')) tipEl.style.opacity = 0;
+});
+
+// ── HELPERS ──
+function nById(id) { return N.find(v => v.id === id); }
 
 function mkEl(tag, attrs) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
   return el;
 }
 
+// Quadratic bezier offset from map centre (muuse gold standard approach)
 function edgePath(a, b) {
-  const dx = b.x - a.x, dy = b.y - a.y;
-  const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
-  const ox = -dy*0.18, oy = dx*0.18;
-  const cx = mx+ox, cy = my+oy;
-  const lx = mx + ox*0.5, ly = my + oy*0.5;
-  return {d:`M${a.x},${a.y} Q${cx},${cy} ${b.x},${b.y}`, lx, ly};
+  const dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy) || 1;
+  const sx = a.x + dx/dist * (a.r + 6),  sy = a.y + dy/dist * (a.r + 6);
+  const ex = b.x - dx/dist * (b.r + 14), ey = b.y - dy/dist * (b.r + 14);
+  const mx = (sx + ex) / 2, my = (sy + ey) / 2;
+  const dcx = mx - CX, dcy = my - CY, dl2 = Math.hypot(dcx, dcy) || 1;
+  const cx2 = mx + dcx/dl2 * 38, cy2 = my + dcy/dl2 * 38;
+  return {d: `M${sx},${sy}Q${cx2},${cy2} ${ex},${ey}`, lx: (cx2+mx)/2, ly: (cy2+my)/2};
 }
 
-function nodeVisible(n) { return n.s <= STAGES[cur].mx; }
-
+// ── RENDER ──
 function render() {
-  const world = document.getElementById('world');
   if (!world) return;
   while (world.firstChild) world.removeChild(world.firstChild);
 
-  // Zones
+  const mx = STAGES[cur].mx;
+
+  // Defs
+  const defs = mkEl('defs', {});
+  defs.innerHTML = `
+    <marker id="a"  markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 .5,8 3.5,0 6.5" fill="#141413" fill-opacity=".45"/></marker>
+    <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 .5,8 3.5,0 6.5" fill="#2D5F5D" fill-opacity=".65"/></marker>
+    <marker id="ao" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 .5,8 3.5,0 6.5" fill="#d97757" fill-opacity=".65"/></marker>
+    <marker id="ad" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 .5,8 3.5,0 6.5" fill="#141413" fill-opacity=".05"/></marker>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  world.appendChild(defs);
+
+  // Zone backgrounds
   ZONES.forEach(z => {
-    world.appendChild(mkEl('rect',{x:z.x,y:z.y,width:z.w,height:z.h,fill:z.c,rx:'12'}));
-    const zt = mkEl('text',{x:z.x+16,y:z.y+24,'font-family':'DM Mono, monospace','font-size':'9','fill':'rgba(20,20,19,.2)','letter-spacing':'1.2'});
-    zt.textContent = z.lbl;
-    world.appendChild(zt);
+    const g = mkEl('g', {opacity:'1'});
+    g.appendChild(mkEl('rect', {x:z.x, y:z.y, width:z.w, height:z.h, rx:14,
+      fill:z.c, 'fill-opacity':'.05', stroke:z.c, 'stroke-opacity':'.14', 'stroke-width':'1.2'}));
+    const t = mkEl('text', {x:z.x+16, y:z.y+22, 'font-family':'Poppins,sans-serif',
+      'font-size':'9', 'font-weight':'600', fill:z.c, 'fill-opacity':'.4', 'letter-spacing':'1.5'});
+    t.textContent = z.lbl;
+    g.appendChild(t);
+    world.appendChild(g);
   });
 
-  // Edges
+  // Stage 4 opportunity callout
+  if (mx >= 4) {
+    const bx = 320, by = 870;
+    world.appendChild(mkEl('rect', {x:bx, y:by, width:400, height:60, rx:6,
+      fill:'#141413', stroke:'#d97757', 'stroke-width':'1', 'stroke-opacity':'.35'}));
+    const lines = [
+      ['STRATEGIC WINDOW: 6–9 MONTHS',    by+22, 'Poppins,sans-serif', 11, 600, '#faf9f5', '.4'],
+      ['Build regen supply relationships before food inflation locks in', by+42, 'DM Mono,monospace', 9, 400, '#b0aea5', '0']
+    ];
+    lines.forEach(([txt, y, ff, fs, fw, fill, ls]) => {
+      const t = mkEl('text', {x:bx+200, y:y, 'text-anchor':'middle', 'font-family':ff,
+        'font-size':fs, 'font-weight':fw, fill:fill, 'letter-spacing':ls});
+      t.textContent = txt;
+      world.appendChild(t);
+    });
+  }
+
+  // Watermark
+  const wm = mkEl('text', {x:CX, y:1520, 'text-anchor':'middle',
+    'font-family':'DM Mono,monospace', 'font-size':'11', 'fill-opacity':'.05',
+    fill:'#141413', 'letter-spacing':'2'});
+  wm.textContent = 'COMPRESSED FERTILITY · 25 APRIL 2026 · ENZYME CONSULTING';
+  world.appendChild(wm);
+
+  // ── EDGES (before nodes so nodes render on top) ──
   E.forEach(e => {
-    const fn = N.find(n=>n.id===e.f), tn = N.find(n=>n.id===e.t);
-    if (!fn || !tn) return;
-    const visF = nodeVisible(fn), visT = nodeVisible(tn);
-    const edgeVis = e.s <= STAGES[cur].mx && visF && visT;
-    const op = edgeVis ? e.op : 0.04;
-    const {d, lx, ly} = edgePath(fn, tn);
+    const a = nById(e.f), b = nById(e.t);
+    if (!a || !b) return;
+    const vis = e.s <= mx;
+    const {d, lx, ly} = edgePath(a, b);
     const clr = e.clr || '#141413';
-    const markerId = edgeVis ? (e.clr ? (e.clr==='#d97757'?'ao':'ag') : 'a') : 'ad';
-    const path = mkEl('path',{d,fill:'none',stroke:clr,'stroke-width':e.w,'stroke-opacity':op,
-      'marker-end':`url(#${markerId})`});
-    if (e.d) path.setAttribute('stroke-dasharray','5,3');
-    world.appendChild(path);
-    if (edgeVis && e.lbl) {
-      const bg = mkEl('rect',{x:lx-28,y:ly-8,width:56,height:14,fill:'#EDE8E0',rx:'2',opacity:.88});
-      world.appendChild(bg);
-      const lt = mkEl('text',{x:lx,y:ly+3,'text-anchor':'middle','font-family':'DM Mono, monospace',
-        'font-size':'7.5','fill':'rgba(20,20,19,.55)'});
+    const mk = vis ? (clr === '#d97757' ? 'url(#ao)' : clr === '#2D5F5D' ? 'url(#ag)' : 'url(#a)') : 'url(#ad)';
+    const p = mkEl('path', {d, fill:'none', stroke:clr,
+      'stroke-opacity': vis ? e.op : .02,
+      'stroke-width': e.w, 'marker-end': mk});
+    if (e.d) p.setAttribute('stroke-dasharray', '5,3');
+    world.appendChild(p);
+    // Edge label — dynamic width
+    if (e.lbl && vis) {
+      const tw = e.lbl.length * 4.8 + 14;
+      world.appendChild(mkEl('rect', {x:lx - tw/2, y:ly - 8, width:tw, height:16, rx:3,
+        fill:'#EDE8E0', 'fill-opacity':'.94'}));
+      const lt = mkEl('text', {x:lx, y:ly + 4, 'text-anchor':'middle',
+        'font-family':'DM Mono,monospace', 'font-size':'8',
+        fill: clr === '#d97757' ? '#d97757' : clr === '#2D5F5D' ? '#2D5F5D' : '#141413',
+        'fill-opacity': clr === '#141413' ? '.45' : '.65'});
       lt.textContent = e.lbl;
       world.appendChild(lt);
     }
   });
 
-  // Nodes
+  // ── NODES ──
   N.forEach(n => {
-    const vis = nodeVisible(n);
-    const g = mkEl('g',{class:'ng',opacity: vis ? '1':'0.07',transform:`translate(${n.x},${n.y})`});
+    const vis = n.s <= mx;
+    const isLev = LEVERS[n.id];
+    const isTension = n.cat === 'Tension';
 
-    const circle = mkEl('circle',{r:n.r, fill:n.c, 'fill-opacity': n.cat==='Tension'?'.15':'.88',
-      stroke: n.cat==='Tension'?n.c:'none', 'stroke-width':'1.5',
-      'stroke-dasharray': n.cat==='Tension'?'5,3':'none'});
-    if (LEVERS[n.id] && vis) circle.setAttribute('filter','url(#glow)');
-    g.appendChild(circle);
+    const g = mkEl('g', {'data-id': n.id, opacity: vis ? '1' : '.05'});
+    g.classList.add('ng');
+    g.style.pointerEvents = vis ? 'auto' : 'none';
 
-    if (LEVERS[n.id] && vis) {
-      const anim = mkEl('animate',{attributeName:'r',from:n.r,to:n.r+5,dur:'2.4s',repeatCount:'indefinite',
-        values:`${n.r};${n.r+5};${n.r}`,keyTimes:'0;0.5;1'});
-      const animO = mkEl('animate',{attributeName:'opacity',from:'.35',to:'0',dur:'2.4s',repeatCount:'indefinite',
-        values:'.35;0;.35',keyTimes:'0;0.5;1'});
-      const pulse = mkEl('circle',{r:n.r, fill:'none', stroke:n.c, 'stroke-width':'1.5','stroke-opacity':'.35'});
-      pulse.appendChild(anim); pulse.appendChild(animO);
+    // Lever — double ring: static dashed outer + animated expanding pulse
+    if (isLev && vis) {
+      g.appendChild(mkEl('circle', {cx:n.x, cy:n.y, r:n.r + 14, fill:'none',
+        stroke:n.c, 'stroke-width':'1.8', 'stroke-dasharray':'5,3', 'stroke-opacity':'.55'}));
+      const pulse = mkEl('circle', {cx:n.x, cy:n.y, r:n.r + 14,
+        fill:'none', stroke:n.c, 'stroke-width':'1.2'});
+      const a1 = mkEl('animate', {attributeName:'r', from:n.r + 14, to:n.r + 38,
+        dur:'2.4s', repeatCount:'indefinite'});
+      const a2 = mkEl('animate', {attributeName:'stroke-opacity', from:'.38', to:'0',
+        dur:'2.4s', repeatCount:'indefinite'});
+      pulse.appendChild(a1); pulse.appendChild(a2);
       g.appendChild(pulse);
     }
 
+    // Hit area (larger than visual shape for easier clicking)
+    g.appendChild(mkEl('circle', {cx:n.x, cy:n.y, r:n.r + 10,
+      fill:'transparent', stroke:'none'}));
+
+    // Node circle — linen fill, coloured stroke (muuse gold standard)
+    const circle = mkEl('circle', {cx:n.x, cy:n.y, r:n.r,
+      fill:'#EDE8E0',
+      stroke: isLev ? n.c : n.c,
+      'stroke-width': vis && isLev ? '2.5' : '2'});
+    if (isTension) circle.setAttribute('stroke-dasharray', '5,3');
+    if (isLev && vis) circle.setAttribute('filter', 'url(#glow)');
+    g.appendChild(circle);
+
+    // Label below node with background halo (muuse gold standard)
     const lines = n.lbl.split('\n');
+    const lbw = Math.max(...lines.map(l => l.length)) * 7.2 + 14;
+    const lbh = lines.length * 15 + 6;
+    const lby = n.y + n.r + 10;
+    g.appendChild(mkEl('rect', {x:n.x - lbw/2, y:lby - 2, width:lbw, height:lbh,
+      rx:3, fill:'#EDE8E0', 'fill-opacity':'.88'}));
     lines.forEach((line, i) => {
-      const t = mkEl('text',{
-        'text-anchor':'middle',
-        y: (lines.length===1 ? 4 : (i===0?-6:8)),
-        'font-family':'Poppins, sans-serif','font-size':'10.5','font-weight':'600',
-        fill: n.cat==='Tension'?n.c:
-              (n.cat==='Macro'?'#141413':'#faf9f5'),
-        'pointer-events':'none'
-      });
+      const t = mkEl('text', {x:n.x, y:lby + 12 + i*15,
+        'text-anchor':'middle', 'font-family':'Poppins,sans-serif',
+        'font-size': isTension ? '10' : '10.5',
+        'font-weight':'600',
+        fill: isTension ? n.c : '#141413'});
       t.textContent = line;
       g.appendChild(t);
     });
 
-    if (vis) {
-      g.addEventListener('mouseenter', ev => {
-        tip.textContent = n.lbl.replace('\n',' ');
-        tip.classList.add('vis');
-      });
-      g.addEventListener('mouseleave', () => tip.classList.remove('vis'));
-      g.addEventListener('mousemove', ev => {
-        tip.style.left = (ev.clientX+14)+'px';
-        tip.style.top = (ev.clientY-28)+'px';
-      });
-      g.addEventListener('click', () => showInfo(n));
-    }
     world.appendChild(g);
   });
-
-  // Watermark
-  const wm = mkEl('text',{x:CX,y:1520,'text-anchor':'middle','font-family':'DM Mono, monospace',
-    'font-size':'11','fill-opacity':'.05','fill':'#141413','letter-spacing':'2'});
-  wm.textContent = 'COMPRESSED FERTILITY · 25 APRIL 2026 · ENZYME CONSULTING';
-  world.appendChild(wm);
-
-  // Stage 4 opportunity callout
-  if (STAGES[cur].mx >= 4) {
-    const cx2=520, cy2=890;
-    const callout = mkEl('rect',{x:cx2-160,y:cy2-18,width:320,height:52,rx:'6',fill:'#141413',opacity:'.82'});
-    world.appendChild(callout);
-    const ct = mkEl('text',{x:cx2,y:cy2+2,'text-anchor':'middle','font-family':'Poppins, sans-serif',
-      'font-size':'10.5','font-weight':'600','fill':'#faf9f5'});
-    ct.textContent = 'STRATEGIC WINDOW: 6–9 MONTHS';
-    world.appendChild(ct);
-    const cd = mkEl('text',{x:cx2,y:cy2+18,'text-anchor':'middle','font-family':'DM Mono, monospace',
-      'font-size':'9','fill':'rgba(250,249,245,.6)'});
-    cd.textContent = 'Build regen supply relationships before food inflation locks in';
-    world.appendChild(cd);
-  }
 }
 
-const stageData = [
-  {n:'Full Map', body:'All signals and their causal relationships across macro, food systems, hospitality, and opportunity layers.',
-   sigs:[
-     {t:'Hormuz → Fertiliser → Food prices', d:'The direct causal chain from geopolitical shock to global food economics.'},
-     {t:'Regen Ag commitment gap', d:'Earth Day 2026 diagnosis: economic confidence and supply-chain alignment, not practices, are the barrier.'},
-     {t:'Regen Hospitality: the question in the title', d:'Hotel Yearbook 2026 asks "What Hospitality Must Become" — framing shift is complete.'},
-     {t:'Healthspan + regen experience converging', d:'The same consumer. Two reinforcing demand currents for operators who can hold both.'}
-   ],
-   impl:'The crisis is simultaneously a threat to conventional food systems and a forcing function for genuine regen transition. The 6–9 month window is the strategic moment.'},
-  {n:'Stage 1: Macro Shock', body:'The Strait of Hormuz closure triggered by Middle East conflict cuts fertiliser supply at the worst possible time — Northern Hemisphere planting season.',
-   sigs:[
-     {t:'IMF WEO April 2026: "Shadow of War"', d:'Global growth cut to 3.1%. Largest oil market disruption in history.'},
-     {t:'Urea +50% in three weeks', d:'From $450 to $700+/tonne. 70% of US farmers cannot afford all they need.'},
-     {t:'Food prices +12–18% by end of 2026', d:'Helios AI forecast — even if conflict ends now. Harvest shortfalls locked in.'}
-   ],
-   impl:'This is not an oil price story. It is a food security story that will arrive as real-world inflation in hospitality procurement in Q3–Q4 2026.'},
-  {n:'Stage 2: Institutional Response', body:'Policy, capital, and industry framing respond — with mixed quality but directional momentum.',
-   sigs:[
-     {t:'USDA $700M Regen Pilot', d:'Institutional endorsement, though credibility contested by organic advocates.'},
-     {t:'Rockefeller $220M Food Systems', d:'Anchors serious capital in regenerative school meals and food-as-medicine.'},
-     {t:'Hotel Yearbook + consumer demand', d:'Consumer alignment (73% community benefit) meets industry self-identification as regenerative.'}
-   ],
-   impl:'Institutional money and consumer demand are aligned. The missing piece is supply-chain design and operator commitment — which the macro shock is now forcing.'},
-  {n:'Stage 3: Transition Dynamics', body:'The fertiliser shock functions as both accelerant and sorting mechanism for the regenerative transition.',
-   sigs:[
-     {t:'Bio-fertiliser now cost-competitive', d:'Involuntary transitions forced by cost tend to hold. This one is real.'},
-     {t:'Localised food sovereignty gaining structural momentum', d:'Economic argument now stronger than ideological one.'},
-     {t:'Crisis as sorting mechanism', d:'Genuine regen operators vs. aspirational language — the gap is becoming visible.'}
-   ],
-   impl:'The crisis reveals which operators were building substance and which were building story. Act on the substance side of this distinction.'},
-  {n:'Stage 4: Opportunity', body:'The 6–9 month window in which supply-chain decisions made now will determine operator resilience and narrative credibility through 2027.',
-   sigs:[
-     {t:'Regen hospitality operationalisation', d:'Build producer relationships and biological input strategies before food inflation locks in procurement disadvantage.'},
-     {t:'Localised food sovereignty as supply foundation', d:'Hotels with diversified, localised sourcing are insulated from global input shocks.'},
-     {t:'Healthspan + regen experience convergence', d:'Position the offer at the intersection — the consumer who wants both already exists.'}
-   ],
-   impl:'This is the window. Not the time to refine the framing — the time to make the supply-chain commitments that give the framing substance.'}
-];
-
-function renderStages() {
-  const bar = document.getElementById('stages');
-  if (!bar) return;
-  bar.innerHTML = '';
-  STAGES.forEach((s,i) => {
-    const btn = document.createElement('button');
-    btn.className = 'stg' + (i===cur?' on':'');
-    btn.innerHTML = `<span class="sn">0${i+1}</span><span class="st">${s.n}</span><span class="sd">${s.d}</span>`;
-    btn.addEventListener('click', () => { cur=i; renderStages(); render(); showPhase(i); });
-    bar.appendChild(btn);
-  });
-}
-
+// ── INFO PANEL ──
 function showInfo(n) {
-  document.getElementById('iname').textContent = n.lbl.replace('\n',' ');
+  document.getElementById('itag').textContent = n.cat;
+  document.getElementById('itag').style.background = (CAT_COLOURS[n.cat] || '#888') + '18';
+  document.getElementById('itag').style.color = CAT_COLOURS[n.cat] || '#888';
+  document.getElementById('iname').textContent = n.lbl.replace('\n', ' ');
   document.getElementById('idesc').textContent = n.desc;
-  const itag = document.getElementById('itag');
-  itag.textContent = n.cat;
-  itag.style.background = (CAT_COLOURS[n.cat]||'#888') + '22';
-  itag.style.color = CAT_COLOURS[n.cat]||'#888';
   const ilev = document.getElementById('ilev');
   if (n.lever) {
-    ilev.style.display = '';
-    document.getElementById('ilevt').textContent = n.lever.t;
+    ilev.style.display = 'block';
+    document.getElementById('ilevt').textContent = '⬡ LEVERAGE POINT: ' + n.lever.t;
     document.getElementById('ilevd').textContent = n.lever.d;
-  } else { ilev.style.display='none'; }
+  } else {
+    ilev.style.display = 'none';
+  }
   document.getElementById('ipan').classList.add('vis');
 }
 function closeInfo() { document.getElementById('ipan').classList.remove('vis'); }
 
+// ── STAGE BAR ──
+function renderStages() {
+  const bar = document.getElementById('stageBar');
+  if (!bar) return;
+  bar.innerHTML = '';
+  STAGES.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.className = 'stg' + (i === cur ? ' on' : '');
+    b.innerHTML = `<span class="sn">${s.num || '00'}</span><span class="st">${s.name}</span><span class="sd">${s.desc}</span>`;
+    b.onclick = () => { cur = i; renderStages(); render(); showPhase(i); };
+    bar.appendChild(b);
+  });
+}
+
+// ── PHASE PANEL ──
 function showPhase(i) {
   const d = stageData[i];
-  document.getElementById('pnum').textContent = `STAGE 0${i+1}`;
+  document.getElementById('pnum').textContent = i === 0 ? 'ALL STAGES' : `STAGE 0${i}`;
   document.getElementById('pname').textContent = d.n;
   document.getElementById('pbody').textContent = d.body;
   const psigs = document.getElementById('psigs');
   psigs.innerHTML = '<div class="psigs-lbl">Key signals</div>';
   d.sigs.forEach(s => {
-    psigs.innerHTML += `<div class="psig"><div class="psig-dot"></div><div class="psig-txt"><strong>${s.t}</strong> — ${s.d}</div></div>`;
+    const div = document.createElement('div');
+    div.className = 'psig';
+    div.innerHTML = `<div class="psig-dot"></div><div class="psig-txt"><strong>${s.t}</strong> — ${s.d}</div>`;
+    psigs.appendChild(div);
   });
   document.getElementById('pimplp').textContent = d.impl;
   document.getElementById('ppan').classList.add('vis');
@@ -458,25 +570,8 @@ function closePhase() {
   document.getElementById('leg').style.opacity = '1';
 }
 
-function tx() {
-  document.getElementById('world').setAttribute('transform',`translate(${pan.x},${pan.y})scale(${zm})`);
-}
-
-const svg = document.getElementById('svg');
-svg.addEventListener('mousedown', e => { drag = {x:e.clientX-pan.x, y:e.clientY-pan.y}; });
-svg.addEventListener('mousemove', e => {
-  if (drag) { pan.x=e.clientX-drag.x; pan.y=e.clientY-drag.y; tx(); }
-});
-svg.addEventListener('mouseup', () => { drag=null; });
-svg.addEventListener('wheel', e => {
-  e.preventDefault();
-  const f = e.deltaY < 0 ? 1.1 : 0.91;
-  zm = Math.max(.3, Math.min(4, zm*f));
-  tx();
-}, {passive:false});
-
-renderStages();
-render();
+// INIT
+tx(); renderStages(); render();
 </script>
 </body>
 </html>
