@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hormuz Crisis — SE Asia Supply Chain System Map · 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root {
+    --dk:#141413; --lt:#faf9f5; --bg:#EDE8E0; --mid:#b0aea5; --lg:#e8e6dc;
+    --or:#d97757; --bl:#6a9bcc; --gn:#788c5d; --am:#c4956a; --wt:#8a7d6d;
+    --rd:#b85c5c; --pu:#8a6daa; --tl:#5a8a6a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--dk);font-family:'Lora',Georgia,serif;overflow:hidden}
+  .hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dk);color:var(--lt);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .hdr h1{font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px}
+  .hdr .sub{font-size:11px;color:var(--mid);margin-top:2px}
+  .hdr-r{display:flex;align-items:center;gap:14px}
+  .brand{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1.5px}
+  .stages{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(20,20,19,.97);display:flex}
+  .stg{flex:1;padding:11px 13px;background:0 0;border:none;color:rgba(250,249,245,.32);cursor:pointer;text-align:left;border-top:3px solid transparent;transition:all .25s}
+  .stg:hover{color:rgba(250,249,245,.6);background:rgba(250,249,245,.03)}
+  .stg.on{color:var(--lt);border-top-color:var(--or);background:rgba(250,249,245,.05)}
+  .stg .sn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;display:block;margin-bottom:2px;opacity:.45}
+  .stg.on .sn{opacity:1;color:var(--or)}
+  .stg .st{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;display:block;margin-bottom:1px}
+  .stg .sd{font-size:10px;opacity:.4;display:block;line-height:1.3}
+  .stg.on .sd{opacity:.7}
+  .ipan{position:fixed;top:58px;right:16px;z-index:200;background:rgba(250,249,245,.97);border:1px solid var(--lg);border-radius:8px;padding:18px 20px;width:320px;box-shadow:0 4px 20px rgba(20,20,19,.12);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5;font-size:13px;max-height:calc(100vh - 140px);overflow-y:auto}
+  .ipan.vis{opacity:1;pointer-events:auto;transform:none}
+  .ipan h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px}
+  .ipan .itag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px;display:inline-block}
+  .ipan .idesc{color:#4a4a46;font-size:12.5px;line-height:1.6}
+  .ipan .ilev{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
+  .ipan .ilev b{font-family:'Poppins',sans-serif;font-size:11px;color:var(--or);display:block;margin-bottom:3px}
+  .ipan .ilev p{font-size:12px;color:#5a5a56;line-height:1.45}
+  .ix{position:absolute;top:10px;right:12px;cursor:pointer;font-size:18px;color:var(--mid);background:0 0;border:none;font-family:'Poppins',sans-serif}
+  .leg{position:fixed;bottom:84px;left:14px;z-index:200;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:7px;padding:12px 15px;font-size:11px;box-shadow:0 2px 10px rgba(20,20,19,.07);width:208px}
+  .leg h4{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;letter-spacing:.8px;color:var(--mid);margin-bottom:6px}
+  .li{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+  .lc{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid}
+  .leg hr{border:none;border-top:1px solid var(--lg);margin:7px 0}
+  .ctrl{position:fixed;bottom:84px;right:14px;z-index:200;display:flex;gap:4px}
+  .ctrl button{width:32px;height:32px;background:rgba(250,249,245,.95);border:1px solid var(--lg);border-radius:5px;font-family:'Poppins',sans-serif;font-size:17px;cursor:pointer;color:var(--dk);display:flex;align-items:center;justify-content:center}
+  .ctrl button:hover{border-color:var(--or)}
+  .tip{position:fixed;pointer-events:none;z-index:300;background:var(--dk);color:var(--lt);font-size:11px;padding:6px 10px;border-radius:4px;opacity:0;transition:opacity .12s;max-width:240px;line-height:1.4}
+  #svg{position:fixed;top:0;left:0;width:100%;height:100%;cursor:grab;z-index:1}
+  #svg:active{cursor:grabbing}
+  .ng{cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>HORMUZ CRISIS — SE ASIA SUPPLY CHAIN SYSTEM MAP</h1>
+    <div class="sub">Energy · Fertiliser · Food Systems · Aviation · Tourism · Transformation · April 2026</div>
+  </div>
+  <div class="hdr-r"><div class="brand">ENZYME CONSULTING</div></div>
+</div>
+
+<div class="stages" id="stageBar"></div>
+
+<div class="leg">
+  <h4>SYSTEM LAYERS</h4>
+  <div class="li"><div class="lc" style="background:rgba(184,92,92,.12);border-color:var(--rd)"></div><span>Conflict &amp; chokepoints</span></div>
+  <div class="li"><div class="lc" style="background:rgba(106,155,204,.12);border-color:var(--bl)"></div><span>Energy cascade</span></div>
+  <div class="li"><div class="lc" style="background:rgba(196,149,106,.12);border-color:var(--am)"></div><span>ASEAN countries</span></div>
+  <div class="li"><div class="lc" style="background:rgba(120,140,93,.12);border-color:var(--gn)"></div><span>Food &amp; agriculture</span></div>
+  <div class="li"><div class="lc" style="background:rgba(138,109,170,.12);border-color:var(--pu)"></div><span>Aviation &amp; tourism</span></div>
+  <div class="li"><div class="lc" style="background:rgba(90,138,106,.12);border-color:var(--tl)"></div><span>Transformation</span></div>
+  <div class="li"><div class="lc" style="background:rgba(176,174,165,.12);border-color:var(--mid)"></div><span>Resilience &amp; finance</span></div>
+  <hr>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--dk)" stroke-width="2" stroke-opacity=".45"/></svg><span>Physical / price flow</span></div>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--dk)" stroke-width="1.2" stroke-opacity=".3" stroke-dasharray="4,3"/></svg><span>Policy / enabling</span></div>
+</div>
+
+<div class="ipan" id="ipan">
+  <button class="ix" onclick="closeInfo()">&times;</button>
+  <div class="itag" id="itag"></div>
+  <h3 id="iname"></h3>
+  <div class="idesc" id="idesc"></div>
+  <div class="ilev" id="ilev" style="display:none"><b id="ilevt"></b><p id="ilevd"></p></div>
+</div>
+
+<div class="ctrl">
+  <button onclick="doZoom(1.25)">+</button>
+  <button onclick="doZoom(1/1.25)">&minus;</button>
+  <button onclick="resetView()" style="font-size:14px">&#8634;</button>
+</div>
+
+<div class="tip" id="tip"></div>
+<svg id="svg"><g id="world"></g></svg>
+
+<script>
+const CX = 1200, CY = 920;
+
+const N = [
+  // CONFLICT (stage 1)
+  {id:'strikes',  lbl:'US–Israel\nStrikes',       cat:'conflict',   x:170,  y:640,  r:24, c:'#b85c5c',
+   desc:'US and Israeli forces struck Iran on 28 February 2026, triggering the IRGC blockade of the Strait of Hormuz from 4 March. This was the proximate cause of the most systemic supply-chain disruption since COVID-19 — arriving on top of the already-unresolved Ukraine fertiliser shock and the Red Sea/Houthi corridor disruption.'},
+  {id:'iran',     lbl:'Iran / IRGC\nBlockade',    cat:'conflict',   x:340,  y:790,  r:34, c:'#b85c5c',
+   desc:'The IRGC blockaded the Strait of Hormuz on 4 March 2026. Vessel traffic collapsed from ~129 ships/day to approximately 6/day — a 95% reduction. Iran declared the strait "completely open" on 17 April, triggering an 11% oil price drop — then reasserted control on 18 April, citing the continued US naval blockade of Iranian ports. As of 21 April, only 2 completed transits per day were identified.'},
+  {id:'ceasefire',lbl:'Fragile\nCeasefire',       cat:'conflict',   x:170,  y:940,  r:20, c:'#b85c5c',
+   desc:'A US-Iran ceasefire was announced on 7 April 2026. Iran declared the strait "completely open" on 17 April, then reasserted control on 18 April. Major carriers (Maersk, Hapag-Lloyd) remain cautious. Hapag-Lloyd\'s CEO estimated 6–8 weeks to restore flows even if the strait fully reopens. Kpler projects phased recovery from May to September. Procurement teams should plan for elevated energy, freight, and input costs through at least Q3 2026.'},
+  {id:'redsea',   lbl:'Red Sea /\nHouthi (2023–)',cat:'conflict',   x:590,  y:660,  r:24, c:'#d97757',
+   desc:'The Red Sea / Houthi disruption (2023–2025) already suspended the Suez corridor, adding 10–14 days and significant fuel and insurance cost via Cape of Good Hope rerouting. Container rates surged. The 2026 Hormuz blockade created a double-chokepoint scenario — the first time Red Sea and Hormuz were simultaneously disrupted — compounding insurance, freight time, and transit costs dramatically.'},
+  {id:'tankers',  lbl:'230 Tankers\nTrapped',     cat:'conflict',   x:660,  y:910,  r:20, c:'#b85c5c',
+   desc:'As of 7 April 2026, 230 laden tankers carrying 172 million barrels of crude and refined products were anchored inside the Gulf, unable to move. This represented a 74% collapse in crude and condensate loadings from February (16.6 million bpd) to March (4.3 million bpd). Even after the ceasefire was announced, vessels remained anchored pending mine clearance and carrier confidence.'},
+
+  // CHOKEPOINT (stage 1)
+  {id:'hormuz',   lbl:'Strait of\nHormuz',        cat:'chokepoint', x:990,  y:860,  r:46, c:'#d97757',
+   desc:'In peacetime, the Strait of Hormuz carries approximately 20% of global oil and LNG shipments. During the 2026 crisis: crude loadings collapsed 74%; vessel traffic dropped ~95%. 84% of Hormuz crude and 83% of LNG transits are Asia-bound. The strait also carries ~33–49% of global seaborne urea exports, 40%+ of sulfur, ~30% of ammonia — making it simultaneously a chokepoint for energy AND food systems. Even after Iran announced reopening, only 2 transits per day were completed as of 21 April.'},
+
+  // ENERGY CASCADE (stage 2)
+  {id:'gulfcrude',lbl:'Gulf Crude\nOil',          cat:'energy',     x:1110, y:570,  r:32, c:'#6a9bcc',
+   desc:'84% of Hormuz crude transits are Asia-bound. Countries like the Philippines (90–98% Gulf dependency) and Vietnam (85%) were acutely exposed. Crude and condensate loadings dropped from 16.6 million bpd in February to 4.3 million bpd in March — a 74% collapse. Kpler projects a phased recovery from May to September; full normalisation could take 4–6 months even after reopening.'},
+  {id:'lngqatar', lbl:'Qatar LNG\nDisrupted',     cat:'energy',     x:860,  y:490,  r:26, c:'#6a9bcc',
+   desc:'Singapore relies on Qatar for approximately 45% of its LNG supply. Qatar helium (33% of global supply) was also disrupted, with force majeures declared in Singapore, Indonesia, and Thailand. 83% of LNG transits through Hormuz are Asia-bound. Singapore\'s over-93% electricity generation from natural gas makes LNG supply a critical vulnerability alongside crude.'},
+  {id:'oilprice', lbl:'Brent\n$144/barrel',       cat:'energy',     x:1290, y:490,  r:26, c:'#6a9bcc',
+   desc:'Dated Brent crude peaked at approximately US$144/barrel on 7 April 2026. It reached US$112/barrel on 3 April, retreating to ~US$88 when Iran announced reopening on 17 April — a 35% swing in a week. Goldman Sachs projected US$150/barrel under a prolonged closure scenario. The WTO revised 2026 global merchandise trade growth down from 4.6% to 1.9%, or 1.4% under an elevated-energy scenario.'},
+  {id:'jetfuel',  lbl:'Jet Fuel\nCrisis',         cat:'energy',     x:1490, y:580,  r:26, c:'#6a9bcc',
+   desc:'Vietnam\'s Jet A-1 averaged above US$190/barrel in March, peaking at US$242.7/barrel on 30 March — nearly 3× budget. About 70% of Vietnam\'s jet fuel is imported, primarily from China and Thailand. Both halted jet fuel exports to conserve domestic supply. Vietnam Airlines, Vietjet, and Bamboo Airways cut 10–50% of capacity from April. Fuel supply to some carriers was only guaranteed to mid-April.'},
+  {id:'diesel',   lbl:'Diesel\nSurge',            cat:'energy',     x:1250, y:720,  r:26, c:'#6a9bcc',
+   desc:'Philippines: US$1.70–1.85/litre, highest in ASEAN. Vietnam: up 84% since the conflict began. Thailand: diesel price cap introduced but supply-constrained — fishermen unable to operate. Cold chain, fisheries, road freight, and backup power generation (hospitals, hotels, data centres) all affected. In Indonesia, each US$1 above the budget assumption adds IDR 10.3 trillion in subsidy costs.'},
+  {id:'coal',     lbl:'Coal\nFallback',           cat:'energy',     x:1450, y:770,  r:22, c:'#6a9bcc',
+   desc:'Thailand restarted decommissioned coal plants; Vietnam and Philippines ramped coal to maximum capacity. South Korea lifted its 80% operating cap; Japan allowed older plants at full capacity. Newcastle coal (Asia benchmark) rose 13% since the conflict began. Coal expansion risks undermining ESG commitments and locking in carbon-intensive procurement contracts. The ESG exposure of these emergency decisions will materialise in 2027–2028 reporting cycles.'},
+
+  // ASEAN COUNTRIES (stage 2)
+  {id:'philippines',lbl:'Philippines\n(Critical)', cat:'country',   x:1950, y:490,  r:34, c:'#c4956a',
+   desc:'Gulf crude dependency: 90–98%. Fuel reserves: ~52 days — held in private commercial inventories, not government stockpiles. First in SE Asia to declare a National Energy Emergency (24 March 2026). Activated the UPLIFT programme. Highest diesel prices in ASEAN (US$1.70–1.85/litre). 90%+ of fertiliser use is inorganic and almost entirely imported — uniquely exposed to both the energy emergency AND the fertiliser shock simultaneously.'},
+  {id:'vietnam',  lbl:'Vietnam\n(Critical)',       cat:'country',   x:2110, y:640,  r:30, c:'#c4956a',
+   desc:'Gulf crude dependency: 85% (primarily Kuwait). Reserves: 30–45 days commercial, only ~9 days in state reserves. Vietnam Airlines, Vietjet, and Bamboo Airways cut 10–50% of capacity from April. Diesel surged 84%; petrol up 30%; Jet A-1 nearly 3× budget. Vietnam leads ASEAN in renewable capacity additions; E10 biofuel rollout accelerated; nuclear energy negotiations underway for the Ninh Thuan 1 plant.'},
+  {id:'thailand', lbl:'Thailand\n(High)',          cat:'country',   x:2080, y:830,  r:28, c:'#c4956a',
+   desc:'Gulf crude dependency: 50–59%; 28% LNG. Reserves: 61–90 days. Diesel price cap introduced; fuel exports restricted; coal plants restarted; biofuel blends increased (B7→B20). Fertiliser hoarding reported. Songkran tourism season disrupted by expensive long-haul flights. Thai fishermen docked due to surging diesel. Thai Rice for Life regenerative initiative: 30% higher yields, 30% lower production costs, zero Hormuz fertiliser exposure on enrolled farms.'},
+  {id:'indonesia',lbl:'Indonesia\n(High)',         cat:'country',   x:2000, y:990,  r:28, c:'#c4956a',
+   desc:'Gulf crude dependency: 25–37%. Reserves: only 21–23 days. Mandatory weekly WFH day implemented. Each US$1/barrel above the US$70 budget assumption adds IDR 10.3 trillion in subsidy costs — risking breach of the legal 3% fiscal deficit ceiling. Petrochemical force majeures declared. B50 biodiesel mandate set for 1 July 2026, projected to save IDR 48 trillion annually and USD 10.84 billion in 2026 alone.'},
+  {id:'singapore',lbl:'Singapore\n(Moderate)',     cat:'country',   x:1830, y:1110, r:26, c:'#c4956a',
+   desc:'Gulf dependency: ~70% crude, 45% LNG from Qatar. Jurong Rock Caverns provide ~200 days of theoretical reserves. Carbon tax at S$45/tCO₂e. Deep fiscal reserves allow shock absorption where others scramble. Sun Cable AAPowerLink (4,300 km undersea cable from Australia) received conditional approval October 2024. 3 GW Malaysia cross-border agreements signed October 2025. Most proactive cross-border energy strategy in ASEAN.'},
+  {id:'malaysia', lbl:'Malaysia /\nBrunei (Buffer)',cat:'country',  x:1740, y:920,  r:22, c:'#c4956a',
+   desc:'Both net energy exporters — Malaysia\'s producer status provides a buffer, not immunity. Malaysia imposed civil servant WFH measures. Actively positioned as a renewable energy corridor for Singapore via Sarawak hydropower (1 GW signed Oct 2025). Also considering nuclear energy for data centre needs. Emerging as the region\'s most important cross-border power facilitator.'},
+  {id:'clm',      lbl:'Cambodia /\nLaos / Myanmar',cat:'country',  x:2200, y:970,  r:24, c:'#c4956a',
+   desc:'Critically exposed: zero refining capacity; entirely dependent on refined fuel imports from Thailand, Vietnam, and Singapore. Cambodia: nearly 2,000 of 6,300 fuel stations closed. Laos: hours-long queues in Vientiane. Myanmar: alternating driving days imposed. These countries lose supply first as Thailand and China restrict exports to preserve domestic stock — illustrating how upstream supply cuts cascade through regional dependencies.'},
+
+  // FOOD SYSTEMS (stage 3)
+  {id:'fertiliser',lbl:'Fertiliser\nShock',       cat:'food',       x:890,  y:1110, r:32, c:'#788c5d',
+   desc:'The Middle East supplies 40–43% of seaborne urea, 40%+ of sulfur, ~30% of ammonia globally. 34–49% of global urea exports normally transit Hormuz. Urea prices surged 65% in the month following outbreak; Indian tender prices exceeded US$900/tonne vs US$400–490 pre-war. ~1 million tonnes of urea were loaded on vessels in the Gulf with no clear route to market as of mid-April. This is the most durable and underdiscussed impact of the crisis — the food inflation arrives months after the headlines.'},
+  {id:'foodprod', lbl:'Food\nProduction',         cat:'food',       x:1100, y:1310, r:26, c:'#788c5d',
+   desc:'Rice, corn, livestock feed (chicken, pigs), and plantation crops (palm oil, sugarcane) are most exposed to fertiliser price shocks. Indonesia, Philippines, Thailand, and Vietnam are major agricultural importers of Gulf fertiliser. If fertiliser application rates are reduced during spring 2026 — already happening due to cost — downstream food price inflation from reduced crop yields is likely in Q3–Q4 2026. The Philippines\' 90%+ inorganic fertiliser dependency makes it doubly exposed.'},
+  {id:'coldchain',lbl:'Cold Chain\nDisruption',   cat:'food',       x:1410, y:1120, r:26, c:'#788c5d',
+   desc:'Pharmaceuticals, vaccines, fresh seafood, and specialty proteins depend on air belly cargo through Dubai, Doha, and Abu Dhabi hubs — all severely disrupted. Cold-chain for temperature-sensitive products fails first when belly capacity disappears. Suppliers with regional cold-chain infrastructure — shorter overland or intra-ASEAN sea routes — are now outperforming long-haul importers on both cost and reliability. The dnata case: local free-range chicken built for ESG turned out to be the operational resilience play.'},
+  {id:'foodinflation',lbl:'Food Price\nInflation',cat:'food',       x:1610, y:1240, r:24, c:'#788c5d',
+   desc:'The WFP estimated an additional 45 million people could be pushed into acute hunger, bringing the global total to 363 million food-insecure people if conflict continued through June 2026. The WTO revised 2026 global merchandise trade growth down from 4.6% (2025) to 1.9%, or 1.4% under an elevated-energy scenario. Food system professionals should budget for input cost escalation through end-2026 and evaluate supplier fertiliser exposure now, before Q3 yield data emerges.'},
+
+  // AVIATION & TOURISM (stage 4)
+  {id:'gulftranshubs',lbl:'Gulf Transit\nHubs Disrupted',cat:'aviation',x:1560,y:380,r:22,c:'#8a6daa',
+   desc:'Dubai, Doha, and Abu Dhabi — the world\'s dominant international aviation transit hubs — were severely disrupted from late February 2026. Emirates reduced Singapore flights from 4 daily to near-zero at peak. 40,000+ flights were cancelled across the Middle East between 28 February and 9 March. The Maldives: only 4% of visitors originate from the Middle East, but arrivals fell 20.7% in March because most visitors transit through Gulf hubs.'},
+  {id:'airlines',lbl:'Airline\nCapacity Cuts',    cat:'aviation',   x:1730, y:460,  r:26, c:'#8a6daa',
+   desc:'Vietnam Airlines suspended 7 domestic routes from 1 April, cutting 23 flights/week; international flights cut 18–26%. Vietjet cut overall capacity by 18% in April. Bamboo Airways slashed daily operations by 50%. Cebu Air cut capacity. Emirates reduced Singapore flights from 4 daily to near-zero at peak. Vietnam airfreight rates rose 50%. Jet A-1 peaked at US$242.7/barrel on 30 March — nearly 3× budget for Vietnamese carriers.'},
+  {id:'tourism',lbl:'Tourism\nCollapse',          cat:'aviation',   x:1910, y:350,  r:22, c:'#8a6daa',
+   desc:'The Maldives saw a 20.7% drop in arrivals in March 2026, despite only 4% of visitors originating from the Middle East — demonstrating structural Gulf hub transit dependency across every origin market. Thailand\'s Songkran season disrupted by expensive long-haul flights. Vietnam tourism fell as Dubai/Doha transit became unreliable. Tourism operators dependent on long-haul arrivals via Gulf connections are structurally exposed.'},
+  {id:'bellycargo',lbl:'Belly Cargo\nLoss',       cat:'aviation',   x:1650, y:590,  r:20, c:'#8a6daa',
+   desc:'When airline belly cargo capacity collapses alongside maritime routes, cold chain fails simultaneously. Vaccines, seafood, specialty proteins, electronics lose their primary fast last-mile logistics. This co-disruption of air and sea cargo simultaneously is a signature of the 2026 crisis vs. earlier shocks which typically hit one mode at a time. Cold-chain suppliers with regional overland or intra-ASEAN sea routes were the only ones maintaining continuity.'},
+
+  // TRANSFORMATION (stage 5)
+  {id:'renewables',lbl:'Renewable\nEnergy Sovereignty',cat:'transform',x:480,y:1010,r:32,c:'#5a8a6a',
+   desc:'The 2026 crisis has fundamentally shifted the political framing for renewable energy. It is no longer primarily a climate argument — it is an energy security and sovereignty argument. ASEAN endorsed its 2026–2030 Plan of Action for Energy Cooperation (APAEC), targeting 45% of total installed capacity from renewables by 2030. At US$120+/barrel oil, the payback period on PPA-based renewable procurement compresses dramatically — well under 5 years for most ASEAN markets.'},
+  {id:'solarstorage',lbl:'Distributed Solar\n+ Storage',cat:'transform',x:310,y:1160,r:22,c:'#5a8a6a',
+   desc:'Solar + battery storage microgrids, rooftop solar, and community energy cooperatives structurally remove exposure to fuel price shocks. At US$110+/barrel oil, the economics of distributed solar + storage have never been more compelling for island resorts, remote industrial facilities, food processing plants, and hotels. Transition from CAPEX to energy-as-a-service eliminates upfront barriers and delivers price certainty — precisely what this environment demands.'},
+  {id:'crossborderpower',lbl:'Cross-border\nPower Corridors',cat:'transform',x:380,y:1350,r:22,c:'#5a8a6a',
+   desc:'Singapore\'s Sun Cable AAPowerLink (4,300 km undersea cable from Australia) received conditional approval October 2024, targeting up to 15% of Singapore\'s electricity. In October 2025, Singapore signed 3 GW of cross-border green power agreements with Malaysia (1 GW Sarawak hydropower + 2 GW Peninsular interconnector). Indonesia solar export faces delays. These corridors represent the long-term infrastructure answer to Hormuz LNG dependency.'},
+  {id:'regenag',lbl:'Regenerative\nAgriculture',  cat:'transform',  x:650,  y:1290, r:28, c:'#5a8a6a',
+   desc:'Regenerative and organic farming systems are structurally less exposed to the crisis because they reduce or eliminate dependency on petroleum-derived synthetic fertilisers — the same fertilisers transiting the same chokepoints as oil. Thailand\'s Thai Rice for Life Initiative: 30% higher yields, 30% lower production costs, zero Hormuz fertiliser exposure. Organic farming is under 0.5% of SE Asia agricultural land — but interest and investment are accelerating sharply.'},
+  {id:'biodiesel',lbl:'Biodiesel\n(Indonesia B50)',cat:'transform',  x:880,  y:1440, r:22, c:'#5a8a6a',
+   desc:'Indonesia\'s B50 biodiesel mandate (50% palm oil blend) set for mandatory implementation 1 July 2026, projecting IDR 48 trillion in annual subsidy savings (USD 10.84 billion in 2026 alone). The programme saved an estimated USD 40.7 billion in foreign exchange between 2020 and 2025. Key tension: B50 competes with food-system palm oil demand — the same land base producing edible oil for regional food security.'},
+  {id:'circular',lbl:'Circular\nEconomy',         cat:'transform',  x:620,  y:1490, r:20, c:'#5a8a6a',
+   desc:'PwC modelling: extending useful life of materials across Asia Pacific could deliver US$340 billion in GDP uplift, 15 million net new jobs, 1.7 Gt fewer emissions/year. ASEAN\'s secondary material use rate is only 0.8% of total input vs 9.7% in the EU. Every kilogram kept in circulation is one that doesn\'t need to transit a chokepoint. The EU ban on plastic waste exports to non-OECD countries (2026) is forcing ASEAN to build domestic recycling capabilities.'},
+
+  // RESILIENCE & PROCUREMENT (stage 5)
+  {id:'scdesign',lbl:'Supply Chain\nRedesign',    cat:'resilience', x:1920, y:1310, r:24, c:'#b0aea5',
+   desc:'The fundamental design question: how many of your critical supply flows share a single chokepoint? Vietnam\'s emergency procurement of 4 million barrels from non-Gulf sources covered just 6 days of consumption — illustrating that resilience is not about stockpiling, it is about architecture. Core principles: multiple pathways not single arteries; geopolitical stress-testing of Tier 2 and Tier 3 dependencies; fiscal resilience alongside operational resilience; invest before crisis, not during.'},
+  {id:'esgfinance',lbl:'ESG Finance\n& Green Capital',cat:'resilience',x:1790,y:1450,r:20,c:'#b0aea5',
+   desc:'ESG bonds in Southeast Asia totalled US$20.3 billion in 2025; transition finance expected to grow significantly in 2026. Companies with credible transition plans and diversified, low-carbon supply chains now access cheaper capital than those dependent on fossil fuel chokepoints. ESG-linked supply chain finance (J.P. Morgan, DBS) can incentivise sustainable supplier behaviour at lower financing costs.'},
+  {id:'aseanpolicy',lbl:'ASEAN Emergency\nResponse',cat:'resilience',x:1630,y:1460,r:20,c:'#b0aea5',
+   desc:'Philippines President Marcos pushed for ASEAN activation of the APSA Coordinated Emergency Response Mechanism and joint oil stockpiling proposals at the April 15 AZEC+ Summit. ASEAN endorsed its 2026–2030 Plan of Action for Energy Cooperation (APAEC), targeting 45% renewable installed capacity by 2030. The 47th ASEAN Ministers on Agriculture and Forestry (AMAF) meeting highlighted regenerative agriculture as a core regional strategy.'},
+  {id:'tco',lbl:'True-Cost\nProcurement',          cat:'resilience', x:2080, y:1160, r:20, c:'#b0aea5',
+   desc:'The sustainability premium has inverted in multiple categories simultaneously. Local free-range chicken and certified regional seafood are now cheaper AND more reliable than Gulf-linked imports. At US$110+/barrel diesel, solar+storage payback compresses to 3–5 years. Urea up 65%+ means organic/biological inputs are now cost-competitive for transitioning crops. Build the case to CFOs on risk-adjusted total cost of ownership — a resilient, local, diversified supply chain is now a lower-risk, lower-cost option in many categories.'},
+];
+
+const E = [
+  // CONFLICT TRIGGER
+  {f:'strikes',  t:'iran',        lbl:'triggers',              w:2.5, op:.65, d:0, s:1, clr:'#b85c5c'},
+  {f:'iran',     t:'hormuz',      lbl:'IRGC blockade',         w:4,   op:.75, d:0, s:1, clr:'#b85c5c'},
+  {f:'redsea',   t:'hormuz',      lbl:'double chokepoint',     w:2.5, op:.55, d:0, s:1, clr:'#d97757'},
+  {f:'iran',     t:'tankers',     lbl:'230 trapped',           w:2,   op:.5,  d:0, s:1, clr:'#b85c5c'},
+  {f:'ceasefire',t:'hormuz',      lbl:'fragile opening',       w:1.5, op:.38, d:1, s:1, clr:'#b85c5c'},
+
+  // CHOKEPOINT → ENERGY
+  {f:'hormuz',   t:'gulfcrude',   lbl:'74% collapse',          w:3.5, op:.65, d:0, s:2},
+  {f:'hormuz',   t:'lngqatar',    lbl:'83% Asia-bound',        w:2.5, op:.55, d:0, s:2},
+  {f:'gulfcrude',t:'oilprice',    lbl:'$144/bbl peak',         w:3,   op:.65, d:0, s:2, clr:'#d97757'},
+  {f:'oilprice', t:'jetfuel',     lbl:'3× budget',             w:2.5, op:.6,  d:0, s:2},
+  {f:'oilprice', t:'diesel',      lbl:'+84% Vietnam',          w:2.5, op:.6,  d:0, s:2},
+  {f:'diesel',   t:'coal',        lbl:'emergency ramp',        w:2,   op:.5,  d:0, s:2},
+
+  // ENERGY → COUNTRIES
+  {f:'diesel',   t:'philippines', lbl:'52d reserves',          w:2.5, op:.55, d:0, s:2},
+  {f:'diesel',   t:'vietnam',     lbl:'9d state reserves',     w:2.5, op:.55, d:0, s:2},
+  {f:'diesel',   t:'thailand',    lbl:'cap + coal ramp',       w:2,   op:.45, d:0, s:2},
+  {f:'diesel',   t:'indonesia',   lbl:'21d reserves',          w:2,   op:.45, d:0, s:2},
+  {f:'lngqatar', t:'singapore',   lbl:'45% dependency',        w:2,   op:.5,  d:0, s:2},
+  {f:'diesel',   t:'clm',         lbl:'stations closed',       w:2,   op:.5,  d:0, s:2},
+  {f:'diesel',   t:'malaysia',    lbl:'producer buffer',       w:1.6, op:.38, d:1, s:2},
+
+  // CHOKEPOINT → FOOD
+  {f:'hormuz',   t:'fertiliser',  lbl:'40–49% urea disrupted', w:3,   op:.65, d:0, s:3, clr:'#788c5d'},
+  {f:'fertiliser',t:'foodprod',   lbl:'spring shortage',       w:2.5, op:.6,  d:0, s:3},
+  {f:'foodprod', t:'foodinflation',lbl:'Q3–Q4 yield impact',   w:2.5, op:.6,  d:0, s:3},
+  {f:'coldchain',t:'foodinflation',lbl:'supply fails',         w:2,   op:.45, d:0, s:3},
+
+  // AVIATION
+  {f:'jetfuel',  t:'airlines',    lbl:'capacity cuts',         w:2.5, op:.55, d:0, s:4},
+  {f:'airlines', t:'gulftranshubs',lbl:'hub disruption',       w:2,   op:.5,  d:0, s:4},
+  {f:'gulftranshubs',t:'tourism', lbl:'−20.7% Maldives',      w:2,   op:.5,  d:0, s:4},
+  {f:'airlines', t:'bellycargo',  lbl:'belly lost',            w:1.8, op:.45, d:1, s:4},
+  {f:'bellycargo',t:'coldchain',  lbl:'cold chain fails',      w:2,   op:.5,  d:0, s:4},
+
+  // TRANSFORMATION
+  {f:'diesel',   t:'renewables',  lbl:'sovereignty imperative',w:2,   op:.5,  d:1, s:5, clr:'#5a8a6a'},
+  {f:'fertiliser',t:'regenag',    lbl:'independence case',     w:2,   op:.5,  d:1, s:5, clr:'#5a8a6a'},
+  {f:'indonesia',t:'biodiesel',   lbl:'B50 mandate Jul \'26',  w:1.8, op:.45, d:0, s:5, clr:'#5a8a6a'},
+  {f:'renewables',t:'solarstorage',lbl:'distributed model',    w:1.8, op:.45, d:1, s:5},
+  {f:'renewables',t:'crossborderpower',lbl:'Sun Cable / MY hydro',w:1.8,op:.45,d:1,s:5},
+  {f:'singapore',t:'crossborderpower',lbl:'6 GW target 2035',  w:1.8, op:.45, d:1, s:5, clr:'#5a8a6a'},
+  {f:'malaysia', t:'crossborderpower',lbl:'Sarawak hydro',     w:1.5, op:.4,  d:1, s:5},
+  {f:'regenag',  t:'foodprod',    lbl:'resilient yields',      w:1.8, op:.45, d:1, s:5, clr:'#5a8a6a'},
+  {f:'biodiesel',t:'circular',    lbl:'closed-loop inputs',    w:1.4, op:.35, d:1, s:5},
+  {f:'coldchain',t:'regenag',     lbl:'short chain wins',      w:1.5, op:.4,  d:1, s:5, clr:'#5a8a6a'},
+
+  // RESILIENCE
+  {f:'scdesign', t:'esgfinance',  lbl:'cheaper capital',       w:1.5, op:.4,  d:1, s:5},
+  {f:'tco',      t:'scdesign',    lbl:'risk-adjusted TCO',     w:1.5, op:.4,  d:1, s:5},
+  {f:'aseanpolicy',t:'renewables',lbl:'APAEC 2026–30',         w:1.5, op:.4,  d:1, s:5},
+  {f:'philippines',t:'aseanpolicy',lbl:'UPLIFT / APSA push',   w:1.5, op:.4,  d:1, s:5},
+  {f:'foodinflation',t:'scdesign',lbl:'procurement rethink',   w:1.5, op:.4,  d:1, s:5},
+  {f:'coal',     t:'tco',         lbl:'ESG cost exposure',     w:1.3, op:.35, d:1, s:5},
+];
+
+const LEVERS = {
+  hormuz:     {t:'The Single Chokepoint',       d:'A geographic point 33 km wide carries 20% of global oil and LNG — plus 40–49% of global seaborne urea. The entire 2026 crisis flows from this structural concentration. Diversification across supply routes, energy vectors, and input sources is the only long-term mitigation.'},
+  fertiliser: {t:'Most Durable Impact',          d:'Urea up 65%+; Indian tender prices exceeded US$900/tonne vs US$400–490 pre-war. If spring 2026 fertiliser application rates fall, Q3–Q4 crop yield impacts arrive months after headlines fade. The food inflation from this crisis will peak later than the oil price shock.'},
+  renewables: {t:'The Sovereignty Pivot',        d:'The political framing for renewables has permanently shifted from climate to security. At US$120+/barrel oil, PPA payback periods compress to under 5 years. This is the structural lever that turns crisis response into system transformation.'},
+  regenag:    {t:'Fertiliser Independence',      d:'Regenerative farming structurally removes petroleum-derived fertiliser dependency — the same fertilisers transiting the same chokepoints as oil. Thailand\'s Thai Rice for Life: 30% higher yields, 30% lower costs, zero Hormuz exposure. A slow transition, but one with compounding advantage.'},
+  coldchain:  {t:'Short Supply Chain Premium',   d:'When long-haul logistics break, the shortest supply chain wins. Channels built for ESG certification turned out to be the operational resilience play. The "sustainable" premium has inverted: it is now a cost and reliability advantage.'},
+  singapore:  {t:'Fiscal Buffer as Resilience Model', d:'Jurong Rock Caverns (~200 days reserves) + deep fiscal reserves + proactive cross-border energy strategy means Singapore weathers this differently from the Philippines. Invest in strategic buffers before crisis, not during. No emergency procurement can replicate structural resilience.'},
+};
+
+const STAGES = [
+  {num:'',   name:'FULL MAP',          desc:'All system layers visible',                                mx:99},
+  {num:'01', name:'THE CRISIS',        desc:'Conflict triggers, blockade, chokepoints',                 mx:1},
+  {num:'02', name:'ENERGY CASCADE',    desc:'Oil, gas, jet fuel, diesel — the price shock',             mx:2},
+  {num:'03', name:'FOOD SYSTEMS',      desc:'Fertilisers, production, cold chain, food insecurity',     mx:3},
+  {num:'04', name:'AVIATION & TOURISM',desc:'Airline cuts, belly cargo, hub dependency, collapse',      mx:4},
+  {num:'05', name:'TRANSFORMATION',    desc:'Renewables, regen ag, biodiesel, resilience architecture', mx:5},
+];
+
+const CS = {conflict:1, chokepoint:1, energy:2, country:2, food:3, aviation:4, transform:5, resilience:5};
+
+const ZONES = [
+  {lbl:'CONFLICT & CHOKEPOINTS', c:'#b85c5c', x:80,   y:550,  w:820,  h:500, cat:'conflict'},
+  {lbl:'ENERGY CASCADE',         c:'#6a9bcc', x:880,  y:400,  w:860,  h:480, cat:'energy'},
+  {lbl:'ASEAN COUNTRIES',        c:'#c4956a', x:1640, y:310,  w:660,  h:880, cat:'country'},
+  {lbl:'FOOD SYSTEMS',           c:'#788c5d', x:770,  y:1050, w:1060, h:310, cat:'food'},
+  {lbl:'AVIATION & TOURISM',     c:'#8a6daa', x:1470, y:295,  w:550,  h:365, cat:'aviation'},
+  {lbl:'TRANSFORMATION',         c:'#5a8a6a', x:220,  y:920,  w:650,  h:680, cat:'transform'},
+];
+
+let cur = 0;
+const svgEl = document.getElementById('svg');
+const world  = document.getElementById('world');
+const tipEl  = document.getElementById('tip');
+let pan = {x:0, y:-55}, zm = 0.48, dragging = false, dl = {x:0,y:0}, dragMoved = false;
+
+function tx() { world.setAttribute('transform',`translate(${pan.x},${pan.y})scale(${zm})`) }
+function doZoom(f) {
+  const cx=innerWidth/2, cy=innerHeight/2;
+  const nz=Math.max(.15,Math.min(3.5,zm*f));
+  pan.x=cx-(cx-pan.x)*(nz/zm); pan.y=cy-(cy-pan.y)*(nz/zm); zm=nz; tx();
+}
+function resetView(){ zm=0.48; pan={x:0,y:-55}; tx() }
+
+svgEl.addEventListener('pointerdown',e=>{
+  if(e.target.closest('.ng'))return;
+  dragging=true; dragMoved=false; dl={x:e.clientX,y:e.clientY}; svgEl.style.cursor='grabbing';
+});
+window.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  const dx=e.clientX-dl.x, dy=e.clientY-dl.y;
+  if(Math.abs(dx)>2||Math.abs(dy)>2) dragMoved=true;
+  pan.x+=dx; pan.y+=dy; dl={x:e.clientX,y:e.clientY}; tx();
+});
+window.addEventListener('pointerup',()=>{ dragging=false; svgEl.style.cursor='grab' });
+svgEl.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const f=e.deltaY<0?1.12:1/1.12;
+  const nz=Math.max(.15,Math.min(3.5,zm*f));
+  pan.x=e.clientX-(e.clientX-pan.x)*(nz/zm);
+  pan.y=e.clientY-(e.clientY-pan.y)*(nz/zm);
+  zm=nz; tx();
+},{passive:false});
+
+svgEl.addEventListener('click',e=>{
+  const ng=e.target.closest('.ng');
+  if(ng){
+    e.stopPropagation();
+    const n=N.find(v=>v.id===ng.dataset.id);
+    if(n&&(CS[n.cat]||1)<=STAGES[cur].mx) showInfo(n);
+    return;
+  }
+  if(!dragMoved) closeInfo();
+});
+svgEl.addEventListener('pointerover',e=>{
+  const ng=e.target.closest('.ng');
+  if(!ng)return;
+  const n=N.find(v=>v.id===ng.dataset.id);
+  if(!n||(CS[n.cat]||1)>STAGES[cur].mx)return;
+  tipEl.textContent=n.desc.substring(0,130)+(n.desc.length>130?'…':'');
+  tipEl.style.opacity=1;
+  tipEl.style.left=(e.clientX+14)+'px';
+  tipEl.style.top=(e.clientY-32)+'px';
+});
+svgEl.addEventListener('pointermove',e=>{
+  if(tipEl.style.opacity==='1'){
+    tipEl.style.left=(e.clientX+14)+'px';
+    tipEl.style.top=(e.clientY-32)+'px';
+  }
+});
+svgEl.addEventListener('pointerout',e=>{
+  if(e.target.closest('.ng')) tipEl.style.opacity=0;
+});
+
+function nById(id){return N.find(v=>v.id===id)}
+
+function edgePath(a,b){
+  const dx=b.x-a.x, dy=b.y-a.y, dist=Math.hypot(dx,dy)||1;
+  const sx=a.x+dx/dist*(a.r+6), sy=a.y+dy/dist*(a.r+6);
+  const ex=b.x-dx/dist*(b.r+14), ey=b.y-dy/dist*(b.r+14);
+  const mx=(sx+ex)/2, my=(sy+ey)/2;
+  const dcx=mx-CX, dcy=my-CY, dl2=Math.hypot(dcx,dcy)||1;
+  const cx2=mx+dcx/dl2*42, cy2=my+dcy/dl2*42;
+  return {d:`M${sx},${sy}Q${cx2},${cy2} ${ex},${ey}`, lx:(cx2+mx)/2, ly:(cy2+my)/2};
+}
+
+function mkEl(tag,attrs){
+  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+
+function render(){
+  world.innerHTML='';
+  const mx=STAGES[cur].mx;
+
+  const defs=mkEl('defs',{});
+  defs.innerHTML=`
+    <marker id="ma"  markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#141413" fill-opacity=".45"/></marker>
+    <marker id="mad" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#141413" fill-opacity=".06"/></marker>
+    <marker id="mar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#b85c5c" fill-opacity=".6"/></marker>
+    <marker id="mao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#d97757" fill-opacity=".55"/></marker>
+    <marker id="mag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="#5a8a6a" fill-opacity=".55"/></marker>`;
+  world.appendChild(defs);
+
+  ZONES.forEach(z=>{
+    const vis=(CS[z.cat]||1)<=mx;
+    const g=mkEl('g',{opacity:vis?1:.04});
+    g.appendChild(mkEl('rect',{x:z.x,y:z.y,width:z.w,height:z.h,rx:16,
+      fill:z.c,'fill-opacity':.05,stroke:z.c,'stroke-opacity':.18,'stroke-width':1.5}));
+    const t=mkEl('text',{x:z.x+16,y:z.y+22,'font-family':'Poppins,sans-serif',
+      'font-size':10,'font-weight':600,fill:z.c,'fill-opacity':.5,'letter-spacing':'1.2'});
+    t.textContent=z.lbl;
+    g.appendChild(t);
+    world.appendChild(g);
+  });
+
+  // Hormuz emphasis ring
+  world.appendChild(mkEl('circle',{cx:990,cy:860,r:220,fill:'#d97757','fill-opacity':.025,
+    stroke:'#d97757','stroke-opacity':.14,'stroke-width':2,'stroke-dasharray':'10,6'}));
+  const hl=mkEl('text',{x:990,y:618,'text-anchor':'middle','font-family':'Poppins,sans-serif',
+    'font-size':10,'font-weight':600,fill:'#d97757','fill-opacity':.4,'letter-spacing':'2.5'});
+  hl.textContent='THE CHOKEPOINT';
+  world.appendChild(hl);
+
+  // Insight callout box
+  const bx=42, by=1630, bw=315, bh=128;
+  world.appendChild(mkEl('rect',{x:bx,y:by,width:bw,height:bh,rx:8,
+    fill:'#141413',stroke:'#d97757','stroke-width':1.5,'stroke-opacity':.4}));
+  [
+    ['SYSTEMIC INSIGHT',           by+26,  'Poppins,sans-serif', 9,  600,'#d97757','1.4', 'normal'],
+    ['"Resilience is not a',       by+52,  'Lora,serif',         13, 400,'#faf9f5','0',   'italic'],
+    ['stockpile. It is an',        by+70,  'Lora,serif',         13, 400,'#faf9f5','0',   'italic'],
+    ['architecture."',             by+88,  'Lora,serif',         13, 600,'#d97757','0',   'italic'],
+    ['— SPP Singapore, Apr 2026',  by+114, 'DM Mono,monospace',  9,  400,'#b0aea5','0.5', 'normal'],
+  ].forEach(([txt,y,ff,fs,fw,fill,ls,fst])=>{
+    const t=mkEl('text',{x:bx+20,y,'font-family':ff,'font-size':fs,'font-weight':fw,
+      fill,'letter-spacing':ls,'font-style':fst});
+    t.textContent=txt;
+    world.appendChild(t);
+  });
+
+  // Edges
+  E.forEach(e=>{
+    const a=nById(e.f), b=nById(e.t);
+    if(!a||!b) return;
+    const vis=e.s<=mx;
+    const {d,lx,ly}=edgePath(a,b);
+    const clr=e.clr||'#141413';
+    let mk=vis?'url(#ma)':'url(#mad)';
+    if(vis){
+      if(clr==='#b85c5c') mk='url(#mar)';
+      else if(clr==='#d97757') mk='url(#mao)';
+      else if(clr==='#5a8a6a') mk='url(#mag)';
+    }
+    const p=mkEl('path',{d,fill:'none',stroke:clr,
+      'stroke-opacity':vis?e.op:.02,'stroke-width':e.w,'marker-end':mk});
+    if(e.d) p.setAttribute('stroke-dasharray','6,4');
+    world.appendChild(p);
+    if(e.lbl&&vis&&e.op>0.38){
+      const tw=e.lbl.length*4.6+14;
+      world.appendChild(mkEl('rect',{x:lx-tw/2,y:ly-8,width:tw,height:16,rx:3,
+        fill:'#EDE8E0','fill-opacity':.92}));
+      const lt=mkEl('text',{x:lx,y:ly+4.5,'text-anchor':'middle',
+        'font-family':'DM Mono,monospace','font-size':8,
+        fill:(clr==='#b85c5c'||clr==='#d97757'||clr==='#5a8a6a')?clr:'#141413',
+        'fill-opacity':clr!=='#141413'?.62:.4});
+      lt.textContent=e.lbl;
+      world.appendChild(lt);
+    }
+  });
+
+  // Nodes
+  N.forEach(n=>{
+    const ns=CS[n.cat]||1;
+    const vis=ns<=mx;
+    const isLev=!!LEVERS[n.id];
+    const g=mkEl('g',{'data-id':n.id,opacity:vis?1:.05});
+    g.classList.add('ng');
+    g.style.pointerEvents=vis?'auto':'none';
+
+    if(isLev&&vis){
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r+14,fill:'none',
+        stroke:'#d97757','stroke-width':2,'stroke-dasharray':'5,4','stroke-opacity':.55}));
+      const pulse=mkEl('circle',{cx:n.x,cy:n.y,r:n.r+14,fill:'none',stroke:'#d97757','stroke-width':1.5});
+      const a1=mkEl('animate',{attributeName:'r',from:String(n.r+14),to:String(n.r+40),dur:'2.3s',repeatCount:'indefinite'});
+      const a2=mkEl('animate',{attributeName:'stroke-opacity',from:'.42',to:'0',dur:'2.3s',repeatCount:'indefinite'});
+      pulse.appendChild(a1); pulse.appendChild(a2); g.appendChild(pulse);
+    }
+
+    g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r+10,fill:'transparent',stroke:'none'}));
+
+    if(n.id==='hormuz'){
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r,fill:'#EDE8E0',stroke:'#d97757','stroke-width':3}));
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r-9,fill:'none',stroke:'#d97757','stroke-width':1,'stroke-opacity':.28}));
+    } else {
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r,fill:'#EDE8E0',
+        stroke:isLev?'#d97757':n.c,'stroke-width':ns===1?2.5:2}));
+    }
+
+    const lines=n.lbl.split('\n');
+    const lbw=Math.max(...lines.map(l=>l.length))*7+12;
+    const lbh=lines.length*15+6;
+    const lby=n.y+n.r+10;
+    g.appendChild(mkEl('rect',{x:n.x-lbw/2,y:lby-2,width:lbw,height:lbh,rx:3,
+      fill:'#EDE8E0','fill-opacity':.88}));
+    lines.forEach((line,i)=>{
+      const t=mkEl('text',{x:n.x,y:lby+12+i*15,'text-anchor':'middle',
+        'font-family':'Poppins,sans-serif','font-size':ns<=1?'11.5':'10.5','font-weight':600,fill:'#141413'});
+      t.textContent=line;
+      g.appendChild(t);
+    });
+    world.appendChild(g);
+  });
+}
+
+function showInfo(n){
+  const cats={conflict:'CONFLICT & BLOCKADE',chokepoint:'CHOKEPOINT',energy:'ENERGY CASCADE',
+    country:'ASEAN COUNTRY',food:'FOOD SYSTEMS',aviation:'AVIATION & TOURISM',
+    transform:'TRANSFORMATION',resilience:'RESILIENCE & PROCUREMENT'};
+  document.getElementById('itag').textContent=cats[n.cat]||'';
+  document.getElementById('itag').style.background=n.c+'18';
+  document.getElementById('itag').style.color=n.c;
+  document.getElementById('iname').textContent=n.lbl.replace(/\n/g,' ');
+  document.getElementById('idesc').textContent=n.desc;
+  const lv=LEVERS[n.id];
+  const el=document.getElementById('ilev');
+  if(lv){
+    el.style.display='block';
+    document.getElementById('ilevt').textContent='⬡ LEVERAGE POINT: '+lv.t;
+    document.getElementById('ilevd').textContent=lv.d;
+  } else { el.style.display='none'; }
+  document.getElementById('ipan').classList.add('vis');
+}
+function closeInfo(){ document.getElementById('ipan').classList.remove('vis') }
+
+function renderStages(){
+  const bar=document.getElementById('stageBar');
+  bar.innerHTML='';
+  STAGES.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='stg'+(i===cur?' on':'');
+    b.innerHTML=`<span class="sn">${s.num}</span><span class="st">${s.name}</span><span class="sd">${s.desc}</span>`;
+    b.onclick=()=>{ cur=i; renderStages(); render() };
+    bar.appendChild(b);
+  });
+}
+
+tx(); renderStages(); render();
+</script>
+</body>
+</html>
