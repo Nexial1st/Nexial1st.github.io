@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cook Islands Fuel Supply System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+:root{--dk:#141413;--lt:#faf9f5;--bg:#EDE8E0;--mid:#b0aea5;--lg:#e8e6dc;--or:#d97757;--bl:#6a9bcc;--gn:#788c5d;--am:#c4956a;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--dk);font-family:'Lora',Georgia,serif;overflow:hidden}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dk);color:var(--lt);padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr h1{font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.9px}
+.sub{font-size:10.5px;color:var(--mid);margin-top:1px}
+.hdr-r{display:flex;align-items:center;gap:14px}
+.brand{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1.5px}
+.hbtn{font-family:'Poppins',sans-serif;font-size:10px;font-weight:500;padding:4px 11px;border-radius:4px;background:transparent;border:1px solid rgba(250,249,245,.25);color:var(--lt);cursor:pointer;transition:all .2s}
+.hbtn:hover{border-color:var(--or);background:rgba(250,249,245,.08)}
+.hbtn.on{background:var(--or);border-color:var(--or)}
+#cvs{position:fixed;top:44px;left:0;right:0;bottom:0;width:100%;height:calc(100vh - 44px);cursor:grab;z-index:1}
+#cvs:active{cursor:grabbing}
+.ipan{position:fixed;top:56px;right:16px;z-index:200;background:rgba(250,249,245,.97);border:1px solid var(--lg);border-radius:8px;padding:18px 20px;width:300px;box-shadow:0 4px 20px rgba(20,20,19,.12);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5}
+.ipan.vis{opacity:1;pointer-events:auto;transform:none}
+.ipan h3{font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.itag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px;display:inline-block}
+.idesc{color:#4a4a46;font-size:12px;line-height:1.5}
+.ifuel{margin-top:8px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)}
+.ilev{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
+.ilev b{font-family:'Poppins',sans-serif;font-size:10.5px;color:var(--or);display:block;margin-bottom:3px}
+.ilev p{font-size:11.5px;color:#5a5a56;line-height:1.45}
+.ix{position:absolute;top:10px;right:12px;cursor:pointer;font-size:18px;color:var(--mid);background:transparent;border:none;font-family:'Poppins',sans-serif}
+.leg{position:fixed;bottom:20px;left:16px;z-index:200;background:rgba(250,249,245,.96);border:1px solid var(--lg);border-radius:7px;padding:12px 15px;font-size:11px;box-shadow:0 2px 10px rgba(20,20,19,.07)}
+.leg h4{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;letter-spacing:.8px;color:var(--mid);margin-bottom:7px}
+.li{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.leg hr{border:none;border-top:1px solid var(--lg);margin:7px 0}
+.ctrl{position:fixed;bottom:20px;right:16px;z-index:200;display:flex;gap:4px}
+.ctrl button{width:30px;height:30px;background:rgba(250,249,245,.96);border:1px solid var(--lg);border-radius:5px;font-size:16px;cursor:pointer;color:var(--dk);display:flex;align-items:center;justify-content:center}
+.tip{position:fixed;pointer-events:none;z-index:300;background:var(--dk);color:var(--lt);font-size:10.5px;padding:5px 9px;border-radius:4px;opacity:0;transition:opacity .12s;max-width:200px;line-height:1.3;font-family:'Lora',serif}
+.ng{cursor:pointer}
+.apan{position:fixed;top:44px;left:0;bottom:0;z-index:210;width:380px;background:rgba(20,20,19,.97);color:var(--lt);padding:28px 26px;overflow-y:auto;transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 24px rgba(20,20,19,.3)}
+.apan.vis{transform:none}
+.apan h2{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:4px}
+.asub{font-size:11px;color:var(--mid);margin-bottom:20px;line-height:1.5}
+.aitem{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(250,249,245,.08)}
+.aitem:last-child{border-bottom:none}
+.albl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--or);margin-bottom:4px}
+.aitem h4{font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.aitem p{font-size:11px;color:rgba(250,249,245,.6);line-height:1.5}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>COOK ISLANDS — FUEL SUPPLY SYSTEM MAP</h1>
+    <div class="sub">Physical fuel flows from origin to end-use &middot; Resilience &amp; decarbonisation</div>
+  </div>
+  <div class="hdr-r">
+    <button class="hbtn" id="anaBtn" onclick="toggleAna()">SYSTEM ANALYSIS</button>
+    <div class="brand">ENZYME CONSULTING</div>
+  </div>
+</div>
+
+<div class="apan" id="apan">
+  <h2>SYSTEM VULNERABILITIES &amp; LEVERAGE POINTS</h2>
+  <div class="asub">Key findings from the Cook Islands fuel supply map, in plain language.</div>
+  <div class="aitem">
+    <div class="albl">VULNERABILITY 01</div>
+    <h4>Everything begins in Singapore</h4>
+    <p>Virtually all petroleum products consumed in the Cook Islands originate from Singapore refineries. Any disruption to Singapore refining capacity, shipping routes, or pricing has immediate and total downstream effects. There is no meaningful alternative upstream source at present.</p>
+  </div>
+  <div class="aitem">
+    <div class="albl">VULNERABILITY 02</div>
+    <h4>Fiji is the only real regional hub</h4>
+    <p>Fiji bulk terminals act as the primary redistribution node for Cook Islands supply. New Zealand provides an alternative corridor, but at smaller volumes. If Fiji terminals face disruption — cyclone, labour dispute, equipment failure — Cook Islands supply is severely compromised within weeks.</p>
+  </div>
+  <div class="aitem">
+    <div class="albl">VULNERABILITY 03</div>
+    <h4>Rarotonga port and storage is a single chokepoint</h4>
+    <p>Avatiu Harbour is the sole commercial port of entry. The bulk storage cluster immediately behind it holds only 30&ndash;60 days of supply under normal demand. A cyclone, a missed tanker shipment, or a storage failure creates an island-wide shortage with no backup.</p>
+  </div>
+  <div class="aitem">
+    <div class="albl">VULNERABILITY 04</div>
+    <h4>Outer islands live at the end of a very long, fragile chain</h4>
+    <p>The northern group atolls receive fuel only in drums, delivered by inter-island vessels that may call monthly or less. Any disruption to Taio Shipping or similar operators leaves communities with no supply at all.</p>
+  </div>
+  <div class="aitem">
+    <div class="albl">VULNERABILITY 05</div>
+    <h4>Global price volatility passes straight through</h4>
+    <p>With no domestic refining, no strategic buffer stock, and long supply chains, Cook Islands consumers absorb global oil price movements in full — amplified by shipping costs. The government carries significant fiscal exposure through fuel subsidies and TAU diesel generation costs.</p>
+  </div>
+  <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(250,249,245,.15)">
+    <h2>LEVERAGE POINTS &#9889;</h2>
+    <div class="asub">Three places to intervene for the greatest systemic effect.</div>
+  </div>
+  <div class="aitem">
+    <div class="albl">LEVERAGE POINT 01</div>
+    <h4>Diversify the supply corridor</h4>
+    <p>Develop direct Singapore&ndash;Rarotonga shipping or expand the NZ corridor. Each additional supply route reduces dependency on any single node and improves negotiating leverage on price.</p>
+  </div>
+  <div class="aitem">
+    <div class="albl">LEVERAGE POINT 02</div>
+    <h4>Increase strategic storage — especially outer islands</h4>
+    <p>Expanding bulk storage at Rarotonga from ~30 to 90+ days transforms resilience. On outer islands, even modest solar-plus-battery microgrids reduce diesel demand enough to cut resupply frequency from monthly to quarterly.</p>
+  </div>
+  <div class="aitem">
+    <div class="albl">LEVERAGE POINT 03</div>
+    <h4>Reduce demand at the power station and in transport</h4>
+    <p>TAU diesel generation is the largest single consumer in the system. Displacing it with solar, wind, and battery storage cuts imports, electricity cost, and carbon exposure. EV adoption and commercial fuel-switching amplifies the effect across the transport segment.</p>
+  </div>
+</div>
+
+<div class="ipan" id="ipan">
+  <button class="ix" onclick="closeInfo()">&#215;</button>
+  <div class="itag" id="itag"></div>
+  <h3 id="iname"></h3>
+  <div class="idesc" id="idesc"></div>
+  <div class="ifuel" id="ifuel"></div>
+  <div class="ilev" id="ilev" style="display:none">
+    <b id="ilevt"></b>
+    <p id="ilevd"></p>
+  </div>
+</div>
+
+<div class="leg">
+  <h4>NODE TYPES</h4>
+  <div class="li"><svg width="16" height="16"><polygon points="8,0 15,4 15,12 8,16 1,12 1,4" fill="rgba(217,119,87,0.18)" stroke="#d97757" stroke-width="1.8"/></svg><span>Refinery / source</span></div>
+  <div class="li"><svg width="16" height="16"><polygon points="8,1 15,8 8,15 1,8" fill="rgba(106,155,204,0.18)" stroke="#6a9bcc" stroke-width="1.8"/></svg><span>Transport mode</span></div>
+  <div class="li"><svg width="16" height="16"><rect x="1" y="3" width="14" height="10" rx="2.5" fill="rgba(196,149,106,0.2)" stroke="#c4956a" stroke-width="1.8"/></svg><span>Bulk storage / terminal</span></div>
+  <div class="li"><svg width="16" height="16"><circle cx="8" cy="8" r="7" fill="rgba(120,140,93,0.18)" stroke="#788c5d" stroke-width="1.8"/></svg><span>End use</span></div>
+  <div class="li"><svg width="16" height="16"><circle cx="8" cy="8" r="7" fill="rgba(176,174,165,0.14)" stroke="#b0aea5" stroke-width="1.8"/></svg><span>Remote / minor node</span></div>
+  <hr>
+  <div class="li"><svg width="28" height="8"><line x1="0" y1="4" x2="21" y2="4" stroke="#141413" stroke-width="2" stroke-opacity=".5"/><polygon points="19,1 27,4 19,7" fill="#141413" fill-opacity=".5"/></svg><span>Primary flow</span></div>
+  <div class="li"><svg width="28" height="8"><line x1="0" y1="4" x2="21" y2="4" stroke="#6a9bcc" stroke-width="1.5" stroke-opacity=".6" stroke-dasharray="5,3"/><polygon points="19,1 27,4 19,7" fill="#6a9bcc" fill-opacity=".6"/></svg><span>Secondary / minor flow</span></div>
+  <hr>
+  <div class="li"><span style="font-size:13px">&#9889;</span><span>Leverage point — click node</span></div>
+</div>
+
+<div class="ctrl">
+  <button onclick="doZoom(1.2)">+</button>
+  <button onclick="doZoom(1/1.2)">&minus;</button>
+  <button onclick="resetView()" style="font-size:13px">&#8634;</button>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<svg id="cvs">
+<defs>
+  <marker id="arr" markerWidth="7" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0,0 7,3 0,6" fill="#141413" fill-opacity=".52"/>
+  </marker>
+  <marker id="arr-bl" markerWidth="7" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0,0 7,3 0,6" fill="#6a9bcc" fill-opacity=".7"/>
+  </marker>
+  <marker id="arr-mid" markerWidth="7" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0,0 7,3 0,6" fill="#b0aea5" fill-opacity=".75"/>
+  </marker>
+</defs>
+<g id="world"></g>
+</svg>
+
+<script>
+var CW = 2700, CH = 960;
+
+var LANES = [
+  { lbl:"GLOBAL / ASIA-PACIFIC",           x:16,   w:440, fill:"rgba(217,119,87,0.05)",   stroke:"rgba(217,119,87,0.22)" },
+  { lbl:"REGIONAL PACIFIC HUBS",            x:456,  w:520, fill:"rgba(106,155,204,0.05)",  stroke:"rgba(106,155,204,0.22)" },
+  { lbl:"COOK ISLANDS — RAROTONGA",    x:976,  w:750, fill:"rgba(120,140,93,0.055)",  stroke:"rgba(120,140,93,0.28)" },
+  { lbl:"COOK ISLANDS — OUTER ISLANDS",x:1726, w:958, fill:"rgba(196,149,106,0.055)", stroke:"rgba(196,149,106,0.28)" }
+];
+
+var N = [
+  {
+    id:"sg_ref", lbl:"Singapore\nRefineries", sublbl:"petrol · diesel · jet · kerosene",
+    type:"refinery", x:228, y:460, r:40,
+    color:"#d97757", fill:"rgba(217,119,87,0.14)",
+    tag:"REFINERY / SOURCE",
+    desc:"Primary upstream source of all petroleum products entering the Cook Islands. Singapore refineries process crude oil into petrol, diesel, jet fuel, and kerosene that then travels across the Pacific.",
+    fuel:"Petrol · Diesel · Jet A-1 · Kerosene",
+    lev:{ title:"⚡ System dependency", text:"High dependency on Singapore as the sole upstream refinery hub. Any refinery disruption, port congestion, or regional shipping disruption affects Cook Islands supply within one shipping cycle." }
+  },
+  {
+    id:"med_tank", lbl:"Medium-range\ntankers", sublbl:"SG → Pacific hubs",
+    type:"transport", x:476, y:315, r:24,
+    color:"#6a9bcc", fill:"rgba(106,155,204,0.15)",
+    tag:"TRANSPORT",
+    desc:"Product tankers (15,000–35,000 DWT) carry refined petroleum from Singapore to bulk terminal hubs across the Pacific. Single voyages take 1–2 weeks. Freight rates and vessel availability directly shape Cook Islands supply cost.",
+    fuel:"Mixed petroleum products",
+    lev:null
+  },
+  {
+    id:"fiji_term", lbl:"Fiji Bulk Terminals", sublbl:"Mobil · BP · others",
+    type:"storage", x:700, y:200, r:0, rw:148, rh:56,
+    color:"#c4956a", fill:"rgba(196,149,106,0.18)",
+    tag:"BULK STORAGE HUB",
+    desc:"Fiji bulk fuel terminals are the primary regional redistribution node for the Pacific. Large tanker deliveries are broken into smaller consignments for onward shipping to Cook Islands and other Pacific nations. Operators include Mobil, BP and others at Suva and Lautoka.",
+    fuel:"Diesel · Petrol · Jet A-1 · Kerosene",
+    lev:{ title:"⚡ Leverage Point 1", text:"Diversifying regional supply hubs — building direct Singapore–Rarotonga shipping or strengthening the NZ corridor — reduces the system's single-point dependency on Fiji terminals." }
+  },
+  {
+    id:"nz_exp", lbl:"New Zealand\nfuel export", sublbl:"isotainers · ship tanks",
+    type:"storage", x:700, y:470, r:0, rw:134, rh:54,
+    color:"#c4956a", fill:"rgba(196,149,106,0.16)",
+    tag:"SECONDARY SOURCE",
+    desc:"New Zealand serves as a secondary supply corridor, exporting diesel and petrol via isotainers and ship tanks. Volumes are smaller than the Fiji route but provide a meaningful alternative when Fiji terminals face disruption.",
+    fuel:"Diesel · Petrol",
+    lev:null
+  },
+  {
+    id:"tahiti", lbl:"Tahiti fuel\nexport", sublbl:"drums for outer islands",
+    type:"minor", x:700, y:720, r:22,
+    color:"#b0aea5", fill:"rgba(176,174,165,0.15)",
+    tag:"MINOR SOURCE",
+    desc:"Small volumes of fuel in drums flow from Tahiti directly to some northern group atolls, bypassing Rarotonga entirely. This route is supplementary and highly variable, dependent on vessel availability and weather.",
+    fuel:"Kerosene · Diesel (drums)",
+    lev:null
+  },
+  {
+    id:"coast_tank", lbl:"Coastal\ntanker", sublbl:"Fiji / NZ → Rarotonga",
+    type:"transport", x:976, y:310, r:24,
+    color:"#6a9bcc", fill:"rgba(106,155,204,0.15)",
+    tag:"TRANSPORT",
+    desc:"Smaller product tankers (1,000–8,000 DWT) operate the Fiji–Rarotonga and NZ–Rarotonga corridors. Voyage frequency is typically monthly or less. A missed sailing creates an immediate supply gap on island.",
+    fuel:"Diesel · Petrol · Jet A-1",
+    lev:null
+  },
+  {
+    id:"raro_port", lbl:"Rarotonga Port\n(Avatiu)", sublbl:"sole national entry point",
+    type:"storage", x:1155, y:365, r:0, rw:138, rh:54,
+    color:"#141413", fill:"rgba(20,20,19,0.09)",
+    tag:"NATIONAL ENTRY POINT",
+    desc:"Avatiu Harbour is the only commercial port of entry for Rarotonga and the primary fuel import point for the entire Cook Islands. Port capacity, vessel draft limits, and seasonal weather windows constrain how frequently tankers can call.",
+    fuel:"All petroleum products",
+    lev:{ title:"⚡ Leverage Point 2", text:"Avatiu port plus the adjacent storage cluster form the system's single chokepoint. Port capacity upgrades, improved vessel scheduling, and emergency reserve provisions are high-leverage resilience investments." }
+  },
+  {
+    id:"raro_storage", lbl:"Rarotonga bulk storage", sublbl:"Toa · Triad · others",
+    type:"storage", x:1370, y:430, r:0, rw:158, rh:58,
+    color:"#c4956a", fill:"rgba(196,149,106,0.2)",
+    tag:"DOMESTIC BULK STORAGE",
+    desc:"A small cluster of private bulk storage tanks near Avatiu holds the island fuel reserves. Operators include Toa and Triad. Total on-island storage capacity is estimated at 30–60 days of normal demand — very limited by international standards for a remote island economy.",
+    fuel:"Diesel · Petrol · Jet A-1 · Kerosene",
+    lev:{ title:"⚡ Leverage Point 2", text:"Increasing on-island strategic reserve capacity from ~30 to 90+ days significantly reduces vulnerability to shipping disruptions, cyclones, and global oil price spikes." }
+  },
+  {
+    id:"road_tank", lbl:"Road tankers", sublbl:"Rarotonga distribution",
+    type:"transport", x:1575, y:365, r:22,
+    color:"#6a9bcc", fill:"rgba(106,155,204,0.15)",
+    tag:"TRANSPORT",
+    desc:"Small fleet of road tankers distributes fuel from the bulk storage cluster to end users across Rarotonga — the power station, airport, service stations, and direct commercial accounts. The last-mile link in the island fuel supply chain.",
+    fuel:"Diesel · Petrol · Jet A-1",
+    lev:null
+  },
+  {
+    id:"tau_power", lbl:"TAU diesel\npower station", sublbl:"Te Aponga Uira",
+    type:"enduse", x:1688, y:168, r:28,
+    color:"#788c5d", fill:"rgba(120,140,93,0.18)",
+    tag:"END USE — POWER GENERATION",
+    desc:"Te Aponga Uira (TAU) operates Rarotonga diesel-fired power station — the largest single fuel consumer on the island. Diesel dependency for power generation represents the highest carbon liability and greatest volume exposure in the entire supply chain.",
+    fuel:"Diesel (high volume)",
+    lev:{ title:"⚡ Leverage Point 3", text:"Displacing TAU diesel generation with solar, wind, and battery storage delivers the fastest demand reduction in the system. Every MWh of renewable generation directly cuts fuel imports and price exposure." }
+  },
+  {
+    id:"raro_airport", lbl:"Rarotonga\nAirport", sublbl:"international + domestic",
+    type:"enduse", x:1688, y:365, r:26,
+    color:"#788c5d", fill:"rgba(120,140,93,0.18)",
+    tag:"END USE — AVIATION",
+    desc:"Rarotonga International Airport requires Jet A-1 fuel for all international and domestic flights. Aviation fuel is stored in dedicated tankage at the airport, supplied by road tanker from the bulk storage cluster.",
+    fuel:"Jet A-1",
+    lev:null
+  },
+  {
+    id:"serv", lbl:"Service stations &\ncommercial users", sublbl:"Rarotonga",
+    type:"enduse", x:1688, y:565, r:26,
+    color:"#788c5d", fill:"rgba(120,140,93,0.18)",
+    tag:"END USE — TRANSPORT & COMMERCE",
+    desc:"Service stations supply petrol and diesel to the public vehicle fleet. Commercial users — resorts, fishing boats, government vehicles, construction — receive direct tanker deliveries. Combined, this segment represents the bulk of petrol demand on Rarotonga.",
+    fuel:"Petrol · Diesel",
+    lev:{ title:"⚡ Leverage Point 3", text:"Accelerating EV adoption and fuel-switching for commercial users (solar thermal, electric water heating) reduces petrol and diesel demand across this segment and improves household energy affordability." }
+  },
+  {
+    id:"inter_island", lbl:"Inter-island\ncargo vessels", sublbl:"e.g. Taio Shipping",
+    type:"transport", x:1800, y:688, r:26,
+    color:"#6a9bcc", fill:"rgba(106,155,204,0.15)",
+    tag:"TRANSPORT — OUTER ISLANDS",
+    desc:"Small inter-island cargo vessels (notably Taio Shipping) carry fuel in isotainers, drums, and small bulk from Rarotonga to the outer islands. Sailing schedules are infrequent — often monthly or less to remote atolls — and vulnerable to cyclone seasons and vessel availability.",
+    fuel:"Diesel · Kerosene · Drums",
+    lev:null
+  },
+  {
+    id:"aitutaki", lbl:"Aitutaki\nbulk storage", sublbl:"southern group",
+    type:"storage", x:2065, y:578, r:0, rw:130, rh:52,
+    color:"#c4956a", fill:"rgba(196,149,106,0.18)",
+    tag:"OUTER ISLAND STORAGE",
+    desc:"Aitutaki, the Cook Islands second-most visited island, has a small bulk storage facility for diesel and kerosene. Resupply depends entirely on inter-island shipping from Rarotonga. Power generation is diesel-fired; a solar-battery microgrid is partially implemented.",
+    fuel:"Diesel · Kerosene",
+    lev:{ title:"⚡ Leverage Point 2+3", text:"Solar-plus-battery systems on Aitutaki drastically reduce diesel import frequency, cutting supply chain fragility and cost simultaneously. Each outer island diesel generator displaced is a compounded resilience gain." }
+  },
+  {
+    id:"north_islands", lbl:"Northern group\natolls", sublbl:"drum supply only",
+    type:"minor", x:2060, y:800, r:24,
+    color:"#b0aea5", fill:"rgba(176,174,165,0.18)",
+    tag:"REMOTE OUTER ISLANDS",
+    desc:"The most remote northern atolls — Pukapuka, Nassau, Rakahanga, Manihiki, Penrhyn — receive fuel only in drums via infrequent inter-island vessels, or occasionally directly from Tahiti. Supply chains are extremely fragile. A single missed vessel can cause prolonged shortage.",
+    fuel:"Kerosene · Diesel (drums)",
+    lev:{ title:"⚡ Leverage Point 2+3", text:"Off-grid renewable energy and solar water heating can dramatically reduce drum fuel dependency for northern atolls — cutting both cost burden and supply risk for the most remote communities." }
+  },
+  {
+    id:"end_users", lbl:"End users", sublbl:"households · hotels · businesses · govt",
+    type:"enduse", x:2340, y:688, r:32,
+    color:"#788c5d", fill:"rgba(120,140,93,0.18)",
+    tag:"END USE — OUTER ISLANDS",
+    desc:"Outer island communities are the final consumers: households, small tourism operations, government facilities, and fishing operations. They face the highest per-litre fuel costs, the longest supply chains, and the greatest vulnerability to global price shocks.",
+    fuel:"Diesel · Kerosene · Petrol",
+    lev:{ title:"⚡ Leverage Point 3", text:"Outer island communities have the most to gain from demand reduction. Renewable energy, solar water heating, and efficient appliances cut household costs and reduce the existential fragility of drum-by-ship supply chains." }
+  }
+];
+
+var E = [
+  { f:"sg_ref",       t:"med_tank",      lbl:"mixed petroleum",             s:"primary",   cv:-40 },
+  { f:"med_tank",     t:"fiji_term",     lbl:"diesel/petrol/jet/kerosene",  s:"primary",   cv:-30 },
+  { f:"med_tank",     t:"nz_exp",        lbl:"diesel/petrol",               s:"secondary", cv:35 },
+  { f:"fiji_term",    t:"coast_tank",    lbl:"diesel/petrol/jet",           s:"primary",   cv:-25 },
+  { f:"nz_exp",       t:"coast_tank",    lbl:"diesel/petrol",               s:"primary",   cv:25 },
+  { f:"coast_tank",   t:"raro_port",     lbl:"mixed petroleum",             s:"primary",   cv:0 },
+  { f:"raro_port",    t:"raro_storage",  lbl:"diesel/petrol/jet",           s:"primary",   cv:22 },
+  { f:"raro_storage", t:"road_tank",     lbl:"diesel/petrol",               s:"primary",   cv:-22 },
+  { f:"road_tank",    t:"tau_power",     lbl:"diesel",                      s:"primary",   cv:-30 },
+  { f:"road_tank",    t:"raro_airport",  lbl:"jet fuel",                    s:"primary",   cv:0 },
+  { f:"road_tank",    t:"serv",          lbl:"petrol/diesel",               s:"primary",   cv:30 },
+  { f:"raro_storage", t:"inter_island",  lbl:"diesel/kerosene",             s:"primary",   cv:55 },
+  { f:"inter_island", t:"aitutaki",      lbl:"diesel/kerosene",             s:"primary",   cv:-28 },
+  { f:"inter_island", t:"north_islands", lbl:"drums",                       s:"primary",   cv:28 },
+  { f:"aitutaki",     t:"end_users",     lbl:"diesel/kerosene",             s:"primary",   cv:-22 },
+  { f:"north_islands",t:"end_users",     lbl:"kerosene/diesel",             s:"primary",   cv:22 },
+  { f:"tahiti",       t:"north_islands", lbl:"drums (direct, low volume)",  s:"minor",     cv:0, arc:true }
+];
+
+var ANN = [
+  { x:36,  y:68, w:220, h:50, txt:"High dependency on Singapore as the sole upstream refinery hub.", ac:"#d97757" },
+  { x:462, y:68, w:232, h:50, txt:"Fiji = primary regional storage and redistribution node for the Pacific.", ac:"#6a9bcc" },
+  { x:988, y:52, w:268, h:58, txt:"Single main port and bulk storage cluster on Rarotonga = system bottleneck.", ac:"#788c5d" },
+  { x:1740,y:52, w:252, h:58, txt:"Outer islands highly dependent on drums and infrequent inter-island sailings.", ac:"#c4956a" },
+  { x:456, y:874,w:560, h:44, txt:"System-wide: Exposure to global oil price volatility and shipping disruptions propagates through every node.", ac:"#b0aea5" }
+];
+
+function se(tag, attrs) {
+  var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  if (attrs) { for (var k in attrs) { el.setAttribute(k, attrs[k]); } }
+  return el;
+}
+
+var world = document.getElementById("world");
+
+// Draw lanes
+for (var li = 0; li < LANES.length; li++) {
+  var ln = LANES[li];
+  var g = se("g");
+  g.appendChild(se("rect", { x:ln.x, y:30, width:ln.w, height:CH-48, rx:8, fill:ln.fill, stroke:ln.stroke, "stroke-width":1.5 }));
+  var t = se("text", { x:ln.x+ln.w/2, y:50, "text-anchor":"middle", "font-family":"Poppins,sans-serif", "font-size":9.5, "font-weight":600, "letter-spacing":1.4, fill:"#141413", "fill-opacity":.36 });
+  t.textContent = ln.lbl;
+  g.appendChild(t);
+  world.appendChild(g);
+}
+
+// Draw annotations
+for (var ai = 0; ai < ANN.length; ai++) {
+  var a = ANN[ai];
+  var g = se("g");
+  g.appendChild(se("rect", { x:a.x, y:a.y, width:a.w, height:a.h, rx:5, fill:"rgba(250,249,245,0.84)", stroke:a.ac, "stroke-width":1, "stroke-opacity":.55 }));
+  g.appendChild(se("rect", { x:a.x, y:a.y, width:3, height:a.h, rx:1.5, fill:a.ac, "fill-opacity":.65 }));
+  var at = se("text", { x:a.x+10, y:a.y+15, "font-family":"Lora,serif", "font-size":9.5, fill:"#4a4a46" });
+  // wrap text manually (simple approach: one line)
+  at.textContent = a.txt;
+  // For longer texts, use foreignObject approach
+  var fo = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+  fo.setAttribute("x", a.x+10);
+  fo.setAttribute("y", a.y+7);
+  fo.setAttribute("width", a.w-16);
+  fo.setAttribute("height", a.h-10);
+  var div = document.createElement("div");
+  div.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+  div.style.fontFamily = "Lora,serif";
+  div.style.fontSize = "9.5px";
+  div.style.lineHeight = "1.45";
+  div.style.color = "#4a4a46";
+  div.textContent = a.txt;
+  fo.appendChild(div);
+  g.appendChild(fo);
+  world.appendChild(g);
+}
+
+// Node edge helper
+function nodeEdge(n, tx, ty) {
+  var dx = tx - n.x, dy = ty - n.y;
+  var dist = Math.sqrt(dx*dx + dy*dy) || 1;
+  var ux = dx/dist, uy = dy/dist;
+  if (n.r > 0) {
+    var er = n.r + 4;
+    return { x: n.x + ux*er, y: n.y + uy*er };
+  } else {
+    var hw = n.rw/2, hh = n.rh/2;
+    var tx2 = ux ? (ux > 0 ? hw : -hw) / ux : 1e9;
+    var ty2 = uy ? (uy > 0 ? hh : -hh) / uy : 1e9;
+    var tmin = Math.min(Math.abs(tx2), Math.abs(ty2));
+    return { x: n.x + ux*(tmin+4), y: n.y + uy*(tmin+4) };
+  }
+}
+
+// Draw edges
+for (var ei = 0; ei < E.length; ei++) {
+  var e = E[ei];
+  var fn = null, tn = null;
+  for (var ni = 0; ni < N.length; ni++) {
+    if (N[ni].id === e.f) fn = N[ni];
+    if (N[ni].id === e.t) tn = N[ni];
+  }
+  if (!fn || !tn) continue;
+
+  var stroke, opacity, dash, marker;
+  if (e.s === "primary")   { stroke="#141413"; opacity=.5;  dash="none"; marker="url(#arr)"; }
+  else if (e.s === "secondary") { stroke="#6a9bcc"; opacity=.62; dash="6,4"; marker="url(#arr-bl)"; }
+  else                     { stroke="#b0aea5"; opacity=.58; dash="5,4"; marker="url(#arr-mid)"; }
+
+  var p1 = nodeEdge(fn, tn.x, tn.y);
+  var p2 = nodeEdge(tn, fn.x, fn.y);
+
+  var pathD;
+  if (e.arc) {
+    pathD = "M"+p1.x+","+p1.y+" C"+(p1.x+300)+","+(p1.y+200)+" "+(p2.x-100)+","+(p2.y+200)+" "+p2.x+","+p2.y;
+  } else {
+    var mx = (p1.x+p2.x)/2, my = (p1.y+p2.y)/2;
+    var ang = Math.atan2(p2.y-p1.y, p2.x-p1.x);
+    var cv = e.cv || 0;
+    var cpx = mx - Math.sin(ang)*cv;
+    var cpy = my + Math.cos(ang)*cv;
+    pathD = "M"+p1.x+","+p1.y+" Q"+cpx+","+cpy+" "+p2.x+","+p2.y;
+  }
+
+  var path = se("path", { d:pathD, fill:"none", stroke:stroke, "stroke-width":1.9, "stroke-opacity":opacity, "stroke-dasharray":dash, "marker-end":marker });
+  world.appendChild(path);
+
+  // Edge label at bezier midpoint
+  var lx, ly;
+  if (e.arc) {
+    lx = (p1.x + p2.x)/2 + 80;
+    ly = (p1.y + p2.y)/2 + 190;
+  } else {
+    var mx2=(p1.x+p2.x)/2, my2=(p1.y+p2.y)/2;
+    var ang2=Math.atan2(p2.y-p1.y,p2.x-p1.x);
+    var cv2=e.cv||0;
+    var cpx2=mx2-Math.sin(ang2)*cv2, cpy2=my2+Math.cos(ang2)*cv2;
+    lx = p1.x*0.25 + cpx2*0.5 + p2.x*0.25;
+    ly = p1.y*0.25 + cpy2*0.5 + p2.y*0.25 - 6;
+  }
+  var lt = se("text", { x:lx, y:ly, "text-anchor":"middle", "font-family":"DM Mono,monospace", "font-size":7.5, "font-style":"italic", fill:"#141413", "fill-opacity":.42 });
+  lt.textContent = e.lbl;
+  world.appendChild(lt);
+}
+
+// Draw nodes
+for (var ni = 0; ni < N.length; ni++) {
+  var n = N[ni];
+  var g = se("g");
+  g.setAttribute("class", "ng");
+  g.setAttribute("id", "nd_"+n.id);
+
+  // Leverage glow
+  if (n.lev) {
+    if (n.r > 0) {
+      g.appendChild(se("circle", { cx:n.x, cy:n.y, r:n.r+10, fill:"none", stroke:"#d97757", "stroke-width":1.4, "stroke-opacity":.35, "stroke-dasharray":"4,3" }));
+    } else {
+      g.appendChild(se("rect", { x:n.x-n.rw/2-8, y:n.y-n.rh/2-8, width:n.rw+16, height:n.rh+16, rx:10, fill:"none", stroke:"#d97757", "stroke-width":1.4, "stroke-opacity":.35, "stroke-dasharray":"5,3" }));
+    }
+  }
+
+  // Shape
+  if (n.type === "refinery") {
+    var pts = [];
+    for (var i=0;i<6;i++) { var a2=Math.PI/3*i-Math.PI/6; pts.push((n.x+n.r*Math.cos(a2))+","+(n.y+n.r*Math.sin(a2))); }
+    g.appendChild(se("polygon", { points:pts.join(" "), fill:n.fill, stroke:n.color, "stroke-width":2.2 }));
+  } else if (n.type === "transport") {
+    var s = n.r * 1.45;
+    g.appendChild(se("polygon", { points:n.x+","+(n.y-s)+" "+(n.x+s)+","+n.y+" "+n.x+","+(n.y+s)+" "+(n.x-s)+","+n.y, fill:n.fill, stroke:n.color, "stroke-width":2 }));
+  } else if (n.type === "storage") {
+    g.appendChild(se("rect", { x:n.x-n.rw/2, y:n.y-n.rh/2, width:n.rw, height:n.rh, rx:7, fill:n.fill, stroke:n.color, "stroke-width":2 }));
+  } else {
+    g.appendChild(se("circle", { cx:n.x, cy:n.y, r:n.r, fill:n.fill, stroke:n.color, "stroke-width":2 }));
+  }
+
+  // Leverage icon
+  if (n.lev) {
+    var ix = n.r>0 ? n.x+n.r-2 : n.x+n.rw/2-2;
+    var iy = n.r>0 ? n.y-n.r+2 : n.y-n.rh/2+2;
+    var levt = se("text", { x:ix, y:iy+13, "text-anchor":"middle", "font-size":13 });
+    levt.textContent = "⚡";
+    g.appendChild(levt);
+  }
+
+  // Labels
+  var lines = n.lbl.split("\n");
+  var lblY = n.r>0 ? n.y+n.r+14 : n.y+n.rh/2+14;
+  for (var li2=0; li2<lines.length; li2++) {
+    var lt2 = se("text", { x:n.x, y:lblY+li2*13, "text-anchor":"middle", "font-family":"Poppins,sans-serif", "font-size":10, "font-weight":600, fill:"#141413", "fill-opacity":.85 });
+    lt2.textContent = lines[li2];
+    g.appendChild(lt2);
+  }
+  if (n.sublbl) {
+    var slt = se("text", { x:n.x, y:lblY+lines.length*13+1, "text-anchor":"middle", "font-family":"DM Mono,monospace", "font-size":8, fill:"#141413", "fill-opacity":.36 });
+    slt.textContent = n.sublbl;
+    g.appendChild(slt);
+  }
+
+  // Hit area
+  if (n.r>0) {
+    g.appendChild(se("circle", { cx:n.x, cy:n.y, r:n.r+8, fill:"transparent", stroke:"none" }));
+  } else {
+    g.appendChild(se("rect", { x:n.x-n.rw/2-8, y:n.y-n.rh/2-8, width:n.rw+16, height:n.rh+16, fill:"transparent", stroke:"none" }));
+  }
+
+  (function(node){
+    g.addEventListener("click", function(ev){ ev.stopPropagation(); showInfo(node); });
+    g.addEventListener("mouseenter", function(ev){ showTip(node.lbl.replace("\n"," "), ev); });
+    g.addEventListener("mouseleave", hideTip);
+  })(n);
+
+  world.appendChild(g);
+}
+
+// Info panel
+function showInfo(n) {
+  document.getElementById("itag").textContent = n.tag;
+  document.getElementById("itag").style.background = n.color+"1a";
+  document.getElementById("itag").style.color = n.color;
+  document.getElementById("iname").textContent = n.lbl.replace("\n"," ");
+  document.getElementById("idesc").textContent = n.desc;
+  var fuelEl = document.getElementById("ifuel");
+  fuelEl.textContent = n.fuel ? "◆ "+n.fuel : "";
+  var ilev = document.getElementById("ilev");
+  if (n.lev) {
+    ilev.style.display = "block";
+    document.getElementById("ilevt").textContent = n.lev.title;
+    document.getElementById("ilevd").textContent = n.lev.text;
+  } else {
+    ilev.style.display = "none";
+  }
+  document.getElementById("ipan").classList.add("vis");
+}
+function closeInfo() { document.getElementById("ipan").classList.remove("vis"); }
+
+// Tooltip
+var tipEl = document.getElementById("tip");
+function showTip(txt, ev) {
+  tipEl.textContent = txt;
+  tipEl.style.left = (ev.clientX+14)+"px";
+  tipEl.style.top  = (ev.clientY-6)+"px";
+  tipEl.style.opacity = 1;
+}
+function hideTip() { tipEl.style.opacity = 0; }
+
+// Analysis panel
+function toggleAna() {
+  var p = document.getElementById("apan");
+  var b = document.getElementById("anaBtn");
+  var open = p.classList.toggle("vis");
+  if (open) b.classList.add("on"); else b.classList.remove("on");
+  if (open) closeInfo();
+}
+
+// Pan / zoom
+var svg = document.getElementById("cvs");
+var vx=0, vy=0, vz=1, drag=null;
+
+function applyT() {
+  document.getElementById("world").setAttribute("transform","translate("+vx+","+vy+") scale("+vz+")");
+}
+function resetView() {
+  var sw=svg.clientWidth, sh=svg.clientHeight;
+  vz = Math.min(sw/CW, sh/CH) * 0.91;
+  vx = (sw - CW*vz)/2;
+  vy = (sh - CH*vz)/2;
+  applyT();
+}
+function doZoom(f) {
+  var sw=svg.clientWidth, sh=svg.clientHeight;
+  vx = sw/2 - (sw/2-vx)*f;
+  vy = sh/2 - (sh/2-vy)*f;
+  vz *= f;
+  applyT();
+}
+
+svg.addEventListener("mousedown", function(e){
+  if (e.target===svg || e.target.id==="world")
+    drag = { ox:e.clientX-vx, oy:e.clientY-vy };
+});
+window.addEventListener("mousemove", function(e){
+  if (drag) { vx=e.clientX-drag.ox; vy=e.clientY-drag.oy; applyT(); }
+  tipEl.style.left=(e.clientX+14)+"px";
+  tipEl.style.top=(e.clientY-6)+"px";
+});
+window.addEventListener("mouseup", function(){ drag=null; });
+svg.addEventListener("wheel", function(e){
+  e.preventDefault();
+  var f=e.deltaY<0?1.12:0.9;
+  vx=e.clientX-(e.clientX-vx)*f;
+  vy=e.clientY-(e.clientY-vy)*f;
+  vz*=f; applyT();
+},{passive:false});
+svg.addEventListener("click", function(e){
+  if (e.target===svg||e.target.id==="world") closeInfo();
+});
+
+window.addEventListener("load", resetView);
+window.addEventListener("resize", resetView);
+</script>
+</body>
+</html>
