@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urak Lawoi Regenerative Hospitality — Systems Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--dk:#1C2B2D;--lt:#F7F3EE;--bg:#E8DDD0;--mid:#6B6560;--lg:#D4CCC4;--rf:#2D5F5D;--tc:#C4622D;--sm:#7BAF9E;--hv:#C9983A;--cr:#5C3D3D;--db:#4A6FA5;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--dk);font-family:'Jost',sans-serif;overflow:hidden}
+
+  .hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dk);color:var(--lt);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .hdr h1{font-family:'Jost',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px}
+  .hdr .sub{font-size:10.5px;color:var(--mid);margin-top:1px;font-family:'Cormorant Garamond',serif;font-style:italic}
+  .hdr-r{display:flex;align-items:center;gap:10px}
+  .hdr .brand{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1.5px;margin-left:4px}
+  .sbtn{font-family:'Jost',sans-serif;font-size:10px;font-weight:500;padding:5px 12px;border-radius:3px;background:0 0;border:1px solid rgba(247,243,238,.22);color:var(--lt);cursor:pointer;letter-spacing:.5px;white-space:nowrap}
+  .sbtn:hover{border-color:var(--tc);background:rgba(247,243,238,.06)}
+  .sbtn.on{background:var(--tc);border-color:var(--tc);color:#fff}
+  .sbtn.loop-btn{border-color:rgba(201,152,58,.5);color:#C9983A}
+  .sbtn.loop-btn.on{background:var(--hv);border-color:var(--hv);color:var(--dk)}
+
+  .stages{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(28,43,45,.97);display:flex}
+  .stg{flex:1;padding:11px 12px;background:0 0;border:none;color:rgba(247,243,238,.32);cursor:pointer;text-align:left;border-top:3px solid transparent;transition:all .22s}
+  .stg:hover{color:rgba(247,243,238,.55);background:rgba(247,243,238,.03)}
+  .stg.on{color:var(--lt);border-top-color:var(--tc);background:rgba(247,243,238,.05)}
+  .stg .sn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;display:block;margin-bottom:2px;opacity:.45}
+  .stg.on .sn{opacity:1;color:var(--tc)}
+  .stg .st{font-family:'Jost',sans-serif;font-size:10.5px;font-weight:600;display:block;margin-bottom:1px}
+  .stg .sd{font-size:9.5px;opacity:.4;display:block;line-height:1.3;font-family:'Cormorant Garamond',serif;font-style:italic}
+  .stg.on .sd{opacity:.65}
+
+  .ipan{position:fixed;top:58px;right:16px;z-index:200;background:rgba(247,243,238,.97);border:1px solid var(--lg);border-radius:7px;padding:18px 20px;width:320px;box-shadow:0 4px 24px rgba(28,43,45,.1);opacity:0;pointer-events:none;transform:translateX(8px);transition:all .2s;line-height:1.5}
+  .ipan.vis{opacity:1;pointer-events:auto;transform:none}
+  .ipan h3{font-family:'Jost',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px;color:var(--dk)}
+  .ipan .itag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px;display:inline-block}
+  .ipan .idesc{color:#4a4844;font-size:12.5px;line-height:1.55;font-family:'Cormorant Garamond',serif}
+  .ipan .ilev{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
+  .ipan .ilev b{font-family:'Jost',sans-serif;font-size:10.5px;color:var(--rf);display:block;margin-bottom:3px}
+  .ipan .ilev p{font-size:12px;color:#5a5754;line-height:1.45;font-family:'Cormorant Garamond',serif}
+  .ipan .iloop{margin-top:10px;padding-top:10px;border-top:1px solid var(--lg)}
+  .ipan .iloop .ltag{font-family:'Jost',sans-serif;font-size:10.5px;font-weight:700;margin-bottom:3px;display:block}
+  .ipan .iloop p{font-size:12px;line-height:1.5;font-family:'Cormorant Garamond',serif;color:#4a4844}
+  .ix{position:absolute;top:10px;right:12px;cursor:pointer;font-size:18px;color:var(--mid);background:0 0;border:none}
+
+  .leg{position:fixed;bottom:84px;left:14px;z-index:200;background:rgba(247,243,238,.95);border:1px solid var(--lg);border-radius:6px;padding:12px 15px;font-size:11px;box-shadow:0 2px 10px rgba(28,43,45,.07);max-width:210px}
+  .leg h4{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:.9px;color:var(--mid);margin-bottom:7px;text-transform:uppercase}
+  .li{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-family:'Jost',sans-serif;font-size:10.5px}
+  .lc{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid}
+  .ld{width:9px;height:9px;transform:rotate(45deg);flex-shrink:0;border:2px solid}
+  .lb{width:16px;height:16px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:7.5px;font-weight:500;color:#fff}
+  .leg hr{border:none;border-top:1px solid var(--lg);margin:7px 0}
+
+  .ctrl{position:fixed;bottom:84px;right:14px;z-index:200;display:flex;gap:4px}
+  .ctrl button{width:32px;height:32px;background:rgba(247,243,238,.95);border:1px solid var(--lg);border-radius:4px;font-size:16px;cursor:pointer;color:var(--dk);display:flex;align-items:center;justify-content:center}
+
+  .tip{position:fixed;pointer-events:none;z-index:300;background:var(--dk);color:var(--lt);font-family:'Jost',sans-serif;font-size:11px;padding:6px 10px;border-radius:4px;opacity:0;transition:opacity .1s;max-width:230px;line-height:1.4}
+
+  .spanel{position:fixed;top:50px;right:0;bottom:68px;z-index:210;width:360px;background:rgba(28,43,45,.97);color:var(--lt);padding:28px 26px;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(28,43,45,.3)}
+  .spanel.vis{transform:none}
+  .spanel h2{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;letter-spacing:.3px;margin-bottom:4px}
+  .spanel .ss{font-size:11.5px;color:var(--mid);margin-bottom:24px;line-height:1.55;font-family:'Cormorant Garamond',serif;font-style:italic}
+  .sevt{display:flex;gap:14px}
+  .stl{display:flex;flex-direction:column;align-items:center;width:18px;flex-shrink:0}
+  .sdot{width:9px;height:9px;border-radius:50%;background:var(--tc);flex-shrink:0;margin-top:3px}
+  .sdot.now{width:11px;height:11px;box-shadow:0 0 0 3px rgba(196,98,45,.3)}
+  .sline{width:1px;flex:1;background:rgba(247,243,238,.1);margin:3px 0}
+  .scon{padding-bottom:20px}
+  .syr{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--tc);margin-bottom:3px}
+  .stt{font-family:'Jost',sans-serif;font-size:12px;font-weight:600;margin-bottom:3px;line-height:1.3}
+  .stx{font-size:11.5px;color:var(--mid);line-height:1.5;font-family:'Cormorant Garamond',serif}
+
+  #svg{position:fixed;top:0;left:0;width:100%;height:100%;cursor:grab;z-index:1}
+  #svg:active{cursor:grabbing}
+  .ng{cursor:pointer}
+  .ng:hover circle,.ng:hover polygon{filter:brightness(.92)}
+  .loopbadge{cursor:pointer}
+  .loopbadge:hover circle{filter:brightness(1.15)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>URAK LAWOI REGENERATIVE HOSPITALITY — PHUKET SYSTEMS MAP</h1>
+    <div class="sub">Culture · Ecology · Procurement · Guest Transformation · Economic Reciprocity</div>
+  </div>
+  <div class="hdr-r">
+    <button class="sbtn loop-btn" id="loopBtn" onclick="toggleLoops()">⟳ SHOW LOOPS</button>
+    <button class="sbtn" id="storyBtn" onclick="toggleStory()">URAK LAWOI CONTEXT</button>
+    <div class="brand">ENZYME CONSULTING</div>
+  </div>
+</div>
+
+<div class="stages" id="stageBar"></div>
+
+<div class="leg">
+  <h4>Node Categories</h4>
+  <div class="li"><div class="lc" style="background:rgba(45,95,93,.1);border-color:var(--rf)"></div><span>Hotel & Programs</span></div>
+  <div class="li"><div class="lc" style="background:rgba(196,98,45,.1);border-color:var(--tc)"></div><span>Urak Lawoi Community</span></div>
+  <div class="li"><div class="lc" style="background:rgba(123,175,158,.1);border-color:var(--sm)"></div><span>Marine Ecosystem</span></div>
+  <div class="li"><div class="lc" style="background:rgba(201,152,58,.1);border-color:var(--hv)"></div><span>Supply Chain / Economic</span></div>
+  <div class="li"><div class="lc" style="background:rgba(74,111,165,.1);border-color:var(--db)"></div><span>Guest Journey</span></div>
+  <div class="li"><div class="lc" style="background:rgba(107,101,96,.1);border-color:var(--mid)"></div><span>Governance</span></div>
+  <div class="li"><div class="lc" style="background:rgba(92,61,61,.1);border-color:var(--cr);border-style:dashed"></div><span>Tension / Risk</span></div>
+  <div class="li"><div class="ld" style="background:rgba(28,43,45,.05);border-color:var(--dk)"></div><span>Enzyme (integrator)</span></div>
+  <hr>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--dk)" stroke-width="2" stroke-opacity=".4"/></svg><span>Physical / economic flow</span></div>
+  <div class="li"><svg width="26" height="8"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--dk)" stroke-width="1.2" stroke-opacity=".3" stroke-dasharray="4,3"/></svg><span>Knowledge / cultural</span></div>
+  <hr>
+  <div class="li"><div class="lb" style="background:var(--tc)">R</div><span>Reinforcing loop — click to isolate</span></div>
+  <div class="li"><div class="lb" style="background:var(--db)">B</div><span>Balancing loop (risk)</span></div>
+</div>
+
+<div class="ipan" id="ipan">
+  <button class="ix" onclick="closeInfo()">&times;</button>
+  <div class="itag" id="itag"></div>
+  <h3 id="iname"></h3>
+  <div class="idesc" id="idesc"></div>
+  <div class="ilev" id="ilev" style="display:none"><b id="ilevt"></b><p id="ilevd"></p></div>
+  <div class="iloop" id="iloop" style="display:none">
+    <span class="ltag" id="ilooptag"></span>
+    <p id="iloopdesc"></p>
+  </div>
+</div>
+
+<div class="ctrl">
+  <button onclick="doZoom(1.25)">+</button>
+  <button onclick="doZoom(1/1.25)">&minus;</button>
+  <button onclick="resetView()" style="font-size:13px">&#8634;</button>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<div class="spanel" id="storyPanel">
+  <h2>The Urak Lawoi: Sea People at the Edge of Tourism</h2>
+  <div class="ss">A 4,000-year-old maritime culture, navigating displacement, and the possibility of regenerative partnership.</div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">DEEP TIME</div><div class="stt">Sea nomads of the Andaman</div><div class="stx">The Urak Lawoi have inhabited the islands and coasts of the Andaman Sea for millennia — fishing, navigating, and managing marine ecosystems with knowledge systems refined over thousands of years. Their traditional ecological knowledge is the most sophisticated marine management tool available for this place.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2004</div><div class="stt">The tsunami — and a rupture</div><div class="stx">The 2004 Indian Ocean tsunami devastated Urak Lawoi coastal settlements. Many survived because their TEK told them the sea was receding before the wave — they moved inland and warned others. The aftermath brought government housing relocations that severed communities from the sea.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">2000s–2010s</div><div class="stt">Land tenure contested</div><div class="stx">Mass tourism development accelerated encroachment on Urak Lawoi land and fishing grounds. Citizenship uncertainty, lack of legal title, and exclusion from planning processes left communities with diminishing economic options and cultural continuity under pressure.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot"></div><div class="sline"></div></div><div class="scon"><div class="syr">NOW</div><div class="stt">The regenerative threshold</div><div class="stx">A new category of hospitality project is becoming viable — not "eco-tourism" but genuine co-evolution. Hotels that build community sovereignty into their governance structure, pay premium procurement prices, fund cultural programs from revenue, and design experiences that transmit knowledge rather than consume it.</div></div></div>
+  <div class="sevt"><div class="stl"><div class="sdot now"></div></div><div class="scon"><div class="syr">DESIGN QUESTION</div><div class="stt">How does the hotel become a platform?</div><div class="stx">Every operational decision — what to serve, what to source, what to show guests, how to price, who governs — can either extract from the Urak Lawoi system or regenerate it. The economic engine is the guest experience: authentic encounter → premium spend → community fund → cultural programs → more authentic content → more premium. This is the flywheel.</div></div></div>
+</div>
+
+<svg id="svg"><g id="world"></g></svg>
+
+<script>
+const CX = 1400, CY = 1060;
+
+// ── NODE DATA ──
+const N = [
+  // CORE HOTEL
+  {id:'hotel', lbl:'Regenerative\nHotel', cat:'core', x:1400, y:1060, r:36, c:'#2D5F5D',
+   desc:'The regenerative hotel is the integrating node — not just a business but a platform for cultural restoration, ecological regeneration, and economic reciprocity. Every operational decision is a regenerative investment. The guest experience generates revenue that circulates back through community and ecology — closing the economic loop.'},
+
+  // HOTEL PROGRAMS
+  {id:'spa', lbl:'Spa & Traditional\nHealing Program', cat:'program', x:1080, y:860, r:28, c:'#2D5F5D',
+   desc:'Urak Lawoi traditional healing practices embedded in the spa program. Local ingredient sourcing — seaweeds, coastal plants, marine minerals — creates supply chain revenue for harvesters. Revenue share with healers and ingredient suppliers creates daily economic reciprocity. Each treatment is a cultural transmission event that guests carry home.'},
+  {id:'fb', lbl:'Food & Beverage\nProgram', cat:'program', x:1080, y:1260, r:28, c:'#2D5F5D',
+   desc:'Traditional Urak Lawoi recipes and cooking methods with sustainable catch from community fishers who receive premium payment for selective fishing. Coastal foraging, sea vegetable sourcing, traditional fermentation. Storytelling dining with community members. The F&B program is the highest-volume daily touchpoint for cultural and economic reciprocity.'},
+  {id:'activities', lbl:'Cultural Activities\n& Experiences', cat:'program', x:1720, y:860, r:26, c:'#2D5F5D',
+   desc:'Boat-building workshops, fishing apprenticeships, language lessons, marine stewardship (coral planting, reef monitoring), craft creation with master artisans, ceremony participation with community consent. Experience design is the primary lever for guest transformation and the engine that makes premium pricing defensible.'},
+  {id:'reef_rest', lbl:'Marine Restoration\nProgram', cat:'program', x:1720, y:1260, r:22, c:'#7BAF9E',
+   desc:'Hotel-funded coral planting, mangrove restoration, and reef monitoring co-managed with Urak Lawoi fishers. Integrates traditional ecological knowledge with contemporary marine science. Creates employment for community marine stewards. Healthy reefs sustain the traditional livelihoods that make cultural programs possible — the ecological-economic loop.'},
+
+  // URAK LAWOI COMMUNITY
+  {id:'elders', lbl:'Elders &\nHealers', cat:'community', x:480, y:780, r:30, c:'#C4622D',
+   desc:'Knowledge custodians of Urak Lawoi culture: traditional healing, navigation, ecological management, ceremony, foodways. The primary source of authentic cultural content. Their authority over engagement protocols is absolute — without their leadership, "authenticity" becomes performance and the entire premium value proposition collapses.'},
+  {id:'fishers', lbl:'Traditional\nFishers', cat:'community', x:280, y:1060, r:26, c:'#C4622D',
+   desc:'Urak Lawoi sea nomads with deep traditional ecological knowledge of Andaman marine systems. Selective, sustainable fishing methods aligned with regenerative procurement. Premium payment contingent on ecological practice standards creates economic incentive for ecological behaviour. Co-managers of marine protected zones.'},
+  {id:'artisans', lbl:'Artisan Makers &\nCraftspeople', cat:'community', x:480, y:1300, r:24, c:'#C4622D',
+   desc:'Traditional boat-builders, weavers, carvers, and material artisans. Craft income supports cultural practice viability. Youth apprenticeships transmit knowledge across generations. Hotel procurement from artisan cooperatives creates stable income that makes cultural continuity an economic choice, not a cultural sacrifice.'},
+  {id:'youth', lbl:'Youth &\nApprentices', cat:'community', x:720, y:1080, r:22, c:'#C4622D',
+   desc:'The at-risk generation. Youth employment in hotel programs, apprenticeships with master artisans and fishers, and language programs create economic pathways that make cultural continuity viable. When youth earn more as cultural practitioners than as unskilled tourism labour, the transmission loop closes itself.'},
+  {id:'guides', lbl:'Cultural Guides &\nKnowledge Keepers', cat:'community', x:720, y:800, r:22, c:'#C4622D',
+   desc:'Community members who mediate between Urak Lawoi culture and guest engagement. Trained by elders, employed by hotel, accountable to community governance. The quality of their work determines the authenticity — and therefore the premium value — of every guest experience. The critical interface between supply chain and guest transformation.'},
+  {id:'comm_fund', lbl:'Community\nStewardship Fund', cat:'supply', x:260, y:1300, r:20, c:'#C9983A',
+   desc:'A community-governed fund receiving a percentage of hotel procurement revenue and guest program fees. Distributes to cultural programs (language, ceremony, craft training) and ecological restoration. Community ownership of this fund is the governance lever that converts hotel revenue into regenerative reinvestment — without it, reciprocity remains charity rather than sovereignty.'},
+
+  // MARINE ECOSYSTEM
+  {id:'coral', lbl:'Coral Reef\nSystem', cat:'ecology', x:940, y:1600, r:28, c:'#7BAF9E',
+   desc:'The biological heart of the Andaman marine system and foundation of Urak Lawoi livelihood and cosmology. Reef health is both ecological and economic indicator — healthy reefs sustain fisheries which sustain livelihoods which sustain cultural practices which generate guest value which funds reef restoration. A closed loop if managed as one.'},
+  {id:'mangroves', lbl:'Mangrove\nForests', cat:'ecology', x:680, y:1720, r:24, c:'#7BAF9E',
+   desc:'Coastal carbon sinks, fishery nurseries, and storm buffers. Traditional Urak Lawoi gathering sites for medicinal plants, construction materials, and food. Mangrove restoration simultaneously addresses carbon, biodiversity, food security, and cultural heritage — among the highest ecological and cultural leverage per hectare restored.'},
+  {id:'fisheries', lbl:'Marine Fisheries\n& Fishing Grounds', cat:'ecology', x:440, y:1580, r:26, c:'#7BAF9E',
+   desc:'Traditional Urak Lawoi fishing grounds held by customary knowledge, not legal title. Co-management agreements between hotel and community create enforceable zones for regenerative fishing practices. Healthy fisheries generate the sustainable catch that supplies F&B, supports fisher livelihoods, and sustains the procurement loop.'},
+  {id:'seagrass', lbl:'Seagrass &\nCoastal Waters', cat:'ecology', x:1140, y:1740, r:18, c:'#7BAF9E',
+   desc:'Seagrass meadows are critical blue carbon ecosystems, food sources, and water quality indicators. Traditional Urak Lawoi knowledge of seasonal seagrass patterns informs responsible foraging. Degraded by coastal development. Seagrass health is an early indicator of overall ecosystem recovery.'},
+
+  // SUPPLY CHAIN
+  {id:'fish_supply', lbl:'Sustainable\nCatch Supply', cat:'supply', x:840, y:1240, r:20, c:'#C9983A',
+   desc:'Direct procurement from Urak Lawoi fishers using selective, low-impact methods. Premium payment contingent on sustainable practice creates economic incentive for ecological behaviour — the rules-level leverage point. Traceability back to specific fisher and method builds the authenticity that justifies premium guest pricing.'},
+  {id:'harvest', lbl:'Wild Harvest\n& Foraging', cat:'supply', x:960, y:760, r:18, c:'#C9983A',
+   desc:'Seasonal gathering of coastal plants, sea vegetables, medicinal herbs, and marine ingredients by traditional harvesters. Governed by traditional ecological knowledge to prevent overharvesting. Supplies spa and F&B programs with authentic, locally-sourced ingredients that carry cultural and ecological story — the provenance that commands premium.'},
+  {id:'craft_supply', lbl:'Craft & Artisan\nMaterials', cat:'supply', x:1100, y:680, r:18, c:'#C9983A',
+   desc:'Natural fibre, wood, shell, and marine materials sourced through artisan cooperatives. Supplies spa, activities, retail, and guest gifts. Procurement contracts create predictable artisan income, enabling practice without volume compromise — the economic stability that allows knowledge transmission rather than production-line craft.'},
+  {id:'farm_supply', lbl:'Local Farm\n& Food Sourcing', cat:'supply', x:900, y:680, r:16, c:'#C9983A',
+   desc:'Complementary sourcing from local Thai farmers using regenerative or organic practices. Fills supply chain gaps without displacing community suppliers. Extends the hotel\'s economic impact into the broader local food system and builds supply resilience that protects the core Urak Lawoi procurement relationships.'},
+
+  // GUEST JOURNEY
+  {id:'guest', lbl:'Guest Experience\n& Transformation', cat:'guest', x:1940, y:1060, r:30, c:'#4A6FA5',
+   desc:'The guest is the economic engine and the cultural ambassador simultaneously. Authentic encounter with Urak Lawoi culture and Andaman ecology creates genuine transformation. Transformed guests spend more, stay longer, return sooner, and refer better. Their premium spend is what funds community programs and ecological restoration — closing the economic loop.'},
+  {id:'pre_arrival', lbl:'Pre-Arrival\nEngagement', cat:'guest', x:1940, y:780, r:20, c:'#4A6FA5',
+   desc:'Pre-departure communication primes guests for meaningful engagement: Urak Lawoi cultural context, marine ecosystem conditions, ways to participate rather than observe. Primed guests arrive with higher engagement intent, spend more on cultural experiences, and leave with deeper transformation — amplifying every downstream loop.'},
+  {id:'post_depart', lbl:'Post-Departure\nStorytelling', cat:'guest', x:2180, y:1060, r:22, c:'#4A6FA5',
+   desc:'The guest\'s home community is where stories travel and influence spreads. Post-departure connection — ecosystem updates, cultural news, ongoing relationship with specific community members — keeps engagement alive. Connected guests become advocates, donors, and return visitors. The story is the most valuable asset the guest carries.'},
+  {id:'return_adv', lbl:'Return Visitors\n& Advocates', cat:'guest', x:2180, y:800, r:20, c:'#4A6FA5',
+   desc:'Return visitors are the most economically valuable guests. They arrive with deeper cultural literacy, spend more freely, stay longer, and bring self-selected friends. Over multiple visits, they become genuine stakeholders who care about system outcomes, fund community projects, and advocate outside their immediate network.'},
+  {id:'home_comm', lbl:'Home Communities\n& Word of Mouth', cat:'guest', x:2380, y:940, r:18, c:'#4A6FA5',
+   desc:'Every departure releases a story. Values-aligned referrals attract the right next cohort — people predisposed to engage deeply and spend in ways that support the system. The quality of referral determines the quality of the next guest. The loop is self-selecting: authentic experience attracts guests who value authenticity.'},
+
+  // GOVERNANCE
+  {id:'thai_gov', lbl:'Thai Government\n& Indigenous Policy', cat:'governance', x:1000, y:280, r:22, c:'#6B6560',
+   desc:'Thai government policy shapes land tenure, indigenous rights, and tourism regulation — with significant ambiguity around Urak Lawoi citizenship and community authority. Policy reform advocacy is part of the regenerative project. Key agencies: Department of National Parks, Ministry of Tourism, Ministry of Interior.'},
+  {id:'land_tenure', lbl:'Land Tenure\n& Citizenship', cat:'tension', x:760, y:380, r:20, c:'#5C3D3D',
+   desc:'CRITICAL TENSION NODE. Urak Lawoi face contested land rights, citizenship insecurity, and displacement pressure from tourism development. Without legal tenure security, community sovereignty is fragile. Any regenerative project must actively support land rights resolution — not merely benefit from community participation while leaving the structural vulnerability intact.'},
+  {id:'certification', lbl:'GSTC / The Long Run\nCertification', cat:'governance', x:1280, y:280, r:22, c:'#6B6560',
+   desc:'The Long Run\'s 4C model (Conservation, Community, Culture, Commerce) is directly aligned with this project\'s goals. Certification provides external verification of regenerative performance, enables premium positioning, attracts values-aligned guests, and creates accountability structures that protect community interests over time.'},
+  {id:'phuket_tour', lbl:'Phuket Mass Tourism\nEcosystem', cat:'governance', x:1560, y:280, r:20, c:'#6B6560',
+   desc:'Phuket\'s mass tourism infrastructure — dominated by package tourism, price competition, and extractive development — is both context and contrast. The regenerative hotel positions against this system. Phuket\'s reputation for overtourism creates a strong differentiation opportunity for authentic, community-led, ecological experiences.'},
+
+  // GREATER WHOLE
+  {id:'andaman', lbl:'Andaman Sea\nRegional Ecology', cat:'context', x:380, y:400, r:18, c:'#7BAF9E',
+   desc:'The Andaman Sea is one of Asia\'s most biodiverse marine environments — and one of the most threatened. Coral bleaching, overfishing, and coastal development are accelerating. This hotel project is a small but symbolically important node in a regional conservation story. What happens here can be replicated.'},
+  {id:'climate', lbl:'Climate &\nSea Level Risk', cat:'context', x:220, y:620, r:16, c:'#5C3D3D',
+   desc:'Climate change is both a threat driver — bleaching, storm intensity, sea level rise — and a sense-making frame that attracts values-aligned guests. Urak Lawoi TEK developed over generations of adaptation to a changing Andaman Sea: their traditional knowledge is itself a climate resilience resource that guests pay to access.'},
+  {id:'tlek', lbl:'Traditional Ecological\nKnowledge (TEK)', cat:'context', x:620, y:540, r:20, c:'#C4622D',
+   desc:'Urak Lawoi TEK is the most sophisticated marine ecosystem management system available for this place — navigation by stars and current, seasonal fishing calendars, species indicators, coral knowledge, traditional healing pharmacopoeia. TEK integration in program design is ethically required and ecologically superior. It is also the source of the authenticity that drives guest transformation and premium pricing.'},
+  {id:'global_vis', lbl:'Source Market\nVisitors', cat:'context', x:2380, y:680, r:18, c:'#4A6FA5',
+   desc:'Visitors from Europe, Australia, North America, and Singapore bring sustainability expectations that support premium positioning. Growing segment of regenerative travellers willing to pay significantly more for genuine over performative. The values gap between regenerative guests and mass-market tourists is the pricing lever.'},
+
+  // ENZYME
+  {id:'enzyme', lbl:'Enzyme\nConsulting', cat:'enzyme', x:200, y:220, r:24, c:'#1C2B2D', diamond:true,
+   desc:'System integrator and regenerative design advisor. Enzyme designs the framework, maps the system, facilitates co-creation with the Urak Lawoi community, connects certification frameworks, structures the procurement policy that closes the economic loop, and supports hotel operators in building genuine reciprocal relationships.'},
+];
+
+// ── EDGE DATA ──
+// s = stage visibility. d = dashed. clr = override colour. w = weight. op = opacity.
+const E = [
+  // CORE HOTEL ↔ PROGRAMS (s:1)
+  {f:'hotel',t:'spa',          lbl:'healing knowledge',       w:2.5, op:.55, d:0, s:1},
+  {f:'hotel',t:'fb',           lbl:'culinary heritage',       w:2.5, op:.55, d:0, s:1},
+  {f:'hotel',t:'activities',   lbl:'experience design',       w:2.5, op:.55, d:0, s:1},
+  {f:'hotel',t:'reef_rest',    lbl:'restoration funding',     w:2,   op:.5,  d:0, s:1},
+  // PROGRAMS ↔ COMMUNITY (s:1)
+  {f:'spa',t:'elders',         lbl:'healing protocols',       w:2.2, op:.55, d:0, s:1, clr:'#C4622D'},
+  {f:'fb',t:'fishers',         lbl:'sustainable catch demand',w:2.2, op:.55, d:0, s:1, clr:'#C4622D'},
+  {f:'fb',t:'elders',          lbl:'culinary knowledge',      w:1.8, op:.45, d:1, s:1, clr:'#C4622D'},
+  {f:'activities',t:'guides',  lbl:'co-deliver',              w:2.2, op:.55, d:0, s:1, clr:'#C4622D'},
+  {f:'activities',t:'youth',   lbl:'apprenticeships',         w:1.8, op:.45, d:0, s:1, clr:'#C4622D'},
+  {f:'activities',t:'artisans',lbl:'craft workshops',         w:1.8, op:.45, d:0, s:1, clr:'#C4622D'},
+  {f:'reef_rest',t:'fishers',  lbl:'co-management',           w:1.8, op:.45, d:0, s:1, clr:'#7BAF9E'},
+  // COMMUNITY INTERNAL (s:1)
+  {f:'elders',t:'guides',      lbl:'cultural authority',      w:1.5, op:.4,  d:0, s:1, clr:'#C4622D'},
+  {f:'elders',t:'youth',       lbl:'knowledge transmission',  w:1.8, op:.5,  d:0, s:1, clr:'#C4622D'},
+  {f:'elders',t:'artisans',    lbl:'craft knowledge',         w:1.3, op:.35, d:1, s:1, clr:'#C4622D'},
+  {f:'fishers',t:'youth',      lbl:'fishing apprenticeship',  w:1.5, op:.4,  d:1, s:1, clr:'#C4622D'},
+  // COMMUNITY ↔ ECOLOGY (s:1)
+  {f:'fishers',t:'fisheries',  lbl:'regenerative practice',   w:2,   op:.5,  d:0, s:1, clr:'#7BAF9E'},
+  {f:'reef_rest',t:'coral',    lbl:'coral planting',          w:2,   op:.5,  d:0, s:1, clr:'#7BAF9E'},
+  {f:'reef_rest',t:'mangroves',lbl:'restoration',             w:1.8, op:.45, d:0, s:1, clr:'#7BAF9E'},
+  {f:'coral',t:'fisheries',    lbl:'reef→fish habitat',       w:1.5, op:.4,  d:0, s:1, clr:'#7BAF9E'},
+  {f:'mangroves',t:'fisheries',lbl:'nursery habitat',         w:1.5, op:.4,  d:1, s:1, clr:'#7BAF9E'},
+
+  // SUPPLY CHAIN / ECONOMIC FLOWS (s:2)
+  // --- THE ECONOMIC ENGINE EDGE: guest spend flows back to hotel ---
+  {f:'guest',t:'hotel',        lbl:'premium spend',           w:3,   op:.6,  d:0, s:2, clr:'#C9983A'},
+  // Supply chain flows
+  {f:'fishers',t:'fish_supply',lbl:'selective fishing',       w:2,   op:.5,  d:0, s:2, clr:'#C9983A'},
+  {f:'fish_supply',t:'fb',     lbl:'daily catch',             w:2,   op:.5,  d:0, s:2, clr:'#C9983A'},
+  {f:'elders',t:'harvest',     lbl:'foraging knowledge',      w:1.5, op:.4,  d:1, s:2, clr:'#C9983A'},
+  {f:'harvest',t:'spa',        lbl:'wild botanicals',         w:1.8, op:.45, d:0, s:2, clr:'#C9983A'},
+  {f:'harvest',t:'fb',         lbl:'sea vegetables',          w:1.5, op:.4,  d:0, s:2, clr:'#C9983A'},
+  {f:'artisans',t:'craft_supply',lbl:'craft production',      w:1.8, op:.45, d:0, s:2, clr:'#C9983A'},
+  {f:'craft_supply',t:'spa',   lbl:'materials + fit-out',     w:1.5, op:.4,  d:0, s:2, clr:'#C9983A'},
+  {f:'craft_supply',t:'activities',lbl:'workshop materials',  w:1.5, op:.4,  d:0, s:2, clr:'#C9983A'},
+  {f:'farm_supply',t:'fb',     lbl:'local produce',           w:1.3, op:.35, d:1, s:2, clr:'#C9983A'},
+  // Community fund reciprocity loop
+  {f:'hotel',t:'comm_fund',    lbl:'% revenue to fund',       w:2.8, op:.65, d:0, s:2, clr:'#C9983A'},
+  {f:'comm_fund',t:'elders',   lbl:'cultural programs',       w:2.2, op:.55, d:0, s:2, clr:'#C9983A'},
+  {f:'comm_fund',t:'youth',    lbl:'apprenticeship funding',  w:2,   op:.5,  d:0, s:2, clr:'#C9983A'},
+  {f:'comm_fund',t:'reef_rest',lbl:'ecological funding',      w:1.8, op:.45, d:0, s:2, clr:'#C9983A'},
+  // Economic outcome → more authentic supply
+  {f:'elders',t:'guides',      lbl:'richer cultural content', w:1.5, op:.4,  d:0, s:2, clr:'#C4622D'},
+  {f:'guides',t:'activities',  lbl:'authentic delivery',      w:2,   op:.5,  d:0, s:2, clr:'#C4622D'},
+
+  // GUEST TRANSFORMATION LOOP (s:3)
+  {f:'pre_arrival',t:'guest',  lbl:'primed for depth',        w:1.8, op:.45, d:0, s:3, clr:'#4A6FA5'},
+  {f:'hotel',t:'guest',        lbl:'transformative encounter',w:2.5, op:.6,  d:0, s:3, clr:'#4A6FA5'},
+  {f:'guest',t:'post_depart',  lbl:'carries the story',       w:2,   op:.5,  d:0, s:3, clr:'#4A6FA5'},
+  {f:'post_depart',t:'return_adv',lbl:'deepened relationship',w:1.8, op:.45, d:0, s:3, clr:'#4A6FA5'},
+  {f:'return_adv',t:'hotel',   lbl:'return + referral',       w:2.2, op:.55, d:0, s:3, clr:'#4A6FA5'},
+  {f:'return_adv',t:'home_comm',lbl:'word-of-mouth',          w:1.8, op:.45, d:0, s:3, clr:'#4A6FA5'},
+  {f:'home_comm',t:'pre_arrival',lbl:'values-aligned referrals',w:1.8,op:.45,d:0,s:3,clr:'#4A6FA5'},
+  {f:'global_vis',t:'pre_arrival',lbl:'source market pull',   w:1.3, op:.35, d:1, s:3, clr:'#4A6FA5'},
+  {f:'activities',t:'guest',   lbl:'deep participation',      w:1.5, op:.4,  d:0, s:3},
+  {f:'spa',t:'guest',          lbl:'embodied wellness',       w:1.3, op:.35, d:0, s:3},
+  {f:'fb',t:'guest',           lbl:'cultural dining',         w:1.3, op:.35, d:0, s:3},
+
+  // GREATER WHOLE / GOVERNANCE (s:4)
+  {f:'thai_gov',t:'land_tenure',lbl:'citizenship policy',     w:1.5, op:.4,  d:0, s:4, clr:'#6B6560'},
+  {f:'thai_gov',t:'phuket_tour',lbl:'tourism regulation',     w:1.3, op:.35, d:1, s:4, clr:'#6B6560'},
+  {f:'land_tenure',t:'comm_fund',lbl:'tenure enables sovereignty',w:1.5,op:.4,d:1,s:4,clr:'#5C3D3D'},
+  {f:'land_tenure',t:'fisheries',lbl:'customary rights',      w:1.3, op:.35, d:1, s:4, clr:'#5C3D3D'},
+  {f:'certification',t:'hotel',lbl:'4C framework',            w:1.5, op:.4,  d:0, s:4, clr:'#6B6560'},
+  {f:'phuket_tour',t:'home_comm',lbl:'destination contrast',  w:1.2, op:.28, d:1, s:4, clr:'#6B6560'},
+  {f:'andaman',t:'coral',      lbl:'regional ecology',        w:1.3, op:.35, d:1, s:4, clr:'#7BAF9E'},
+  {f:'climate',t:'coral',      lbl:'bleaching threat',        w:1.5, op:.4,  d:0, s:4, clr:'#5C3D3D'},
+  {f:'climate',t:'fisheries',  lbl:'ecosystem disruption',    w:1.2, op:.28, d:1, s:4, clr:'#5C3D3D'},
+  {f:'tlek',t:'elders',        lbl:'embodied in custodians',  w:1.5, op:.4,  d:0, s:4, clr:'#C4622D'},
+  {f:'tlek',t:'reef_rest',     lbl:'guides restoration',      w:1.5, op:.4,  d:0, s:4, clr:'#7BAF9E'},
+  {f:'tlek',t:'fishers',       lbl:'navigational + ecological',w:1.5,op:.4,  d:1, s:4, clr:'#C4622D'},
+  {f:'global_vis',t:'home_comm',lbl:'source market',          w:1.2, op:.28, d:1, s:4, clr:'#4A6FA5'},
+  // ENZYME (s:4)
+  {f:'enzyme',t:'hotel',       lbl:'systems design',          w:2,   op:.55, d:0, s:4, clr:'#2D5F5D'},
+  {f:'enzyme',t:'certification',lbl:'framework navigation',   w:1.5, op:.45, d:0, s:4, clr:'#2D5F5D'},
+  {f:'enzyme',t:'thai_gov',    lbl:'policy engagement',       w:1.3, op:.38, d:1, s:4, clr:'#2D5F5D'},
+  {f:'enzyme',t:'comm_fund',   lbl:'governance design',       w:1.5, op:.45, d:0, s:4, clr:'#2D5F5D'},
+];
+
+// ── REINFORCING & BALANCING LOOPS ──
+// Edges listed as 'from→to' keys matching the E array for highlighting
+const LOOPS = [
+  {
+    id:'R1', x:1560, y:950, clr:'#C4622D', type:'R',
+    name:'Experience → Revenue → Authenticity Flywheel',
+    desc:'Guest engagement generates premium spending. That spending funds cultural programs through the community stewardship fund. Funded programs strengthen Urak Lawoi guides, healers, and artisans. Stronger practitioners create richer, more authentic experiences. Richer experiences attract more premium spending. The loop is self-reinforcing: every dollar spent on authentic experience produces more authentic experience.',
+    edges:['hotel→guest','activities→guest','spa→guest','fb→guest','guest→hotel','hotel→comm_fund','comm_fund→elders','elders→guides','guides→activities'],
+    stage_min: 2
+  },
+  {
+    id:'R2', x:790, y:1020, clr:'#C4622D', type:'R',
+    name:'Procurement → Culture → Ecology → Supply Loop',
+    desc:'Hotel procurement from Urak Lawoi fishers and artisans generates fair income. Fair income makes cultural practice economically viable — fishers don\'t need to fish destructively, artisans don\'t need factory conditions. Viable cultural practice produces the supply chain that delivers authentic ingredients and craft to hotel programs. Authentic programs justify premium pricing. Premium pricing grows the procurement budget. The loop closes: every procurement decision is a regenerative investment.',
+    edges:['hotel→comm_fund','comm_fund→elders','elders→artisans','artisans→craft_supply','craft_supply→spa','spa→guest','guest→hotel','fishers→fish_supply','fish_supply→fb','fb→guest'],
+    stage_min: 2
+  },
+  {
+    id:'R3', x:2270, y:870, clr:'#C4622D', type:'R',
+    name:'Return Visitor & Referral Flywheel',
+    desc:'Transformed guests tell stories in their home communities. Their stories attract values-aligned referrals — people pre-disposed to engage deeply. Pre-primed guests arrive with higher engagement intent, generate deeper transformation, tell better stories, and attract more aligned referrals. Each cycle improves the cohort quality: the system self-selects for guests who value authenticity, spend generously, and become long-term advocates.',
+    edges:['guest→post_depart','post_depart→return_adv','return_adv→home_comm','home_comm→pre_arrival','pre_arrival→guest','return_adv→hotel'],
+    stage_min: 3
+  },
+  {
+    id:'R4', x:580, y:1380, clr:'#7BAF9E', type:'R',
+    name:'Ecological Health → Livelihood → Procurement Loop',
+    desc:'Regenerative fishing procurement creates economic incentive for selective fishing. Selective fishing allows reef and fish stock recovery. Healthier fisheries produce more sustainable yield — more fish, better quality, more diversity. Better quality catch supplies a more compelling F&B program. A more compelling F&B program justifies premium pricing. Premium pricing grows procurement revenue. The ecological health of the Andaman Sea becomes economically self-reinforcing through the hotel\'s supply chain.',
+    edges:['fishers→fish_supply','fish_supply→fb','fb→guest','guest→hotel','hotel→comm_fund','comm_fund→reef_rest','reef_rest→coral','coral→fisheries','fisheries→fishers','reef_rest→fishers'],
+    stage_min: 2
+  },
+  {
+    id:'R5', x:630, y:960, clr:'#C4622D', type:'R',
+    name:'Youth Employment → Cultural Continuity Loop',
+    desc:'Community fund investment in apprenticeships creates employment pathways for youth in traditional practices. Youth learning alongside elders transmits cultural knowledge across generations. Stronger inter-generational transmission produces more knowledgeable young guides, fishers, and artisans. More skilled cultural practitioners deliver richer experiences. Richer experiences generate more hotel revenue. More revenue flows into the community fund. More fund → more apprenticeships. Cultural continuity becomes economically self-reinforcing.',
+    edges:['comm_fund→youth','elders→youth','comm_fund→elders','youth→guides','guides→activities','activities→guest','guest→hotel','hotel→comm_fund'],
+    stage_min: 2
+  },
+  {
+    id:'B1', x:1820, y:870, clr:'#4A6FA5', type:'B',
+    name:'Commodification Risk — Authenticity Erosion',
+    desc:'BALANCING LOOP — RISK. As guest volume grows, pressure to scale and standardise experiences increases. Scaled experiences can become performative — scripted, sanitised, divorced from living cultural practice. As authenticity erodes, the premium value proposition weakens. Values-aligned guests stop coming. Revenue falls. The programs that funded cultural viability lose funding. Cultural practice weakens further. The loop can spiral downward as fast as it spiralled up. Community governance over experience design is the circuit-breaker: the Urak Lawoi must retain authority over what is shared and how.',
+    edges:['hotel→guest','activities→guest','hotel→activities','guest→post_depart'],
+    stage_min: 3
+  },
+];
+
+// ── LEVERAGE POINTS ──
+const LEVERS = {
+  guest:      {t:'Experiential Education — Meadows L6',      d:'Information Flow. Authentic encounter with Urak Lawoi culture changes beliefs, values, and travel behaviour. Transformed guests drive every positive economic loop in the system — premium spend, return visits, referrals.'},
+  fish_supply:{t:'Procurement as Regeneration — Meadows L5', d:'Rules. Premium payment contingent on regenerative practice changes economic incentives across the supply chain. The most direct mechanism for converting hotel spend into ecological restoration.'},
+  comm_fund:  {t:'Community Ownership Structures — Meadows L3', d:'Goals. Community-governed revenue distribution shifts the system goal from profit extraction to regenerative reinvestment. Without this, reciprocity is charity — not sovereignty.'},
+  activities: {t:'Integrated Program Design — Meadows L6',   d:'Information Flows. When spa, F&B, and activities all embed Urak Lawoi knowledge and supply chains, every guest touchpoint becomes a cultural transmission opportunity and an economic reciprocity event.'},
+  land_tenure:{t:'Land Rights Resolution — Meadows L2',      d:'Paradigm. Without secure tenure, the community cannot be genuine co-owners of the regenerative project. The deepest leverage point — the structural condition that shapes all other relationships.'},
+  tlek:       {t:'Traditional Ecological Knowledge — Meadows L3', d:'Goals. TEK is the most sophisticated marine ecosystem management system available for this place. Embedding it in program design and procurement protocols unlocks ecological outcomes no external science can replicate.'},
+};
+
+const STAGES = [
+  {num:'',   name:'FULL MAP',            desc:'All relationships visible',                                         mx:99},
+  {num:'01', name:'REGENERATION CORE',   desc:'Hotel × Community × Ecology — the living relationships',           mx:1},
+  {num:'02', name:'PROCUREMENT ENGINE',  desc:'Supply chains, economic flows, community fund reciprocity',         mx:2},
+  {num:'03', name:'GUEST TRANSFORMATION',desc:'Experience loop → premium spend → storytelling → return → advocacy',mx:3},
+  {num:'04', name:'THE GREATER WHOLE',   desc:'Governance, TEK, climate, regional ecology, global context',        mx:4},
+];
+
+const CS = {core:1, program:1, community:1, ecology:1, supply:2, guest:3, governance:4, tension:4, context:4, enzyme:4};
+
+const ZONES = [
+  {lbl:'URAK LAWOI COMMUNITY',       c:'#C4622D', x:180,  y:640,  w:640, h:780, cat:'community'},
+  {lbl:'MARINE ECOSYSTEM',           c:'#7BAF9E', x:340,  y:1500, w:920, h:320, cat:'ecology'},
+  {lbl:'HOTEL PROGRAMS',             c:'#2D5F5D', x:980,  y:760,  w:860, h:620, cat:'program'},
+  {lbl:'GUEST JOURNEY',              c:'#4A6FA5', x:1840, y:700,  w:640, h:480, cat:'guest'},
+  {lbl:'GOVERNANCE & CERTIFICATION', c:'#6B6560', x:680,  y:200,  w:1080,h:280, cat:'governance'},
+];
+
+let cur = 0, storyOn = false, loopsOn = false, selectedLoop = null;
+const svgEl = document.getElementById('svg');
+const world  = document.getElementById('world');
+const tipEl  = document.getElementById('tip');
+let pan = {x:20, y:-100}, zm = 0.50, dragging = false, dl = {x:0,y:0}, dragMoved = false;
+
+function tx() { world.setAttribute('transform',`translate(${pan.x},${pan.y})scale(${zm})`) }
+function doZoom(f) {
+  const cx=innerWidth/2, cy=innerHeight/2, nz=Math.max(.15,Math.min(3.5,zm*f));
+  pan.x=cx-(cx-pan.x)*(nz/zm); pan.y=cy-(cy-pan.y)*(nz/zm); zm=nz; tx();
+}
+function resetView() { zm=0.50; pan={x:20,y:-100}; tx(); }
+
+svgEl.addEventListener('pointerdown',e=>{
+  if(e.target.closest('.ng')||e.target.closest('.loopbadge')) return;
+  dragging=true; dragMoved=false; dl={x:e.clientX,y:e.clientY}; svgEl.style.cursor='grabbing';
+});
+window.addEventListener('pointermove',e=>{
+  if(!dragging) return;
+  const dx=e.clientX-dl.x, dy=e.clientY-dl.y;
+  if(Math.abs(dx)>2||Math.abs(dy)>2) dragMoved=true;
+  pan.x+=dx; pan.y+=dy; dl={x:e.clientX,y:e.clientY}; tx();
+});
+window.addEventListener('pointerup',()=>{ dragging=false; svgEl.style.cursor='grab'; });
+svgEl.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const f=e.deltaY<0?1.12:1/1.12, nz=Math.max(.15,Math.min(3.5,zm*f));
+  pan.x=e.clientX-(e.clientX-pan.x)*(nz/zm);
+  pan.y=e.clientY-(e.clientY-pan.y)*(nz/zm);
+  zm=nz; tx();
+},{passive:false});
+
+svgEl.addEventListener('click',e=>{
+  const lb=e.target.closest('.loopbadge');
+  if(lb){ e.stopPropagation(); handleLoopClick(lb.dataset.id); return; }
+  const ng=e.target.closest('.ng');
+  if(ng){ e.stopPropagation(); const n=N.find(v=>v.id===ng.dataset.id); if(n&&(CS[n.cat]||1)<=STAGES[cur].mx){ selectedLoop=null; render(); showInfo(n); } return; }
+  if(!dragMoved){ selectedLoop=null; closeInfo(); render(); }
+});
+svgEl.addEventListener('pointerover',e=>{
+  const ng=e.target.closest('.ng'); if(!ng) return;
+  const n=N.find(v=>v.id===ng.dataset.id);
+  if(!n||(CS[n.cat]||1)>STAGES[cur].mx) return;
+  tipEl.textContent=n.desc.substring(0,110)+(n.desc.length>110?'…':'');
+  tipEl.style.opacity=1; tipEl.style.left=(e.clientX+14)+'px'; tipEl.style.top=(e.clientY-32)+'px';
+});
+svgEl.addEventListener('pointermove',e=>{ if(tipEl.style.opacity==='1'){tipEl.style.left=(e.clientX+14)+'px';tipEl.style.top=(e.clientY-32)+'px';} });
+svgEl.addEventListener('pointerout',e=>{ if(e.target.closest('.ng')) tipEl.style.opacity=0; });
+
+function nById(id){return N.find(v=>v.id===id)}
+
+function edgePath(a,b){
+  const dx=b.x-a.x, dy=b.y-a.y, dist=Math.hypot(dx,dy)||1;
+  const sx=a.x+dx/dist*(a.r+6), sy=a.y+dy/dist*(a.r+6);
+  const ex=b.x-dx/dist*(b.r+14), ey=b.y-dy/dist*(b.r+14);
+  const mx2=(sx+ex)/2, my2=(sy+ey)/2;
+  const dcx=mx2-CX, dcy=my2-CY, dl2=Math.hypot(dcx,dcy)||1;
+  const cx2=mx2+dcx/dl2*38, cy2=my2+dcy/dl2*38;
+  return {d:`M${sx},${sy}Q${cx2},${cy2} ${ex},${ey}`, lx:(cx2+mx2)/2, ly:(cy2+my2)/2};
+}
+
+function mkEl(tag,attrs){
+  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+
+const MCOLORS={'#2D5F5D':'rf','#C4622D':'tc','#7BAF9E':'sm','#C9983A':'hv','#4A6FA5':'db','#6B6560':'gv','#5C3D3D':'cr','#1C2B2D':'dk'};
+function mkId(clr,vis){ return vis?`url(#a_${MCOLORS[clr]||'dk'})`:`url(#a_fd)`; }
+
+// Check if edge is in the selected loop
+function edgeKey(e){ return `${e.f}→${e.t}`; }
+function isInLoop(e, loop){ return loop && loop.edges.includes(edgeKey(e)); }
+// Get all nodes that appear in selected loop's edges
+function loopNodeIds(loop){
+  if(!loop) return new Set();
+  const ids=new Set();
+  loop.edges.forEach(k=>{ const [f,t]=k.split('→'); ids.add(f); ids.add(t); });
+  return ids;
+}
+
+function render(){
+  world.innerHTML='';
+  const stg=STAGES[cur], mx=stg.mx;
+  const activeLoop=selectedLoop?LOOPS.find(l=>l.id===selectedLoop):null;
+  const loopNodes=loopNodeIds(activeLoop);
+
+  // Defs
+  const defs=mkEl('defs',{});
+  const markerColors=[['dk','#1C2B2D',.45],['rf','#2D5F5D',.5],['tc','#C4622D',.55],['sm','#7BAF9E',.5],['hv','#C9983A',.55],['db','#4A6FA5',.55],['gv','#6B6560',.4],['cr','#5C3D3D',.45],['fd','#1C2B2D',.06],['loop','#C4622D',.9]];
+  defs.innerHTML=markerColors.map(([id,fill,op])=>`<marker id="a_${id}" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 .5,9 3.5,0 6.5" fill="${fill}" fill-opacity="${op}"/></marker>`).join('');
+  world.appendChild(defs);
+
+  // Zone backgrounds
+  ZONES.forEach(z=>{
+    const vis=(CS[z.cat]||1)<=mx;
+    const g=mkEl('g',{opacity:vis?1:.04});
+    g.appendChild(mkEl('rect',{x:z.x,y:z.y,width:z.w,height:z.h,rx:14,fill:z.c,'fill-opacity':.05,stroke:z.c,'stroke-opacity':.18,'stroke-width':1.5}));
+    const t=mkEl('text',{x:z.x+15,y:z.y+22,'font-family':'Jost,sans-serif','font-size':9.5,'font-weight':600,fill:z.c,'fill-opacity':.5,'letter-spacing':'1.8'});
+    t.textContent=z.lbl; g.appendChild(t); world.appendChild(g);
+  });
+
+  // Core ring
+  world.appendChild(mkEl('circle',{cx:CX,cy:CY,r:400,fill:'#2D5F5D','fill-opacity':.02,stroke:'#2D5F5D','stroke-opacity':.08,'stroke-width':1.5}));
+  const clbl=mkEl('text',{x:CX,y:CY-448,'text-anchor':'middle','font-family':'Jost,sans-serif','font-size':10,'font-weight':600,fill:'#2D5F5D','fill-opacity':.4,'letter-spacing':'2'});
+  clbl.textContent='REGENERATIVE CORE'; world.appendChild(clbl);
+
+  // Enzyme callout box
+  if(mx>=4){
+    const bx=30,by=80,bw=300,bh=400;
+    world.appendChild(mkEl('rect',{x:bx,y:by,width:bw,height:bh,rx:7,fill:'#1C2B2D',stroke:'#2D5F5D','stroke-width':1.5,'stroke-opacity':.5}));
+    const lines=[
+      ['ENZYME CONSULTING',        by+30, 'Jost,sans-serif',10,600,'#7BAF9E','1.2'],
+      ['REGENERATIVE DESIGN ROLE', by+52, 'Jost,sans-serif',13,700,'#F7F3EE','.3'],
+      ['1.  Map system + feedback loops',     by+88,  'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['2.  Co-design with community elders', by+112, 'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['3.  Structure procurement policy',    by+136, 'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['     (TEK-aligned, fair premium)',     by+154, 'Cormorant Garamond,serif',10.5,400,'#6B6560','0'],
+      ['4.  Design community governance fund',by+183, 'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['5.  Connect The Long Run certification',by+207,'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['6.  Frame guest experience protocols',by+231, 'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['     (authentic, not performative)',   by+249, 'Cormorant Garamond,serif',10.5,400,'#6B6560','0'],
+      ['7.  Navigate Thai policy + land tenure',by+278,'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['8.  Build the investment thesis',      by+302, 'Cormorant Garamond,serif',12,400,'#D4CCC4','0'],
+      ['Procurement → Culture → Ecology → Guest',by+342,'Jost,sans-serif',11,600,'#C4622D','.3'],
+      ['Every transaction a regenerative act.', by+364,'Cormorant Garamond,serif',11,400,'#6B6560','0'],
+    ];
+    lines.forEach(([txt,y,ff,fs,fw,fill,ls])=>{
+      const t=mkEl('text',{x:bx+18,y:y,'font-family':ff,'font-size':fs,'font-weight':fw,fill:fill,'letter-spacing':ls});
+      t.textContent=txt; world.appendChild(t);
+    });
+  }
+
+  // ── EDGES ──
+  E.forEach(e=>{
+    const a=nById(e.f), b=nById(e.t); if(!a||!b) return;
+    const stageVis=e.s<=mx;
+    const clr=e.clr||'#1C2B2D';
+    const inActiveLoop=activeLoop&&isInLoop(e,activeLoop);
+    // Dim when loop is active but this edge is not in it
+    const dimmed=activeLoop&&!inActiveLoop;
+    const effOp=dimmed?0.03:(stageVis?e.op:.02);
+    const effW=inActiveLoop?e.w*1.6:e.w;
+    const mk=stageVis?`url(#a_${MCOLORS[clr]||'dk'})`:`url(#a_fd)`;
+    const {d,lx,ly}=edgePath(a,b);
+    const p=mkEl('path',{d,fill:'none',stroke:clr,'stroke-opacity':effOp,'stroke-width':effW,'marker-end':mk});
+    if(e.d) p.setAttribute('stroke-dasharray','6,4');
+    world.appendChild(p);
+    if(e.lbl&&stageVis&&effOp>.28&&!dimmed){
+      const tw=e.lbl.length*4.2+14;
+      world.appendChild(mkEl('rect',{x:lx-tw/2,y:ly-8,width:tw,height:16,rx:3,fill:'#E8DDD0','fill-opacity':.92}));
+      const lt=mkEl('text',{x:lx,y:ly+4.5,'text-anchor':'middle','font-family':'DM Mono,monospace','font-size':8,fill:clr,'fill-opacity':.5});
+      lt.textContent=e.lbl; world.appendChild(lt);
+    }
+  });
+
+  // ── NODES ──
+  N.forEach(n=>{
+    const ns=CS[n.cat]||1, vis=ns<=mx, isLev=LEVERS[n.id];
+    const inActiveLoop=activeLoop&&loopNodes.has(n.id);
+    const nodeOp=activeLoop?(inActiveLoop?1:0.1):(vis?1:.05);
+    const g=mkEl('g',{'data-id':n.id,opacity:nodeOp});
+    g.classList.add('ng'); g.style.pointerEvents=vis?'auto':'none';
+
+    // Leverage point pulse ring (only when no loop selected)
+    if(isLev&&vis&&!activeLoop){
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r+14,fill:'none',stroke:'#C4622D','stroke-width':2,'stroke-dasharray':'5,4','stroke-opacity':.55}));
+      const pulse=mkEl('circle',{cx:n.x,cy:n.y,r:n.r+14,fill:'none',stroke:'#C4622D','stroke-width':1.5});
+      const a1=mkEl('animate',{attributeName:'r',from:n.r+14,to:n.r+36,dur:'2.4s',repeatCount:'indefinite'});
+      const a2=mkEl('animate',{attributeName:'stroke-opacity',from:'.35',to:'0',dur:'2.4s',repeatCount:'indefinite'});
+      pulse.appendChild(a1); pulse.appendChild(a2); g.appendChild(pulse);
+    }
+    // Loop highlight ring
+    if(inActiveLoop){
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r+10,fill:'none',stroke:activeLoop.clr,'stroke-width':2.5,'stroke-opacity':.7}));
+    }
+
+    g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r+10,fill:'transparent',stroke:'none'}));
+
+    if(n.diamond){
+      const s=n.r+7;
+      g.appendChild(mkEl('polygon',{points:`${n.x},${n.y-s} ${n.x+s},${n.y} ${n.x},${n.y+s} ${n.x-s},${n.y}`,fill:'#E8DDD0',stroke:n.c,'stroke-width':2.5}));
+    } else if(n.cat==='tension'){
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r,fill:'#F2E4DD',stroke:n.c,'stroke-width':1.8,'stroke-dasharray':'5,3.5'}));
+    } else if(n.id==='hotel'){
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r+6,fill:'none',stroke:'#2D5F5D','stroke-width':1.5,'stroke-opacity':.3}));
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r,fill:'#E8DDD0',stroke:n.c,'stroke-width':3}));
+    } else {
+      g.appendChild(mkEl('circle',{cx:n.x,cy:n.y,r:n.r,fill:'#E8DDD0',stroke:(isLev&&vis&&!activeLoop)?'#C4622D':n.c,'stroke-width':(n.cat==='core'||n.cat==='program')?2.5:2}));
+    }
+
+    const lines=n.lbl.split('\n');
+    const lbw=Math.max(...lines.map(l=>l.length))*6.8+14;
+    const lbh=lines.length*14+6;
+    const lby=n.y+n.r+12;
+    g.appendChild(mkEl('rect',{x:n.x-lbw/2,y:lby-2,width:lbw,height:lbh,rx:3,fill:'#E8DDD0','fill-opacity':.88}));
+    lines.forEach((line,i)=>{
+      const t=mkEl('text',{x:n.x,y:lby+11+i*14,'text-anchor':'middle','font-family':'Jost,sans-serif',
+        'font-size':(n.cat==='core'||n.cat==='program')?11.5:10.5,'font-weight':600,fill:'#1C2B2D'});
+      t.textContent=line; g.appendChild(t);
+    });
+    world.appendChild(g);
+  });
+
+  // ── LOOP BADGES (when loopsOn) ──
+  if(loopsOn){
+    LOOPS.forEach(loop=>{
+      // Only show loop badge if its minimum stage is active
+      if(loop.stage_min>mx && mx<99) return;
+      const isSelected=selectedLoop===loop.id;
+      const g=mkEl('g',{'data-id':loop.id});
+      g.classList.add('loopbadge');
+
+      // Outer ring (selected state)
+      if(isSelected){
+        g.appendChild(mkEl('circle',{cx:loop.x,cy:loop.y,r:22,fill:'none',stroke:loop.clr,'stroke-width':2.5,'stroke-opacity':.9}));
+        const pulse=mkEl('circle',{cx:loop.x,cy:loop.y,r:22,fill:'none',stroke:loop.clr,'stroke-width':1.5});
+        const a1=mkEl('animate',{attributeName:'r',from:22,to:38,dur:'1.8s',repeatCount:'indefinite'});
+        const a2=mkEl('animate',{attributeName:'stroke-opacity',from:'.6',to:'0',dur:'1.8s',repeatCount:'indefinite'});
+        pulse.appendChild(a1); pulse.appendChild(a2); g.appendChild(pulse);
+      }
+
+      // Badge background
+      g.appendChild(mkEl('circle',{cx:loop.x,cy:loop.y,r:18,
+        fill:isSelected?loop.clr:(loop.clr+'28'),
+        stroke:loop.clr,'stroke-width':isSelected?2:1.5,'stroke-opacity':.9}));
+
+      // Badge label
+      const badge=mkEl('text',{x:loop.x,y:loop.y+1,'text-anchor':'middle','dominant-baseline':'middle',
+        'font-family':'DM Mono,monospace','font-size':10.5,'font-weight':500,
+        fill:isSelected?'#F7F3EE':loop.clr});
+      badge.textContent=loop.id; g.appendChild(badge);
+
+      // Loop name (below badge, hidden when not selected to reduce clutter)
+      if(isSelected){
+        const nameLines=loop.name.split(' — ');
+        nameLines.forEach((line,i)=>{
+          const nt=mkEl('text',{x:loop.x,y:loop.y+28+i*14,'text-anchor':'middle',
+            'font-family':'Jost,sans-serif','font-size':9.5,'font-weight':600,fill:loop.clr,'fill-opacity':.85});
+          nt.textContent=line; g.appendChild(nt);
+        });
+      }
+
+      world.appendChild(g);
+    });
+  }
+}
+
+// ── LOOP INTERACTION ──
+function handleLoopClick(loopId){
+  if(selectedLoop===loopId){ selectedLoop=null; closeInfo(); render(); return; }
+  selectedLoop=loopId;
+  const loop=LOOPS.find(l=>l.id===loopId);
+  render();
+  // Show loop info in info panel
+  const tagEl=document.getElementById('itag');
+  tagEl.textContent=loop.type==='R'?'REINFORCING LOOP':'BALANCING LOOP';
+  tagEl.style.background=loop.clr+'22';
+  tagEl.style.color=loop.clr;
+  document.getElementById('iname').textContent=loop.id+' — '+loop.name;
+  document.getElementById('idesc').textContent='';
+  document.getElementById('ilev').style.display='none';
+  const iloop=document.getElementById('iloop');
+  iloop.style.display='block';
+  document.getElementById('ilooptag').textContent=loop.type==='R'?'↻ Self-amplifying: more engagement → more revenue → better programs → more authentic experiences → more engagement':'⚠ Risk: if this loop runs in reverse, the system degrades';
+  document.getElementById('ilooptag').style.color=loop.clr;
+  document.getElementById('iloopdesc').textContent=loop.desc;
+  document.getElementById('ipan').classList.add('vis');
+}
+
+// ── NODE INFO PANEL ──
+function showInfo(n){
+  const cats={core:'REGENERATIVE HOTEL',program:'HOTEL PROGRAM',community:'URAK LAWOI',ecology:'MARINE ECOSYSTEM',supply:'SUPPLY CHAIN',guest:'GUEST JOURNEY',governance:'GOVERNANCE',tension:'⚠ TENSION NODE',context:'GREATER WHOLE',enzyme:'SYSTEM INTEGRATOR'};
+  document.getElementById('itag').textContent=cats[n.cat]||'';
+  document.getElementById('itag').style.background=n.c+'18';
+  document.getElementById('itag').style.color=n.c;
+  document.getElementById('iname').textContent=n.lbl.replace(/\n/g,' ');
+  document.getElementById('idesc').textContent=n.desc;
+  const lv=LEVERS[n.id], el=document.getElementById('ilev');
+  if(lv){ el.style.display='block'; document.getElementById('ilevt').textContent='⬡ LEVERAGE POINT: '+lv.t; document.getElementById('ilevd').textContent=lv.d; }
+  else el.style.display='none';
+  document.getElementById('iloop').style.display='none';
+  document.getElementById('ipan').classList.add('vis');
+}
+function closeInfo(){document.getElementById('ipan').classList.remove('vis')}
+
+// ── STAGE BAR ──
+function renderStages(){
+  const bar=document.getElementById('stageBar'); bar.innerHTML='';
+  STAGES.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='stg'+(i===cur?' on':'');
+    b.innerHTML=`<span class="sn">${s.num}</span><span class="st">${s.name}</span><span class="sd">${s.desc}</span>`;
+    b.onclick=()=>{ cur=i; selectedLoop=null; renderStages(); render(); };
+    bar.appendChild(b);
+  });
+}
+
+function toggleStory(){
+  storyOn=!storyOn;
+  document.getElementById('storyPanel').classList.toggle('vis',storyOn);
+  document.getElementById('storyBtn').classList.toggle('on',storyOn);
+}
+
+function toggleLoops(){
+  loopsOn=!loopsOn;
+  if(!loopsOn){ selectedLoop=null; closeInfo(); }
+  document.getElementById('loopBtn').classList.toggle('on',loopsOn);
+  document.getElementById('loopBtn').textContent=loopsOn?'⟳ HIDE LOOPS':'⟳ SHOW LOOPS';
+  render();
+}
+
+tx(); renderStages(); render();
+</script>
+</body>
+</html>
