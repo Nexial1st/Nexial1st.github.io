@@ -172,40 +172,61 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
       x:0,y:0
     });
   }
-  let mouse=null;
+  // the focus point the network reaches toward: the visitor's pointer when
+  // present, otherwise an autonomous point that wanders the hero
+  let pointer=null,pointerSeen=0;
   hero.addEventListener('pointermove',e=>{
     const b=hero.getBoundingClientRect();
-    mouse={x:e.clientX-b.left,y:e.clientY-b.top};
+    pointer={x:e.clientX-b.left,y:e.clientY-b.top};pointerSeen=performance.now();
   });
-  hero.addEventListener('pointerleave',()=>mouse=null);
+  hero.addEventListener('pointerdown',e=>{
+    const b=hero.getBoundingClientRect();
+    pointer={x:e.clientX-b.left,y:e.clientY-b.top};pointerSeen=performance.now();
+  });
+  hero.addEventListener('pointerleave',()=>pointer=null);
+  function focusPoint(t){
+    if(pointer&&performance.now()-pointerSeen<3500)return pointer;
+    return{
+      x:W*(.5+.42*Math.sin(t/5200)*Math.cos(t/9100)),
+      y:H*(.5+.4*Math.sin(t/6700+1.7))
+    };
+  }
 
   function draw(t){
     ctx.clearRect(0,0,W,H);
     for(const n of nodes){
-      n.x=n.ax+Math.cos(t/4200*n.sp+n.ph)*24;
-      n.y=n.ay+Math.sin(t/5100*n.sp+n.ph*1.37)*20;
+      n.x=n.ax+Math.cos(t/2600*n.sp+n.ph)*34;
+      n.y=n.ay+Math.sin(t/3100*n.sp+n.ph*1.37)*28;
     }
     const LINK=Math.min(190,W/6);
     for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
       const a=nodes[i],b=nodes[j],d=Math.hypot(a.x-b.x,a.y-b.y);
       if(d<LINK){
-        ctx.strokeStyle='rgba(157,181,164,'+(.20*(1-d/LINK)).toFixed(3)+')';
+        const f=1-d/LINK;
+        ctx.strokeStyle='rgba(157,181,164,'+(.22*f).toFixed(3)+')';
         ctx.lineWidth=1;
         ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
-      }
-    }
-    if(mouse){
-      for(const n of nodes){
-        const d=Math.hypot(n.x-mouse.x,n.y-mouse.y);
-        if(d<160){
-          ctx.strokeStyle='rgba(201,104,60,'+(.38*(1-d/160)).toFixed(3)+')';
-          ctx.lineWidth=1;
-          ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(mouse.x,mouse.y);ctx.stroke();
+        if((i+j)%3===0){
+          // signal pulse travelling along the edge
+          const p=(t/2200+(i*7+j)*.13)%1;
+          ctx.fillStyle='rgba(246,243,235,'+(.55*f).toFixed(3)+')';
+          ctx.beginPath();ctx.arc(a.x+(b.x-a.x)*p,a.y+(b.y-a.y)*p,1.4,0,7);ctx.fill();
         }
       }
     }
+    const m=focusPoint(t);
     for(const n of nodes){
-      const pulse=1+Math.sin(t/1400+n.ph)*.12;
+      const d=Math.hypot(n.x-m.x,n.y-m.y);
+      if(d<170){
+        ctx.strokeStyle='rgba(201,104,60,'+(.42*(1-d/170)).toFixed(3)+')';
+        ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke();
+      }
+    }
+    ctx.fillStyle='rgba(201,104,60,.5)';
+    ctx.beginPath();ctx.arc(m.x,m.y,2.6+Math.sin(t/500)*.7,0,7);ctx.fill();
+    for(const n of nodes){
+      const pulse=1+Math.sin(t/1100+n.ph)*.16;
       if(n.kind==='diamond'){
         ctx.save();ctx.translate(n.x,n.y);ctx.rotate(Math.PI/4);
         ctx.fillStyle='rgba(201,104,60,.55)';
@@ -215,7 +236,7 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
         ctx.fillStyle='rgba(157,181,164,.7)';
         ctx.beginPath();ctx.arc(n.x,n.y,n.r*pulse,0,7);ctx.fill();
         ctx.strokeStyle='rgba(157,181,164,.35)';ctx.lineWidth=1;
-        ctx.beginPath();ctx.arc(n.x,n.y,n.r*2.1*pulse,0,7);ctx.stroke();
+        ctx.beginPath();ctx.arc(n.x,n.y,n.r*(1.8+Math.sin(t/1600)*.4),0,7);ctx.stroke();
       }else{
         ctx.fillStyle='rgba(157,181,164,.5)';
         ctx.beginPath();ctx.arc(n.x,n.y,n.r*pulse,0,7);ctx.fill();
