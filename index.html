@@ -31,9 +31,16 @@ body{font-family:'Inter',Arial,sans-serif;background:var(--cream);color:var(--in
 .toplink{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--pine);text-decoration:none;border-bottom:1px solid rgba(30,61,49,.45);padding-bottom:5px;transition:color .15s,border-color .15s}
 .toplink:hover{color:var(--terra);border-color:var(--terra)}
 
-.hero{background:var(--pine);padding:88px 32px 92px;position:relative;overflow:hidden}
+.hero{background:var(--pine);padding:88px 32px 110px;position:relative;overflow:hidden}
 .hero canvas{position:absolute;inset:0;pointer-events:none}
-.hero .in{max-width:1060px;margin:0 auto;position:relative}
+.hero .in{max-width:1060px;margin:0 auto;position:relative;z-index:1}
+.pweb{position:absolute;inset:0;z-index:2;pointer-events:none}
+.pnode{position:absolute;left:0;top:0;pointer-events:auto;display:inline-flex;align-items:center;gap:8px;transform:translate(-50%,-50%);text-decoration:none;font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#DCE5DC;white-space:nowrap;padding:6px;transition:color .2s}
+.pnode .dot{width:9px;height:9px;border-radius:50%;background:rgba(157,181,164,.95);box-shadow:0 0 0 4px rgba(157,181,164,.16);flex-shrink:0;transition:background .2s,box-shadow .2s}
+.pnode .dot.diamond{border-radius:2px;transform:rotate(45deg);background:rgba(201,104,60,.95);box-shadow:0 0 0 4px rgba(201,104,60,.16)}
+.pnode:hover,.pnode:focus-visible{color:#F6F3EB}
+.pnode:hover .dot,.pnode:focus-visible .dot{background:#C9683C;box-shadow:0 0 0 7px rgba(201,104,60,.28)}
+@media (max-width:860px){.hero{padding-bottom:250px}}
 .kicker{display:flex;align-items:center;gap:14px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--terra)}
 .kicker::before{content:"";width:44px;height:1px;background:var(--terra);flex-shrink:0}
 .hero h1{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(40px,6.5vw,72px);line-height:1.06;color:var(--ivory);margin:26px 0 28px;letter-spacing:-.01em}
@@ -71,7 +78,7 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
 
 @media (max-width:640px){
   .top{padding:18px 22px}
-  .hero{padding:60px 22px 64px}
+  .hero{padding:60px 22px 265px}
   main{padding:12px 22px 56px}
   .ftr{padding:44px 22px 38px}
 }
@@ -89,6 +96,13 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
 
 <section class="hero" id="hero">
   <canvas id="net" aria-hidden="true"></canvas>
+  <nav class="pweb" aria-label="Project maps">
+    <a class="pnode" href="hotel-lifecycle-ecosystem.html"><span class="dot"></span>Hotel Lifecycle</a>
+    <a class="pnode" href="urak-lawoi-regen-hospitality-map.html"><span class="dot"></span>Urak Lawoi</a>
+    <a class="pnode" href="muuse-ecosystem-map.html"><span class="dot"></span>Gold Coast Reuse</a>
+    <a class="pnode" href="cook-islands-fuel-system-map.html"><span class="dot"></span>Cook Islands Fuel</a>
+    <a class="pnode" href="2026-04-25-hormuz-system-map.html"><span class="dot diamond"></span>Hormuz Briefing</a>
+  </nav>
   <div class="in">
     <div class="kicker">Systems Maps &middot; Strategic Intelligence</div>
     <h1>The whole system, <em>made visible.</em></h1>
@@ -160,7 +174,7 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
     cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);
   }
   size();
-  const N=Math.min(30,Math.max(16,Math.round(W/46)));
+  const N=Math.min(26,Math.max(14,Math.round(W/52)));
   const nodes=[];
   for(let i=0;i<N;i++){
     nodes.push({
@@ -172,6 +186,29 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
       x:0,y:0
     });
   }
+
+  // the projects themselves live in the web as drifting, clickable nodes
+  const projEls=[...document.querySelectorAll('.pnode')];
+  const projects=projEls.map(el=>{
+    const p={el,ax:0,ay:0,ph:Math.random()*Math.PI*2,sp:.5+Math.random()*.4,x:0,y:0,hold:false};
+    el.addEventListener('pointerenter',()=>p.hold=true);
+    el.addEventListener('pointerleave',()=>p.hold=false);
+    return p;
+  });
+  let PAMP=16;
+  function placeProjects(){
+    const wide=W>860;
+    PAMP=wide?16:8;
+    if(wide){
+      const spots=[[.60,.13],[.86,.28],[.70,.52],[.87,.74],[.62,.82]];
+      projects.forEach((p,i)=>{p.ax=W*spots[i][0];p.ay=H*spots[i][1];});
+    }else{
+      // labels live in the reserved band above the hero's bottom edge
+      const spots=[[.30,215],[.72,175],[.32,125],[.68,85],[.48,38]];
+      projects.forEach((p,i)=>{p.ax=W*spots[i][0];p.ay=H-spots[i][1];});
+    }
+  }
+  placeProjects();
   // the focus point the network reaches toward: the visitor's pointer when
   // present, otherwise an autonomous point that wanders the hero
   let pointer=null,pointerSeen=0;
@@ -198,12 +235,23 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
       n.x=n.ax+Math.cos(t/2600*n.sp+n.ph)*34;
       n.y=n.ay+Math.sin(t/3100*n.sp+n.ph*1.37)*28;
     }
+    for(const p of projects){
+      if(!p.hold){
+        p.x=p.ax+Math.cos(t/3400*p.sp+p.ph)*PAMP;
+        p.y=p.ay+Math.sin(t/3900*p.sp+p.ph*1.31)*PAMP*.8;
+        p.el.style.transform='translate('+p.x+'px,'+p.y+'px) translate(-50%,-50%)';
+      }
+    }
+    const all=nodes.concat(projects);
     const LINK=Math.min(190,W/6);
-    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
-      const a=nodes[i],b=nodes[j],d=Math.hypot(a.x-b.x,a.y-b.y);
-      if(d<LINK){
-        const f=1-d/LINK;
-        ctx.strokeStyle='rgba(157,181,164,'+(.22*f).toFixed(3)+')';
+    for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
+      const a=all[i],b=all[j];
+      const isProj=a.el||b.el;
+      const reach=isProj?LINK*1.25:LINK;
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<reach){
+        const f=1-d/reach;
+        ctx.strokeStyle='rgba(157,181,164,'+((isProj?.30:.22)*f).toFixed(3)+')';
         ctx.lineWidth=1;
         ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
         if((i+j)%3===0){
@@ -215,7 +263,7 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
       }
     }
     const m=focusPoint(t);
-    for(const n of nodes){
+    for(const n of all){
       const d=Math.hypot(n.x-m.x,n.y-m.y);
       if(d<170){
         ctx.strokeStyle='rgba(201,104,60,'+(.42*(1-d/170)).toFixed(3)+')';
@@ -246,7 +294,7 @@ main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
   const still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(still){draw(0);}
   else{(function loop(t){draw(t||0);requestAnimationFrame(loop);})();}
-  window.addEventListener('resize',()=>{size();if(still)draw(0);});
+  window.addEventListener('resize',()=>{size();placeProjects();if(still)draw(0);});
 })();
 </script>
 </body>
