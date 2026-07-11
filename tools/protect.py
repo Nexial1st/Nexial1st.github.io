@@ -61,7 +61,7 @@ button:disabled{{background:#75885F;cursor:wait}}
   <div class="brand">Enzyme Consulting</div>
   <div class="sub">Protected Map</div>
   <h1>{title}</h1>
-  <p class="hint">This map is password-protected. Enter the access password to view it.</p>
+  <p class="hint">This map is password-protected.<br>Enter the access password to view it.</p>
   <input type="password" id="pw" placeholder="Password" autocomplete="current-password" autofocus>
   <button type="submit" id="btn">Unlock</button>
   <div class="err" id="err"></div>
