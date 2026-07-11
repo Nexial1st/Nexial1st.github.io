@@ -3,667 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Lifecycle Ecosystem — From Place to Experience</title>
+<title>Enzyme Consulting — Systems Maps &amp; Strategic Intelligence</title>
+<meta name="description" content="Interactive systems maps and strategic intelligence briefings by Enzyme Consulting — regenerative hospitality, circular economies, supply chains and place-based strategy.">
+<meta property="og:title" content="Enzyme Consulting — Systems Maps &amp; Strategic Intelligence">
+<meta property="og:description" content="Interactive systems maps and strategic intelligence briefings — regenerative hospitality, circular economies, supply chains and place-based strategy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nexial1st.github.io/">
+<meta property="og:site_name" content="Enzyme Consulting">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path d='M18 20L46 16M18 20L38 46M46 16L38 46' stroke='%231C2B2D' stroke-width='4' fill='none'/><circle cx='18' cy='20' r='10' fill='%232D5F5D'/><circle cx='46' cy='16' r='7' fill='%23C4622D'/><circle cx='38' cy='46' r='9' fill='%237BAF9E'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap');
 :root{
-  --slate:#1C2B2D;--forest:#2D5F5D;--sage:#7BAF9E;--sand:#E8DDD0;--linen:#EDE8E0;
-  --terra:#C4622D;--dusk:#4A6FA5;--harvest:#C9983A;--rose:#5C3D3D;
-  --nb:#111;--wg:#555550;--pale:#C8C3BA;--white:#FAFAF7;
+  --slate:#1C2B2D;--forest:#2D5F5D;--sage:#7BAF9E;--linen:#EDE8E0;
+  --terra:#C4622D;--harvest:#C9983A;--dusk:#4A6FA5;
+  --nb:#111;--wg:#555550;--pale:#C8C3BA;--white:#FAFAF7;--cream:#F7F3EE;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Jost',Arial,sans-serif;background:var(--linen);color:var(--nb);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body{font-family:'Jost',Arial,sans-serif;background:var(--linen);color:var(--nb);min-height:100vh;display:flex;flex-direction:column}
 
-.hdr{flex-shrink:0;height:48px;background:var(--slate);padding:0 28px;display:flex;align-items:center;justify-content:space-between}
-.hdr h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:18px;color:#F7F3EE;letter-spacing:.01em}
-.hdr .sub{font-size:10px;color:var(--sage);margin-top:1px;font-weight:300}
-.zl{font-family:'DM Mono',monospace;font-size:10px;color:var(--sage)}
+.hdr{background:var(--slate);padding:40px 28px 36px;text-align:center}
+.hdr .mark{display:inline-flex;align-items:center;gap:12px;margin-bottom:10px}
+.hdr h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:34px;color:var(--cream);letter-spacing:.01em}
+.hdr .tag{font-size:13px;font-weight:300;color:var(--sage);letter-spacing:.14em;text-transform:uppercase}
 
-.ctrl{flex-shrink:0;background:var(--white);border-bottom:1px solid var(--pale);padding:7px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.ctrl-grp{display:flex;align-items:center;gap:5px}
-.ctrl-label{font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--wg);margin-right:3px}
-.model-btn,.phase-btn{font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:500;padding:3px 10px;border:1px solid var(--pale);border-radius:12px;background:var(--white);color:var(--wg);cursor:pointer;transition:all .15s}
-.model-btn:hover,.phase-btn:hover{border-color:var(--sage);color:var(--slate)}
-.model-btn.on{border-color:var(--forest);background:rgba(45,95,93,.1);color:var(--forest);font-weight:600}
-.phase-btn.on{border-color:var(--slate);background:var(--slate);color:#F7F3EE;font-weight:600}
-.phase-btn.all-btn.on{border-color:var(--pale);background:var(--white);color:var(--wg);font-weight:500}
-.ctrl-sep{width:1px;height:18px;background:var(--pale)}
-.legend{margin-left:auto;display:flex;align-items:center;gap:12px}
-.lg{display:flex;align-items:center;gap:4px;font-size:8.5px;color:var(--wg)}
-.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ld-diamond{width:7px;height:7px;transform:rotate(45deg);border-radius:1px;flex-shrink:0}
-.lg-size{display:flex;align-items:center;gap:3px;font-size:7.5px;color:var(--wg);margin-left:4px}
-.lg-size-dot{border-radius:50%;border:1.5px solid var(--wg);opacity:.4}
+.intro{max-width:820px;margin:0 auto;padding:36px 28px 8px;text-align:center}
+.intro p{font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-style:italic;line-height:1.6;color:var(--forest)}
 
-.cv{flex:1;min-height:0;overflow:hidden;cursor:grab;position:relative}
-.cv:active{cursor:grabbing}
-.cv svg{width:100%;height:100%;transition:none}
+main{flex:1;max-width:1120px;width:100%;margin:0 auto;padding:16px 28px 56px}
+.sec{margin-top:36px}
+.sec h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--wg);border-bottom:1px solid var(--pale);padding-bottom:8px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
 
-.detail{flex-shrink:0;height:34px;background:var(--white);border-top:1px solid var(--pale);transition:height .3s ease;overflow:hidden;position:relative}
-.detail.open{height:260px;overflow-y:auto}
-.detail-hint{text-align:center;padding:8px;font-size:10px;color:var(--wg);font-weight:300;font-style:italic}
-.detail-content{display:none;padding:16px 36px 20px;max-width:1200px;margin:0 auto}
-.detail.open .detail-content{display:flex;gap:32px}
-.detail.open .detail-hint{display:none}
-.detail-close{position:absolute;top:6px;right:18px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--wg);z-index:5}
-.detail-main{flex:1;min-width:0}
-.detail-main h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:600;color:var(--slate);margin-bottom:4px}
-.detail-badges{margin-bottom:10px}
-.badge{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;display:inline-block;padding:2px 8px;border-radius:3px;margin-right:6px}
-.detail-desc{font-size:12.5px;line-height:1.7;color:#333}
-.detail-ki{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:12.5px;color:var(--forest);line-height:1.55;border-left:2px solid var(--sage);padding-left:12px;margin:12px 0 0}
-.detail-side{width:240px;flex-shrink:0;max-height:220px;overflow-y:auto}
-.detail-side h4{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--wg);margin-bottom:6px}
-.cn-item{font-size:10.5px;line-height:1.5;color:var(--nb);padding:3px 0;border-bottom:1px solid #eae6de;cursor:pointer;transition:color .15s}
-.cn-item:hover{color:var(--forest)}
-.cn-item .cn-sub{font-size:9px;color:var(--wg);display:block;margin-top:1px}
+.card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--pale);border-radius:8px;padding:22px 24px 18px;text-decoration:none;color:var(--nb);transition:transform .18s,box-shadow .18s,border-color .18s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(28,43,45,.14);border-color:var(--sage)}
+.card:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+.card .kicker{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+.card .type{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;padding:3px 9px;border-radius:10px}
+.type-eco{background:rgba(45,95,93,.12);color:var(--forest)}
+.type-intel{background:rgba(196,98,45,.12);color:var(--terra)}
+.card .date{font-family:'DM Mono',monospace;font-size:10px;color:var(--wg)}
+.card h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:600;color:var(--slate);line-height:1.25;margin-bottom:8px}
+.card p{font-size:12.5px;line-height:1.65;color:var(--wg);font-weight:300;flex:1}
+.card .go{margin-top:14px;font-size:11px;font-weight:500;color:var(--forest);letter-spacing:.04em}
+.card:hover .go{color:var(--terra)}
 
-.ttip{position:fixed;z-index:200;background:var(--slate);color:#F7F3EE;font-family:'Jost',Arial,sans-serif;font-size:10.5px;padding:8px 13px;border-radius:4px;pointer-events:none;opacity:0;transition:opacity .12s;max-width:300px;line-height:1.5;box-shadow:0 4px 16px rgba(0,0,0,.25)}
-.ttip.vis{opacity:1}
-.ttip-title{font-weight:600;margin-bottom:2px}
-.ttip-sub{font-weight:300;color:var(--sage);font-size:9.5px}
+.note{margin-top:34px;text-align:center;font-size:11.5px;font-weight:300;color:var(--wg);font-style:italic}
 
-.node{cursor:pointer;transition:opacity .3s}
-.node:hover .nr{stroke-width:3;filter:drop-shadow(0 0 8px rgba(0,0,0,.18))}
-.node.fd{opacity:.06}
-.edge{transition:opacity .3s}
-.edge.fd{opacity:.02}
-.edge.hl path{stroke-width:2.5 !important;opacity:.85 !important}
+.ftr{background:var(--slate);padding:26px 28px;text-align:center}
+.ftr .fname{font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:600;color:var(--cream)}
+.ftr .fsub{font-size:11px;font-weight:300;color:var(--sage);margin-top:4px}
+.ftr a{color:var(--sage);text-decoration:none;border-bottom:1px solid rgba(123,175,158,.4)}
+.ftr a:hover{color:var(--cream)}
+
+@media (max-width:600px){
+  .hdr{padding:30px 20px 26px}
+  .hdr h1{font-size:26px}
+  main{padding:8px 20px 44px}
+}
 </style>
 </head>
 <body>
+
 <header class="hdr">
-  <div><h1>Hotel Lifecycle Ecosystem — From Place to Experience</h1>
-  <div class="sub" id="subTitle">Integrated Stewardship Model · Enzyme Consulting</div></div>
-  <span class="zl" id="zl">100%</span>
+  <div class="mark">
+    <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 20L46 16M18 20L38 46M46 16L38 46" stroke="#7BAF9E" stroke-width="4" fill="none"/><circle cx="18" cy="20" r="10" fill="#2D5F5D"/><circle cx="46" cy="16" r="7" fill="#C4622D"/><circle cx="38" cy="46" r="9" fill="#7BAF9E"/></svg>
+    <h1>Enzyme Consulting</h1>
+  </div>
+  <div class="tag">Systems Maps &middot; Strategic Intelligence</div>
 </header>
 
-<nav class="ctrl">
-  <div class="ctrl-grp">
-    <span class="ctrl-label">Model</span>
-    <button class="model-btn on" data-m="integrated">Integrated Stewardship</button>
-    <button class="model-btn" data-m="conventional">Conventional</button>
-  </div>
-  <div class="ctrl-sep"></div>
-  <div class="ctrl-grp">
-    <span class="ctrl-label">Phase</span>
-    <button class="phase-btn all-btn on" data-p="all">All</button>
-    <button class="phase-btn" data-p="0">1</button>
-    <button class="phase-btn" data-p="1">2</button>
-    <button class="phase-btn" data-p="2">3</button>
-    <button class="phase-btn" data-p="3">4</button>
-    <button class="phase-btn" data-p="4">5</button>
-    <button class="phase-btn" data-p="5">6</button>
-    <button class="phase-btn" data-p="6">7</button>
-    <button class="phase-btn" data-p="7">8</button>
-  </div>
-  <div class="legend">
-    <span class="lg"><span class="ld" style="background:var(--dusk)"></span>Process</span>
-    <span class="lg"><span class="ld" style="background:var(--terra)"></span>Stakeholder</span>
-    <span class="lg"><span class="ld" style="background:var(--harvest)"></span>Finance</span>
-    <span class="lg"><span class="ld-diamond" style="background:var(--forest)"></span>Steward</span>
-    <span class="lg"><span class="ld" style="background:var(--slate);border-radius:3px"></span>Governance</span>
-    <span class="ctrl-sep" style="margin:0 2px"></span>
-    <span class="lg-size"><span class="lg-size-dot" style="width:9px;height:9px"></span><span class="lg-size-dot" style="width:15px;height:15px"></span><span class="lg-size-dot" style="width:21px;height:21px"></span> connections</span>
-  </div>
-</nav>
-
-<div class="cv" id="cv"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
-
-<div class="detail" id="detail">
-  <div class="detail-hint" id="dhint">Click any node to explore its role and connections</div>
-  <button class="detail-close" id="dclose">&times;</button>
-  <div class="detail-content" id="dcontent">
-    <div class="detail-main">
-      <h2 id="dT"></h2>
-      <div class="detail-badges"><span class="badge" id="dP"></span><span class="badge" id="dTy"></span><span class="badge" id="dCn" style="background:#e8e4dc;color:var(--wg)"></span></div>
-      <div class="detail-desc" id="dD"></div>
-      <div class="detail-ki" id="dK" style="display:none"></div>
-    </div>
-    <div class="detail-side" id="dS"></div>
-  </div>
+<div class="intro">
+  <p>Complex systems, made visible. Interactive maps of ecosystems, supply chains and strategy &mdash; built to reveal the connections that matter.</p>
 </div>
 
-<div class="ttip" id="tt"></div>
+<main>
+  <section class="sec">
+    <h2>Ecosystem &amp; Strategy Maps</h2>
+    <div class="grid">
+      <a class="card" href="hotel-lifecycle-ecosystem.html">
+        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <h3>Hotel Lifecycle Ecosystem — From Place to Experience</h3>
+        <p>The full hotel lifecycle as a living system: an integrated stewardship model set against conventional development, across eight phases from land and finance to guest experience.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+      <a class="card" href="urak-lawoi-regen-hospitality-map.html">
+        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <h3>Urak Lawoi Regenerative Hospitality</h3>
+        <p>Regenerative hospitality with the Urak Lawoi community &mdash; culture, ecology, livelihoods and tourism woven into one connected picture.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+      <a class="card" href="muuse-ecosystem-map.html">
+        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <h3>City-Wide Reuse Ecosystem — Gold Coast</h3>
+        <p>How venues, users, infrastructure and incentives connect in a city-scale reuse system designed to eliminate single-use packaging.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+      <a class="card" href="cook-islands-fuel-system-map.html">
+        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <h3>Cook Islands Fuel Supply System</h3>
+        <p>The fuel supply chain of a remote island nation &mdash; imports, shipping, storage, distribution, pricing and the resilience pressures across it.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Intelligence Briefings</h2>
+    <div class="grid">
+      <a class="card" href="2026-04-25-hormuz-system-map.html">
+        <div class="kicker"><span class="type type-intel">Special Briefing</span><span class="date">25 Apr 2026</span></div>
+        <h3>Hormuz Crisis — SE Asia Supply Chains</h3>
+        <p>The Strait of Hormuz crisis and its knock-on effects across South-East Asian supply chains, mapped as a connected system of actors and pressures.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+      <a class="card" href="2026-04-25-system-map.html">
+        <div class="kicker"><span class="type type-intel">Daily Map</span><span class="date">25 Apr 2026</span></div>
+        <h3>Daily Intelligence System Map</h3>
+        <p>Key events, actors and second-order effects for 25 April 2026, mapped as an interactive network.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+      <a class="card" href="2026-04-24-system-map.html">
+        <div class="kicker"><span class="type type-intel">Daily Map</span><span class="date">24 Apr 2026</span></div>
+        <h3>Daily Intelligence System Map</h3>
+        <p>Key events, actors and second-order effects for 24 April 2026, mapped as an interactive network.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+      <a class="card" href="2026-04-23-system-map.html">
+        <div class="kicker"><span class="type type-intel">Daily Map</span><span class="date">23 Apr 2026</span></div>
+        <h3>Daily Intelligence System Map</h3>
+        <p>Key events, actors and second-order effects for 23 April 2026, mapped as an interactive network.</p>
+        <span class="go">Explore the map →</span>
+      </a>
+    </div>
+  </section>
+
+  <p class="note">Interactive maps are best explored on a tablet or larger screen.</p>
+</main>
+
+<footer class="ftr">
+  <div class="fname">Enzyme Consulting</div>
+  <div class="fsub">Systems thinking for regenerative business &middot; <a href="mailto:andrew@enzyme.consulting">andrew@enzyme.consulting</a></div>
+</footer>
 
-<script>
-const C={slate:'#1C2B2D',forest:'#2D5F5D',sage:'#7BAF9E',sand:'#E8DDD0',linen:'#EDE8E0',terra:'#C4622D',dusk:'#4A6FA5',harvest:'#C9983A',rose:'#5C3D3D',nb:'#111',wg:'#555550',pale:'#C8C3BA',white:'#FAFAF7'};
-const TC={process:C.dusk,stakeholder:C.terra,steward:C.forest,finance:C.harvest,governance:C.slate,certification:C.sage};
-
-const W=3600,H=1000;
-const PW=400,PG=18;
-const PX=[50,468,886,1304,1722,2140,2558,2976];
-const PCX=PX.map(x=>x+PW/2);
-
-const PHASES=[
-  {id:'p1',n:'1',t1:'Place-Based',t2:'Research & Ecosystem',color:C.forest},
-  {id:'p2',n:'2',t1:'Vision &',t2:'Strategic Brief',color:C.dusk},
-  {id:'p3',n:'3',t1:'Concept &',t2:'Early Design',color:C.terra},
-  {id:'p4',n:'4',t1:'Financing &',t2:'Partnering',color:C.harvest},
-  {id:'p5',n:'5',t1:'Design, Approvals',t2:'& Procurement',color:C.sage},
-  {id:'p6',n:'6',t1:'Construction',t2:'& Fit-Out',color:C.rose},
-  {id:'p7',n:'7',t1:'Pre-Opening',t2:'& Activation',color:C.dusk},
-  {id:'p8',n:'8',t1:'Operations &',t2:'Ongoing Value',color:C.forest},
-];
-
-const N=[
-{id:'local',l:'Local Stakeholders',s:'Community · indigenous · government · ecology',p:'p1',t:'governance',x:PCX[0],y:68,
-  d:'Traditional owners, local government, community groups, environmental agencies, and the more-than-human world. Their engagement determines social licence, planning approvals, and narrative authenticity. In regenerative practice, communities are co-authors of strategy, not stakeholders consulted after decisions.',
-  ki:'If community readiness is weak, nothing else will perform as promised. Address this first.',
-  cn:['community','planning','research_eco']},
-
-{id:'owner',l:'Owner / Developer',s:'Capital · vision · returns · hold period',p:'p2',t:'governance',x:(PCX[1]+PCX[2])/2,y:68,
-  d:'The entity providing development capital — REIT, sovereign wealth fund, family office, or private developer. Risk appetite, return horizon, and brand aspiration shape every downstream decision. Patient capital (10–15yr) enables genuine place-based design; yield-driven (5–7yr) defaults to standardised prototypes.',
-  ki:'If the owner\'s holding period is shorter than the ecosystem\'s recovery timeline, regeneration is structurally impossible.',
-  cn:['feasibility','commit_pt','financing','asset_mgmt','owners_rep']},
-
-{id:'operator',l:'Operator / Brand',s:'Management · standards · distribution · loyalty',p:'p7',t:'governance',x:(PCX[6]+PCX[7])/2,y:68,
-  d:'Hotel management company and/or brand franchisor. Provides operating systems, brand standards, distribution, talent frameworks, QA. The operator is not a post-construction add-on — their systems, service culture, and tech stack must be integrated from design brief onward.',
-  ki:'The operator is not a post-construction add-on. Their procurement, tech stack, and service culture must be integrated from design brief onward.',
-  cn:['mgmt_agree','pre_opening','guest_exp','rev_brand','brand_activ']},
-
-{id:'place_res',l:'Place-Based Research',s:'Genius loci · ecology · indigenous knowledge · bioregional',p:'p1',t:'process',x:PCX[0],y:270,
-  d:'Deep investigation into the genius loci. Cultural heritage mapping, ecological baselines, indigenous knowledge systems, community aspiration workshops, bioregional analysis. Carol Sanford\'s "singularity of place" made operational. Includes regenerative readiness diagnostic — identifying which of the five structural gaps is the binding constraint.',
-  ki:'Each place has an essence that should guide strategy. Regeneration means discovering and expressing that singularity in service of larger wholes. — Sanford',
-  cn:['narrative','feasibility','climate_eco','research_eco']},
-
-{id:'climate_eco',l:'Climate & Ecology',s:'Risk mapping · carbon · biodiversity · carrying capacity',p:'p1',t:'process',x:PCX[0],y:430,
-  d:'Climate risk assessment (sea level, cyclone, bushfire, heat), carbon footprint modelling, biodiversity baseline, ecological carrying capacity. The foundation for understanding what the place needs from the project. Feeds directly into Environmental Impact Assessment and sustainability certification pathways.',
-  ki:'Regeneration heals the relationship between people and place. Tourism as catalyst for bioregional regeneration. — Wahl',
-  cn:['feasibility','planning','cert_impact','design_brief']},
-
-{id:'community',l:'Community Mapping',s:'Social licence · partnerships · co-design · governance',p:'p1',t:'stakeholder',x:PCX[0],y:590,
-  d:'Building the multi-stakeholder ecosystem that makes regenerative strategies viable. Pre-competitive working groups, innovation ecosystem coordination, community co-design protocols, Social Impact Assessment. Howard\'s complementarity thesis: technology alone is never enough — placemaking, economics, governance, and infrastructure must align.',
-  ki:'Enzyme\'s value: diagnosing the binding constraint in each specific context, not applying generic best practice. — Howard',
-  cn:['narrative','feasibility','local','research_eco','mgmt_agree']},
-
-{id:'narrative',l:'Narrative & Positioning',s:'Brand story · sensory arc · worldview shift · market position',p:'p2',t:'process',x:PCX[1],y:270,
-  d:'Translation of place research into a coherent brand narrative and market positioning. Threads through every touchpoint — lobby scent, menu provenance, minibar edit, staff language, departure ritual. In regenerative framing, narrative is not marketing — it is the expression of the property\'s relationship to its bioregion.',
-  ki:'Every guest touchpoint is an opportunity to shift worldviews, not just entertain.',
-  cn:['design_brief','guest_journey','brand_activ','fb_supply']},
-
-{id:'feasibility',l:'Market & Feasibility',s:'Demand · finance · bankability · true-cost · five CSFs',p:'p2',t:'process',x:PCX[1],y:430,
-  d:'Market demand, competitive set, RevPAR projections, development cost modelling, bankability. Venter & Cloete (2007) identify five critical success factor categories: marketing, economics, location, enterprise, and planning/design. In regenerative projects, must also model true-cost externalities and long-term ecosystem value.',
-  ki:'The feasibility study is not just a financial model — it is the diagnostic moment where all five success factor categories must align.',
-  cn:['commit_pt','financing','owner']},
-
-{id:'commit_pt',l:'Commitment Point',s:'Feasibility → contracts · irreversible investment decision',p:'p2',t:'process',x:PCX[1],y:590,
-  d:'The critical gate between feasibility analysis and contractual commitment (Venter & Cloete 2007). Everything before this point is reversible at low cost. Everything after carries escalating financial exposure. In Meadows\' hierarchy: changing the rules of the system (contracts) is a higher-leverage intervention than changing parameters.',
-  ki:'Get the governance architecture, regenerative intent, and community alignment right here — or accept that retrofitting later costs 10× more.',
-  cn:['design_brief','financing','mgmt_agree','owner']},
-
-{id:'design_brief',l:'Design Brief',s:'Functional + narrative programme · service product model',p:'p3',t:'process',x:PCX[2],y:270,
-  d:'The master document marrying commercial requirements with narrative intent. Venter & Cloete\'s hotel service product model: core service (accommodation), facilitating services (front desk, housekeeping), supporting services (F&B, spa). Must embed regenerative intent from the start. WELL, LEED, and GSTC pathways scoped here.',
-  cn:['architect','guest_journey','cert_impact','steward_design','financing']},
-
-{id:'architect',l:'Architecture & Masterplan',s:'Envelope · biophilic · landscape · interiors · MEP',p:'p3',t:'stakeholder',x:PCX[2],y:430,
-  d:'Lead architectural practice, interior design, landscape architecture, and MEP engineering. Stewart Brand\'s shearing layers: Site (permanent), Structure (30–300yr), Skin (20yr), Services (7–15yr), Space Plan (3–7yr), Stuff (1–5yr). Regenerative design matches intervention to the appropriate layer.',
-  cn:['planning','smart_bldg','contractor','owners_rep','cert_impact']},
-
-{id:'guest_journey',l:'Guest Journey Design',s:'Pre-arrival → in-stay → post-departure arc',p:'p3',t:'process',x:PCX[2],y:590,
-  d:'Intentional choreography of every stage: digital discovery, booking, pre-arrival, arrival, in-stay, F&B, departure, post-stay. Designed here, delivered in Phase 7–8. Technology is regenerative when it reduces friction while increasing meaningful human connection and local value capture.',
-  cn:['pre_opening','guest_exp','tech_golive','commercial']},
-
-{id:'financing',l:'Financing & Capital',s:'Equity · debt · pre-sales · staged draws · residences',p:'p4',t:'finance',x:PCX[3],y:220,
-  d:'Capital structuring across the lifecycle. Financing is not a single event — it may occur after early research and concept work, after initial design/architectural drawings, during development through additional capital raising, and through pre-sales (branded residences, villas, room inventory). Patient capital (10–15yr) enables regenerative design; yield-driven (5–7yr) defaults to standardised prototypes.',
-  ki:'The type of capital shapes the type of hotel. Patient capital creates regenerative properties; impatient capital creates extractive ones.',
-  cn:['procurement','contractor','feasibility','commit_pt','commercial','owner','asset_mgmt']},
-
-{id:'mgmt_agree',l:'Operator Agreement',s:'HMA · franchise · white-label · terms · key money',p:'p4',t:'finance',x:PCX[3],y:370,
-  d:'Negotiation and structuring of the management or franchise agreement. Defines operator selection, fee structure, performance tests, termination rights, brand standards, renovation obligations. The operator enters at or before this stage and their procurement, tech stack, and service culture cascade through all subsequent phases.',
-  cn:['operator','pre_opening','brand_activ','commercial','design_brief']},
-
-{id:'commercial',l:'Third-Party Partners',s:'Celebrity chefs · spa · wellness · residences · specialists',p:'p4',t:'finance',x:PCX[3],y:520,
-  d:'Commercial negotiation with third-party specialists: celebrity chefs and F&B concepts, spa and wellness operators, branded residence partners, retail tenants, experience providers, activity operators. Each partnership requires its own commercial structure, brand alignment, and operational interface.',
-  cn:['fb_supply','guest_exp','guest_journey']},
-
-{id:'owners_rep',l:'Owner\'s Representative',s:'Owner interests · design · construction · handover',p:'p4',t:'stakeholder',x:PCX[3],y:660,
-  d:'Protects owner interests through design, construction, and operational handover. A critical intermediary between developer and operator — especially when the owner lacks hotel-specific expertise. Reviews design decisions against budget, monitors construction quality. In the conventional model, this is the primary coordination role; in the integrated stewardship model, stewards complement this with narrative and ecological accountability.',
-  cn:['owner','architect','contractor','quality','steward_design']},
-
-{id:'planning',l:'Planning & Approvals',s:'DA · EIS · SIA · permits · heritage · accessibility',p:'p5',t:'process',x:PCX[4],y:220,
-  d:'Development application, building permits, Environmental Impact Assessment, Social Impact Assessment, heritage overlays, fire engineering, accessibility compliance. Jurisdiction-specific and often the longest lead-time item. WELL and LEED requirements must be embedded in documentation.',
-  cn:['contractor','cert_impact','local']},
-
-{id:'procurement',l:'FF&E, OS&E & Materials',s:'Specification · sourcing · sustainability · provenance',p:'p5',t:'process',x:PCX[4],y:370,
-  d:'FF&E (15–25% of project cost), OS&E, material specification, sustainable sourcing. Lead times from 6 weeks (economy) to 18 months (luxury bespoke). Material provenance, forced labour risk, ecological footprint assessed per item. Circular procurement works best when contracts align incentives.',
-  cn:['logistics','fb_supply','contractor','steward_construct','cert_impact']},
-
-{id:'fb_supply',l:'F&B Supply Chain',s:'Farm partnerships · provenance · regenerative sourcing',p:'p5',t:'stakeholder',x:PCX[4],y:520,
-  d:'Farm partnerships, seafood provenance, wine/spirits, kitchen equipment. Food is often the single largest Scope 3 contributor AND the most powerful lever for guest education, local economic multipliers, and cultural preservation.',
-  ki:'Food touches almost every structural gap simultaneously: implementation, economic architecture, community readiness, and experience design.',
-  cn:['guest_exp','narrative','commercial']},
-
-{id:'logistics',l:'Manufacturers & Logistics',s:'Global factories · local makers · freight · customs',p:'p5',t:'stakeholder',x:PCX[4],y:660,
-  d:'Multi-tier supply chains with provenance, labour, and environmental considerations. International freight, customs, warehousing, last-mile delivery. Carbon footprint of logistics is a significant untracked Scope 3 contributor. ESG due diligence becoming regulatory requirement.',
-  cn:['contractor','procurement']},
-
-{id:'contractor',l:'Contractor & Trades',s:'Builder · specialists · programme · coordination',p:'p6',t:'stakeholder',x:PCX[5],y:270,
-  d:'Head contractor, specialist trades (structural, MEP install, fit-out, AV/IT), site establishment, programme management, subcontractor coordination, quality control. One on-site intermediary prevents $500k+ in post-handover fixes.',
-  cn:['quality','smart_bldg','steward_construct']},
-
-{id:'quality',l:'Quality & Commissioning',s:'Inspections · WHS · mock-ups · defects · systems testing',p:'p6',t:'process',x:PCX[5],y:430,
-  d:'Staged inspections, mock-up room sign-offs, defect identification, compliance verification, WHS. Systems commissioning: HVAC, fire, lifts, AV, BMS. 70–80% of green buildings fail post-occupancy targets — commissioning quality determines whether certifications translate to performance.',
-  ki:'$150–300k for 6-month startup support avoids $1–3M efficiency loss over five years.',
-  cn:['pre_opening','cert_impact','owners_rep']},
-
-{id:'smart_bldg',l:'Smart Building & Tech',s:'IoT · BMS · digital twin · energy · cybersecurity',p:'p6',t:'process',x:PCX[5],y:590,
-  d:'IoT sensors, building automation, energy management, predictive maintenance, room automation, digital twin. Solar, wind, geothermal, battery, water recycling. Technology choices are increasingly front-loaded — decisions made during design constrain operational flexibility for the asset\'s lifetime.',
-  cn:['tech_golive','guest_exp','architect']},
-
-{id:'pre_opening',l:'Pre-Opening & Training',s:'Recruitment · culture · procedures · dry runs',p:'p7',t:'process',x:PCX[6],y:270,
-  d:'Pre-opening recruitment/training, operational procedures, culture building. Les Roches identifies six key roles: Project Director, Owner\'s Representative, Pre-opening Ops Lead, Brand Liaison, IT & Systems Coordinator, Design & Procurement Manager. Staff must understand the "why" behind every design decision.',
-  cn:['tech_golive','brand_activ','steward_ops','operator']},
-
-{id:'tech_golive',l:'Systems Go-Live',s:'PMS · POS · CRM · RMS · soft opening · living lab',p:'p7',t:'process',x:PCX[6],y:430,
-  d:'Technology go-live: PMS, POS, CRM, RMS, guest platforms, mobile key, BMS integration. The soft opening functions as a living-lab moment — the designed system meets reality for the first time. Sevaldson\'s design-for-unfinishedness: expect adaptation, not perfection.',
-  ki:'The soft opening is not a dress rehearsal — it is the first iteration of a living system.',
-  cn:['guest_exp','smart_bldg']},
-
-{id:'brand_activ',l:'Brand Activation',s:'Launch · distribution · PR · loyalty · digital',p:'p7',t:'process',x:PCX[6],y:590,
-  d:'Revenue generation activation: brand launch, distribution setup (OTA and direct), PR and media, loyalty programme integration, digital marketing. The narrative crafted in Phase 2 becomes commercial reality.',
-  cn:['guest_exp','rev_brand','narrative']},
-
-{id:'guest_exp',l:'Guest Experience',s:'Touchpoints · service · wellness · worldview shift',p:'p8',t:'process',x:PCX[7],y:270,
-  d:'The full guest journey realised. Where the entire system delivers or collapses. Includes wellness as a design principle — biophilic, circadian lighting, air quality. In regenerative hospitality, experience connects visitors to the living systems of place, shifting worldviews through embodied experience.',
-  cn:['rev_brand','asset_mgmt']},
-
-{id:'rev_brand',l:'Revenue & Brand',s:'Dynamic pricing · distribution · total revenue · culture',p:'p8',t:'process',x:PCX[7],y:430,
-  d:'Dynamic pricing, channel management, loyalty, ancillary revenue, total revenue management. Brand standards maintained across design, service, digital, communications. The tension between standardisation and place-specificity — regenerative brands make place-responsiveness the standard.',
-  cn:['asset_mgmt','operator']},
-
-{id:'asset_mgmt',l:'Asset Management',s:'Capex cycles · refurb · shearing layers · adaptive reuse',p:'p8',t:'process',x:PCX[7],y:590,
-  d:'Ongoing capex planning, renovation cycles (soft 5–7yr, hard 12–15yr), FF&E reserve, repositioning. Stewart Brand\'s shearing layers: Stuff (1–5yr), Space Plan (3–7yr), Services (7–15yr), Structure (30–300yr). Regenerative asset management matches intervention to the appropriate layer. Where the loop closes back to design.',
-  ki:'Asset management is not the end of the lifecycle — it is the beginning of the next iteration.',
-  cn:['owner','procurement','financing','research_eco']},
-
-{id:'research_eco',l:'Research & Ecosystem Building',s:'Ongoing intelligence · relationships · place knowledge · value creation',p:'all',t:'steward',x:PCX[0],y:810,
-  d:'Not a one-off research task but an ongoing intelligence and relationship layer that informs all phases and creates value over time. A Regenesis-style approach: understanding place, identifying stakeholders, surfacing local assets and tensions, building relationships early, and carrying that intelligence through every later phase. Kivimaa\'s four intermediary functions: articulating expectations, building networks, brokering learning, channelling resources.',
-  ki:'Intermediaries embed in institutional structures and stay through transitions. They are not consultants — they are system integrators. — Kivimaa / Howard',
-  cn:['place_res','narrative','design_brief','planning','pre_opening','guest_exp','steward_design']},
-
-{id:'steward_design',l:'Design Steward',s:'Narrative integrity across all design disciplines',p:'p3',t:'steward',x:PCX[2],y:810,
-  d:'Maintains narrative coherence across architect, interior designer, landscape architect, and MEP. Prevents discipline siloing. Holds ecological and community intent — ensures biomimicry translates from metaphor to engineering.',
-  cn:['design_brief','architect','guest_journey','owners_rep','steward_construct','research_eco']},
-
-{id:'steward_construct',l:'Construction Steward',s:'Design intent → built reality without betrayal',p:'p6',t:'steward',x:PCX[5],y:810,
-  d:'Guards design intent through construction. Ensures material substitutions don\'t betray the story, that value-engineering doesn\'t gut regenerative features.',
-  ki:'If the construction team doesn\'t know a green wall is simultaneously biofiltering greywater, creating habitat, and educating guests — they\'ll cut it when budgets tighten.',
-  cn:['contractor','procurement','quality','steward_design','steward_ops']},
-
-{id:'steward_ops',l:'Ops Steward',s:'Built space → lived experience → culture',p:'p7',t:'steward',x:(PCX[6]+PCX[7])/2,y:810,
-  d:'Bridges construction handover and operational readiness. Trains staff in the "why" which becomes operational DNA. Must stay 6–12 months post-opening to institutionalise practices and survive first staff turnover.',
-  cn:['pre_opening','guest_exp','rev_brand','asset_mgmt','steward_construct']},
-
-{id:'cert_impact',l:'WELL · LEED · GSTC · EIA · SIA',s:'Certification & impact foundations — influencing all phases',p:'all',t:'certification',x:(PCX[2]+PCX[5])/2,y:920,
-  d:'Foundational frameworks influencing design briefs, technical decisions, approvals, construction, and operations. WELL (wellness), LEED (green building), GSTC (sustainable tourism), Environmental Impact Assessment, Social Impact Assessment. These shape procurement specs, construction methods, and operational procedures — not isolated badges at the end.',
-  ki:'Certification rigour does not equal operational behaviour change. The differentiator is post-occupancy accountability.',
-  cn:['design_brief','planning','procurement','quality','climate_eco','architect']},
-];
-
-const STEWARD_IDS=new Set(['research_eco','steward_design','steward_construct','steward_ops']);
-
-// ═══ BUILD EDGES & COUNT CONNECTIONS ═══
-const EDGES=[],eset=new Set();
-const connCount={};
-N.forEach(n=>{connCount[n.id]=0});
-N.forEach(n=>{if(n.cn)n.cn.forEach(tid=>{
-  const k=[n.id,tid].sort().join('--');
-  if(!eset.has(k)&&N.find(x=>x.id===tid)){eset.add(k);
-    const tgt=N.find(x=>x.id===tid);
-    connCount[n.id]++;connCount[tid]++;
-    EDGES.push({f:n.id,to:tid,
-      steward:n.t==='steward'||tgt.t==='steward',
-      finance:n.t==='finance'||tgt.t==='finance',
-      cert:n.t==='certification'||tgt.t==='certification',
-      gov:n.t==='governance'||tgt.t==='governance'});}})});
-
-// ═══ RADIUS BY CONNECTIONS ═══
-const counts=Object.values(connCount);
-const minC=Math.min(...counts),maxC=Math.max(...counts);
-function nodeR(n){
-  if(n.t==='governance') return 18;
-  if(n.t==='certification') return 18;
-  const c=connCount[n.id]||0;
-  const t=(maxC>minC)?(c-minC)/(maxC-minC):0.5;
-  return Math.round(11+t*15);
-}
-
-function wrapLabel(text){
-  if(text.length<=13)return[text];
-  const w=text.split(' ');if(w.length<=2)return[text];
-  const mid=text.length/2;let best=0,bd=Infinity,pos=0;
-  for(let i=0;i<w.length-1;i++){pos+=w[i].length+1;const d=Math.abs(pos-mid);if(d<bd){bd=d;best=i+1}}
-  return[w.slice(0,best).join(' '),w.slice(best).join(' ')];
-}
-
-function edgePath(fn,tn){
-  const dx=tn.x-fn.x,dy=tn.y-fn.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-  const rs=nodeR(fn),rt=nodeR(tn);
-  const sx=fn.x+(dx/d)*rs,sy=fn.y+(dy/d)*rs;
-  const ex=tn.x-(dx/d)*rt,ey=tn.y-(dy/d)*rt;
-  const mx=(sx+ex)/2,my=(sy+ey)/2;
-  const curve=Math.min(50,d*0.07);
-  let cpx=mx,cpy=my;
-  if(Math.abs(dx)>Math.abs(dy)*0.5){cpy+=(dy>=0?1:-1)*curve||(curve)}
-  else{cpx+=(dx>=0?1:-1)*curve*0.5}
-  return`M${sx},${sy} Q${cpx},${cpy} ${ex},${ey}`;
-}
-
-// ═══ RENDER ═══
-const svg=document.getElementById('svg'),cv=document.getElementById('cv'),tt=document.getElementById('tt');
-const detail=document.getElementById('detail');
-let sel=null,aModel='integrated';
-
-function render(){
-  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-  let h='<defs>';
-  h+='<marker id="arrow" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,6 2.5,0 5" fill="'+C.pale+'" opacity=".8"/></marker>';
-  h+='<marker id="arrow-forest" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,6 2.5,0 5" fill="'+C.forest+'" opacity=".7"/></marker>';
-  h+='<marker id="arrow-harvest" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,6 2.5,0 5" fill="'+C.harvest+'" opacity=".7"/></marker>';
-  h+='<marker id="arrow-sage" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,6 2.5,0 5" fill="'+C.sage+'" opacity=".7"/></marker>';
-  h+='<marker id="arrow-slate" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,6 2.5,0 5" fill="'+C.slate+'" opacity=".6"/></marker>';
-  h+='</defs>';
-
-  // ── Phase bands — richer colour ──
-  PHASES.forEach((p,i)=>{
-    h+=`<rect x="${PX[i]}" y="106" width="${PW}" height="${620}" rx="8" fill="${p.color}" fill-opacity=".06" stroke="${p.color}" stroke-opacity=".2" stroke-width="1.2"/>`;
-    h+=`<text x="${PCX[i]}" y="130" text-anchor="middle" font-family="'DM Mono',monospace" font-size="11" font-weight="400" fill="${p.color}" opacity=".8">${p.n}</text>`;
-    h+=`<text x="${PCX[i]}" y="149" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-size="14" font-weight="600" fill="${p.color}">${p.t1}</text>`;
-    h+=`<text x="${PCX[i]}" y="165" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-size="12" font-weight="400" fill="${C.wg}">${p.t2}</text>`;
-  });
-
-  // ── Flow chevrons ──
-  for(let i=0;i<7;i++){
-    const ax=PX[i]+PW+PG/2;
-    h+=`<path d="M${ax-6},${410-7} L${ax+5},${410} L${ax-6},${410+7}" stroke="${C.pale}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
-  }
-
-  // ── Stewardship band ──
-  const bx=PX[0]-8,bw=PX[7]+PW-PX[0]+16;
-  h+=`<rect x="${bx}" y="775" width="${bw}" height="66" rx="7" fill="${C.forest}" fill-opacity=".035" stroke="${C.forest}" stroke-opacity=".15" stroke-width="1.2" stroke-dasharray="6 4"/>`;
-  h+=`<text x="${bx+14}" y="790" font-family="'Jost',Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".1em" fill="${C.forest}" opacity=".65">STEWARDSHIP LAYER</text>`;
-  h+=`<line x1="${PCX[0]}" y1="810" x2="${(PCX[6]+PCX[7])/2}" y2="810" stroke="${C.forest}" stroke-width="1.8" stroke-dasharray="8 5" opacity=".22"/>`;
-  PHASES.forEach((_,i)=>{h+=`<circle cx="${PCX[i]}" cy="810" r="2.5" fill="${C.forest}" opacity=".2"/>`;});
-
-  // ── Certification bar ──
-  h+=`<rect x="${PX[2]-8}" y="892" width="${PX[5]+PW-PX[2]+16}" height="46" rx="5" fill="${C.sage}" fill-opacity=".025" stroke="${C.sage}" stroke-opacity=".1" stroke-width="1.2" stroke-dasharray="4 3"/>`;
-  h+=`<text x="${PX[2]+8}" y="908" font-family="'Jost',Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".08em" fill="${C.sage}" opacity=".6">CERTIFICATION & IMPACT FOUNDATIONS</text>`;
-
-  // ── Edges — stronger contrast ──
-  EDGES.forEach(e=>{
-    const fn=N.find(n=>n.id===e.f),tn=N.find(n=>n.id===e.to);
-    if(!fn||!tn)return;
-    const path=edgePath(fn,tn);
-    let stroke,sw,dash='',marker='arrow';
-    if(e.steward){stroke=C.forest;sw=1.3;dash='stroke-dasharray="5 3"';marker='arrow-forest'}
-    else if(e.finance){stroke=C.harvest;sw=1.2;dash='stroke-dasharray="3 2"';marker='arrow-harvest'}
-    else if(e.cert){stroke=C.sage;sw=1.1;dash='stroke-dasharray="2 2"';marker='arrow-sage'}
-    else if(e.gov){stroke=C.slate;sw=1.1;marker='arrow-slate'}
-    else{stroke=C.pale;sw=1.4}
-    h+=`<g class="edge" data-f="${e.f}" data-t="${e.to}"><path d="${path}" stroke="${stroke}" stroke-width="${sw}" ${dash} opacity=".6" fill="none" marker-end="url(#${marker})"/></g>`;
-  });
-
-  // ── Feedback loop ──
-  const amn=N.find(n=>n.id==='asset_mgmt'),prn=N.find(n=>n.id==='place_res');
-  if(amn&&prn){
-    h+=`<g class="edge" data-f="asset_mgmt" data-t="place_res"><path d="M${amn.x-15},${amn.y+15} Q${(amn.x+prn.x)/2},${730} ${prn.x+15},${prn.y+15}" stroke="${C.forest}" stroke-width="1.2" stroke-dasharray="6 4" opacity=".3" fill="none" marker-end="url(#arrow-forest)"/></g>`;
-  }
-
-  // ── Nodes ──
-  N.forEach(n=>{
-    const c=TC[n.t]||C.wg;
-    const lines=wrapLabel(n.l);
-    const r=nodeR(n);
-    const cc=connCount[n.id]||0;
-    h+=`<g class="node" data-id="${n.id}" transform="translate(${n.x},${n.y})">`;
-
-    if(n.t==='steward'){
-      const ds=Math.round(12+((maxC>minC)?(cc-minC)/(maxC-minC):0.5)*10);
-      h+=`<rect class="nr" x="${-ds}" y="${-ds}" width="${ds*2}" height="${ds*2}" rx="3" fill="${c}" fill-opacity=".15" stroke="${c}" stroke-width="2.2" transform="rotate(45)"/>`;
-      h+=`<circle cx="0" cy="0" r="${Math.round(ds/4.5)}" fill="${c}" fill-opacity=".5"/>`;
-      const ly=ds+14;
-      h+=`<text text-anchor="middle" y="${ly}" font-family="'Jost',Arial,sans-serif" font-size="10.5" font-weight="600" fill="${C.nb}">${lines[0]}</text>`;
-      if(lines.length>1)h+=`<text text-anchor="middle" y="${ly+13}" font-family="'Jost',Arial,sans-serif" font-size="10.5" font-weight="600" fill="${C.nb}">${lines[1]}</text>`;
-    }
-    else if(n.t==='governance'){
-      const pw=150,ph=32;
-      h+=`<rect class="nr" x="${-pw/2}" y="${-ph/2}" width="${pw}" height="${ph}" rx="16" fill="${c}" fill-opacity=".1" stroke="${c}" stroke-width="1.8"/>`;
-      h+=`<text text-anchor="middle" dy=".35em" font-family="'Jost',Arial,sans-serif" font-size="10.5" font-weight="600" fill="${c}">${n.l}</text>`;
-    }
-    else if(n.t==='certification'){
-      const cw=230,ch=30;
-      h+=`<rect class="nr" x="${-cw/2}" y="${-ch/2}" width="${cw}" height="${ch}" rx="4" fill="${c}" fill-opacity=".06" stroke="${c}" stroke-width="1.3" stroke-dasharray="4 2"/>`;
-      h+=`<text text-anchor="middle" dy=".35em" font-family="'Jost',Arial,sans-serif" font-size="9.5" font-weight="600" fill="${c}">${n.l}</text>`;
-    }
-    else{
-      const innerR=Math.max(3,Math.round(r/3.5));
-      h+=`<circle class="nr" cx="0" cy="0" r="${r}" fill="${c}" fill-opacity=".14" stroke="${c}" stroke-width="2.2"/>`;
-      h+=`<circle cx="0" cy="0" r="${innerR}" fill="${c}" fill-opacity=".5"/>`;
-      const ly=r+14;
-      h+=`<text text-anchor="middle" y="${ly}" font-family="'Jost',Arial,sans-serif" font-size="11" font-weight="600" fill="${C.nb}">${lines[0]}</text>`;
-      if(lines.length>1)h+=`<text text-anchor="middle" y="${ly+14}" font-family="'Jost',Arial,sans-serif" font-size="11" font-weight="600" fill="${C.nb}">${lines[1]}</text>`;
-    }
-    h+='</g>';
-  });
-
-  svg.innerHTML=h;
-  svg.querySelectorAll('.node').forEach(el=>{
-    el.addEventListener('click',e=>{e.stopPropagation();openDetail(el.dataset.id)});
-    el.addEventListener('mouseenter',ev=>showTip(el.dataset.id,ev));
-    el.addEventListener('mouseleave',hideTip);
-  });
-  apModel();
-}
-
-// ═══ PAN / ZOOM — smooth animated transitions ═══
-let vb={x:0,y:0,w:W,h:H};
-let drag=0,ds={x:0,y:0},dv={x:0,y:0};
-
-function setVB(x,y,w,h,animate){
-  vb={x,y,w,h};
-  if(animate){
-    svg.style.transition='none';
-    const frames=20;
-    const cur=svg.getAttribute('viewBox').split(' ').map(Number);
-    let f=0;
-    const step=()=>{
-      f++;
-      const t=f/frames;
-      const ease=t<0.5?2*t*t:(1-Math.pow(-2*t+2,2)/2);
-      const cx=cur[0]+(x-cur[0])*ease;
-      const cy=cur[1]+(y-cur[1])*ease;
-      const cw=cur[2]+(w-cur[2])*ease;
-      const ch=cur[3]+(h-cur[3])*ease;
-      svg.setAttribute('viewBox',`${cx} ${cy} ${cw} ${ch}`);
-      if(f<frames) requestAnimationFrame(step);
-      else{vb={x,y,w,h};updateZoomLabel()}
-    };
-    requestAnimationFrame(step);
-  }else{
-    svg.setAttribute('viewBox',`${x} ${y} ${w} ${h}`);
-  }
-  updateZoomLabel();
-}
-
-function updateZoomLabel(){
-  const pct=Math.round((W/vb.w)*100);
-  document.getElementById('zl').textContent=pct+'%';
-}
-
-// Manual pan
-cv.addEventListener('mousedown',e=>{
-  if(e.target.closest('.node'))return;
-  drag=1;ds={x:e.clientX,y:e.clientY};dv={x:vb.x,y:vb.y};
-});
-window.addEventListener('mousemove',e=>{
-  if(!drag)return;
-  const rect=cv.getBoundingClientRect();
-  const sx=vb.w/rect.width,sy=vb.h/rect.height;
-  vb.x=dv.x-(e.clientX-ds.x)*sx;
-  vb.y=dv.y-(e.clientY-ds.y)*sy;
-  svg.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
-});
-window.addEventListener('mouseup',()=>drag=0);
-
-// Zoom with wheel
-cv.addEventListener('wheel',e=>{
-  e.preventDefault();
-  const d=e.deltaY>0?1.08:0.92;
-  const nw=Math.max(400,Math.min(W*1.5,vb.w*d));
-  const nh=Math.max(250,Math.min(H*1.5,vb.h*d));
-  const rect=cv.getBoundingClientRect();
-  const mx=(e.clientX-rect.left)/rect.width;
-  const my=(e.clientY-rect.top)/rect.height;
-  vb.x=vb.x+vb.w*mx-nw*mx;
-  vb.y=vb.y+vb.h*my-nh*my;
-  vb.w=nw;vb.h=nh;
-  svg.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
-  updateZoomLabel();
-},{passive:false});
-
-// ═══ PHASE ZOOM ═══
-let selPhases=new Set();
-
-function zoomToPhases(indices,animate){
-  if(indices.length===0){
-    // All — show everything
-    setVB(0,0,W,H,animate);
-    return;
-  }
-  const minI=Math.min(...indices),maxI=Math.max(...indices);
-  const x1=PX[minI]-60;
-  const x2=PX[maxI]+PW+60;
-  const padY=30;
-  const y1=40-padY;
-  const y2=950+padY;
-  // Fit to canvas aspect ratio
-  const rect=cv.getBoundingClientRect();
-  const aspect=rect.width/rect.height;
-  let fw=x2-x1,fh=y2-y1;
-  if(fw/fh<aspect){fw=fh*aspect}
-  else{fh=fw/aspect}
-  const cx=(x1+x2)/2,cy=(y1+y2)/2;
-  setVB(cx-fw/2,cy-fh/2,fw,fh,animate);
-}
-
-function updatePhaseButtons(){
-  document.querySelectorAll('.phase-btn').forEach(b=>{
-    if(b.dataset.p==='all'){
-      b.classList.toggle('on',selPhases.size===0);
-    }else{
-      b.classList.toggle('on',selPhases.has(parseInt(b.dataset.p)));
-    }
-  });
-}
-
-document.querySelectorAll('.phase-btn').forEach(b=>b.addEventListener('click',e=>{
-  const p=b.dataset.p;
-  if(p==='all'){
-    selPhases.clear();
-    zoomToPhases([],true);
-  }else{
-    const idx=parseInt(p);
-    if(e.shiftKey||e.metaKey){
-      // Toggle add/remove
-      if(selPhases.has(idx)) selPhases.delete(idx);
-      else selPhases.add(idx);
-    }else{
-      // Single select — or deselect if already alone
-      if(selPhases.size===1&&selPhases.has(idx)){
-        selPhases.clear();
-      }else{
-        selPhases.clear();
-        selPhases.add(idx);
-      }
-    }
-    zoomToPhases([...selPhases],true);
-  }
-  updatePhaseButtons();
-}));
-
-// ═══ TOOLTIP ═══
-function showTip(id,ev){const n=N.find(x=>x.id===id);if(!n)return;
-  const cc=connCount[id]||0;
-  let html=`<div class="ttip-title">${n.l}</div>`;
-  if(n.s)html+=`<div class="ttip-sub">${n.s}</div>`;
-  html+=`<div class="ttip-sub" style="margin-top:3px;color:${C.sage}">${cc} connection${cc!==1?'s':''}</div>`;
-  tt.innerHTML=html;tt.style.left=(ev.clientX+14)+'px';tt.style.top=(ev.clientY-10)+'px';tt.classList.add('vis')}
-function hideTip(){tt.classList.remove('vis')}
-
-// ═══ DETAIL PANEL ═══
-function openDetail(id){
-  sel=id;const n=N.find(x=>x.id===id);if(!n)return;
-  const p=PHASES.find(x=>x.id===n.p);
-  document.getElementById('dT').textContent=n.l;
-  const pb=document.getElementById('dP');
-  if(p){pb.textContent=p.n+'. '+p.t1+' '+p.t2;pb.style.background=p.color+'20';pb.style.color=p.color}
-  else{pb.textContent='Cross-cutting';pb.style.background=C.forest+'20';pb.style.color=C.forest}
-  const tb=document.getElementById('dTy');
-  const tl={stakeholder:'Stakeholder',process:'Process',steward:'Stewardship',finance:'Finance / Commercial',governance:'Governance',certification:'Certification'};
-  tb.textContent=tl[n.t]||n.t;tb.style.background=(TC[n.t]||C.wg)+'20';tb.style.color=TC[n.t]||C.wg;
-  const cc=connCount[id]||0;
-  document.getElementById('dCn').textContent=cc+' connection'+(cc!==1?'s':'');
-  document.getElementById('dD').textContent=n.d||'';
-  const ki=document.getElementById('dK');if(n.ki){ki.textContent=n.ki;ki.style.display='block'}else ki.style.display='none';
-
-  const dside=document.getElementById('dS');
-  if(n.cn&&n.cn.length){
-    let chtml='<h4>Connected to</h4>';
-    n.cn.forEach(cid=>{
-      const cn=N.find(x=>x.id===cid);
-      if(!cn)return;
-      const ctc=TC[cn.t]||C.wg;
-      chtml+=`<div class="cn-item" data-goto="${cid}" style="border-left:3px solid ${ctc};padding-left:8px"><strong>${cn.l}</strong><span class="cn-sub">${cn.s||''}</span></div>`;
-    });
-    dside.innerHTML=chtml;
-    dside.querySelectorAll('.cn-item').forEach(el=>el.addEventListener('click',()=>openDetail(el.dataset.goto)));
-  }else dside.innerHTML='';
-
-  detail.classList.add('open');
-  document.getElementById('dhint').style.display='none';
-  document.getElementById('dcontent').style.display='flex';
-  hlC(id);
-}
-function closeDetail(){
-  detail.classList.remove('open');sel=null;
-  document.getElementById('dhint').style.display='';
-  document.getElementById('dcontent').style.display='none';
-  clHL();
-}
-document.getElementById('dclose').addEventListener('click',closeDetail);
-cv.addEventListener('click',e=>{if(!e.target.closest('.node'))closeDetail()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail()});
-
-function hlC(id){
-  const cn=new Set([id]);
-  EDGES.forEach(e=>{if(e.f===id)cn.add(e.to);if(e.to===id)cn.add(e.f)});
-  svg.querySelectorAll('.node').forEach(el=>el.classList.toggle('fd',!cn.has(el.dataset.id)));
-  svg.querySelectorAll('.edge').forEach(el=>{
-    const connected=(el.dataset.f===id||el.dataset.t===id);
-    el.classList.toggle('fd',!connected);
-    el.classList.toggle('hl',connected);
-  });
-}
-function clHL(){svg.querySelectorAll('.fd,.hl').forEach(el=>{el.classList.remove('fd');el.classList.remove('hl')})}
-
-// ═══ MODEL TOGGLE ═══
-function apModel(){
-  const show=aModel==='integrated';
-  svg.querySelectorAll('.node').forEach(el=>{
-    if(STEWARD_IDS.has(el.dataset.id)) el.style.display=show?'':'none';
-  });
-  svg.querySelectorAll('.edge').forEach(el=>{
-    if(STEWARD_IDS.has(el.dataset.f)||STEWARD_IDS.has(el.dataset.t)) el.style.display=show?'':'none';
-  });
-  document.querySelectorAll('.model-btn').forEach(b=>b.classList.toggle('on',b.dataset.m===aModel));
-  document.getElementById('subTitle').textContent=show?'Integrated Stewardship Model · Enzyme Consulting':'Conventional Development Model · Enzyme Consulting';
-}
-document.querySelectorAll('.model-btn').forEach(b=>b.addEventListener('click',()=>{
-  aModel=b.dataset.m;apModel();if(sel)openDetail(sel);
-}));
-
-render();
-</script>
 </body>
 </html>
