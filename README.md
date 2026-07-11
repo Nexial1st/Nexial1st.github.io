@@ -18,15 +18,32 @@ Every `.html` file in the root of this repo is automatically published as a page
 
 Every map is a **single self-contained HTML file** — all styling and interactivity is inline, with only Google Fonts loaded externally. This is deliberate: files are portable, never break from missing dependencies, and can be emailed or archived as-is.
 
+## Password protection
+
+All maps are **encrypted** (AES-256-GCM). Visiting a map shows an Enzyme-branded
+login screen; the correct password decrypts the page in the browser. Without the
+password the file contents are unreadable — this is real encryption, not a
+cosmetic gate. One shared password unlocks every map, and the browser remembers
+it for the rest of the tab session. The landing page stays public.
+
+Because the files in this repo are encrypted, **keep unencrypted master copies
+of every map on your own computer**. To publish or update a protected map:
+
+```
+pip install cryptography              # once
+python3 tools/protect.py 'THE-PASSWORD' my-map.html
+```
+
+…then upload the resulting file. To change the site password, re-run the script
+on all master copies with the new password and upload everything again.
+
 ## How to add a new map
 
-1. Save your map as a single `.html` file. Name it in lowercase with hyphens, e.g. `client-name-system-map.html` (or `YYYY-MM-DD-topic.html` for dated briefings).
-2. On GitHub, click **Add file → Upload files**, drop the file in, and press **Commit changes**. It will be live at `https://nexial1st.github.io/your-file-name.html` within a minute or two.
-3. Make it look good when shared (link previews in LinkedIn, WhatsApp, Slack): copy the block of `<meta name="description">` / `og:` tags from the top of any existing map into your new file's `<head>`, and update the title, description, and URL.
-4. To list it on the landing page: edit `index.html`, copy one of the existing `<a class="card">…</a>` blocks, and update the link, title, date and description.
-5. Add the page's URL as a new `<url>` line in `sitemap.xml` so search engines find it.
-
-Steps 3–5 are optional — the page works without them — but they're what make the site feel professional when links get shared.
+1. Save your map as a single `.html` file. Name it in lowercase with hyphens, e.g. `client-name-system-map.html` (or `YYYY-MM-DD-topic.html` for dated briefings). Keep this master copy safe on your computer.
+2. Optional but recommended: copy the block of `<meta name="description">` / `og:` tags from the top of any existing master into your new file's `<head>` and update the title, description, and URL — this gives links a proper preview when shared in LinkedIn, WhatsApp or Slack.
+3. Encrypt it: `python3 tools/protect.py 'THE-PASSWORD' your-file.html` (skip this step only for pages that should be fully public).
+4. On GitHub, click **Add file → Upload files**, drop the file in, and press **Commit changes**. It will be live at `https://nexial1st.github.io/your-file-name.html` within a minute or two.
+5. To list it on the landing page: edit `index.html`, copy one of the existing `<a class="card">…</a>` blocks, and update the link, title, date and description.
 
 ## Housekeeping notes
 
