@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nexial1st.github.io/sitemap.xml
+Sitemap: https://maps.enzyme.consulting/sitemap.xml

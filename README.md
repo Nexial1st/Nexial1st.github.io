@@ -1,20 +1,20 @@
 # Enzyme Consulting — Systems Maps & Strategic Intelligence
 
-This repository powers the public site **[nexial1st.github.io](https://nexial1st.github.io)** via GitHub Pages.
+This repository powers the public site **[maps.enzyme.consulting](https://maps.enzyme.consulting)** via GitHub Pages.
 Every `.html` file in the root of this repo is automatically published as a page — no build step, no configuration.
 
 ## What's on the site
 
 | Page | Live URL |
 |---|---|
-| Landing page (all projects) | [/](https://nexial1st.github.io/) |
-| Hotel Lifecycle Ecosystem | [/hotel-lifecycle-ecosystem.html](https://nexial1st.github.io/hotel-lifecycle-ecosystem.html) |
-| Urak Lawoi Regenerative Hospitality | [/urak-lawoi-regen-hospitality-map.html](https://nexial1st.github.io/urak-lawoi-regen-hospitality-map.html) |
-| City-Wide Reuse Ecosystem (Gold Coast) | [/muuse-ecosystem-map.html](https://nexial1st.github.io/muuse-ecosystem-map.html) |
-| Cook Islands Fuel Supply System | [/cook-islands-fuel-system-map.html](https://nexial1st.github.io/cook-islands-fuel-system-map.html) |
-| Hormuz Crisis — SE Asia Supply Chains | [/2026-04-25-hormuz-system-map.html](https://nexial1st.github.io/2026-04-25-hormuz-system-map.html) |
-| Daily Intelligence Maps (23–25 Apr 2026) | [/2026-04-23-system-map.html](https://nexial1st.github.io/2026-04-23-system-map.html) etc. |
-| Family Strategy Dashboard *(unlisted — direct link only)* | [/family-strategy-dashboard-final.html](https://nexial1st.github.io/family-strategy-dashboard-final.html) |
+| Landing page (all projects) | [/](https://maps.enzyme.consulting/) |
+| Hotel Lifecycle Ecosystem | [/hotel-lifecycle-ecosystem.html](https://maps.enzyme.consulting/hotel-lifecycle-ecosystem.html) |
+| Urak Lawoi Regenerative Hospitality | [/urak-lawoi-regen-hospitality-map.html](https://maps.enzyme.consulting/urak-lawoi-regen-hospitality-map.html) |
+| City-Wide Reuse Ecosystem (Gold Coast) | [/muuse-ecosystem-map.html](https://maps.enzyme.consulting/muuse-ecosystem-map.html) |
+| Cook Islands Fuel Supply System | [/cook-islands-fuel-system-map.html](https://maps.enzyme.consulting/cook-islands-fuel-system-map.html) |
+| Hormuz Crisis — SE Asia Supply Chains | [/2026-04-25-hormuz-system-map.html](https://maps.enzyme.consulting/2026-04-25-hormuz-system-map.html) |
+| Daily Intelligence Maps (23–25 Apr 2026) | [/2026-04-23-system-map.html](https://maps.enzyme.consulting/2026-04-23-system-map.html) etc. |
+| Family Strategy Dashboard *(unlisted — direct link only)* | [/family-strategy-dashboard-final.html](https://maps.enzyme.consulting/family-strategy-dashboard-final.html) |
 
 Every map is a **single self-contained HTML file** — all styling and interactivity is inline, with only Google Fonts loaded externally. This is deliberate: files are portable, never break from missing dependencies, and can be emailed or archived as-is.
 
@@ -42,7 +42,7 @@ on all master copies with the new password and upload everything again.
 1. Save your map as a single `.html` file. Name it in lowercase with hyphens, e.g. `client-name-system-map.html` (or `YYYY-MM-DD-topic.html` for dated briefings). Keep this master copy safe on your computer.
 2. Optional but recommended: copy the block of `<meta name="description">` / `og:` tags from the top of any existing master into your new file's `<head>` and update the title, description, and URL — this gives links a proper preview when shared in LinkedIn, WhatsApp or Slack.
 3. Encrypt it: `python3 tools/protect.py 'THE-PASSWORD' your-file.html` (skip this step only for pages that should be fully public).
-4. On GitHub, click **Add file → Upload files**, drop the file in, and press **Commit changes**. It will be live at `https://nexial1st.github.io/your-file-name.html` within a minute or two.
+4. On GitHub, click **Add file → Upload files**, drop the file in, and press **Commit changes**. It will be live at `https://maps.enzyme.consulting/your-file-name.html` within a minute or two.
 5. To list it on the landing page: edit `index.html`, copy one of the existing `<a class="card">…</a>` blocks, and update the link, title, date and description.
 
 ## Housekeeping notes
