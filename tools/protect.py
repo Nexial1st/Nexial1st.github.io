@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
-"""Encrypt HTML pages behind a password (AES-256-GCM, PBKDF2-SHA256).
+"""Encrypt HTML pages behind one or more passwords (AES-256-GCM, PBKDF2).
 
 Each target file is replaced in-place by a small login page carrying the
-encrypted original. The correct password decrypts and renders it in the
-browser via WebCrypto; without it the content is unreadable.
+encrypted original. Any of the listed passwords decrypts and renders it in
+the browser via WebCrypto; without one the content is unreadable.
 
 Usage:
-    python3 tools/protect.py 'your-password' file1.html file2.html ...
+    python3 tools/protect.py 'password' file1.html file2.html ...
+    python3 tools/protect.py 'master-pw,client-pw' client-map.html ...
+
+Comma-separated passwords all unlock the file (envelope encryption: the
+page is sealed with a random key, which is wrapped once per password).
+Typical use: every file gets the master password plus that client's own
+password, so each client only ever unlocks their own maps.
 
 Keep unencrypted master copies of your maps somewhere private (e.g. on
 your own computer) — to update a protected page, edit the master copy and
 re-run this script on it. Requires: pip install cryptography
 """
-import base64, re, secrets, sys
+import base64, json, re, secrets, sys
 from pathlib import Path
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -68,20 +74,29 @@ button:disabled{{background:#75885F;cursor:wait}}
   <div class="foot"><a href="/">&larr; All maps</a> &middot; Access: <a href="mailto:andrew@enzyme.consulting">andrew@enzyme.consulting</a></div>
 </form>
 <script>
-const P={{salt:"{salt}",iv:"{iv}",iters:{iters},data:"{data}"}};
+const P={{salt:"{salt}",iv:"{iv}",iters:{iters},slots:{slots},data:"{data}"}};
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 const KEYSTORE="ec_k";
-async function decryptWith(key){{
-  const pt=await crypto.subtle.decrypt({{name:"AES-GCM",iv:b64(P.iv)}},key,b64(P.data));
-  return new TextDecoder().decode(pt);
+// kek unwraps the random content key from whichever slot it fits; the
+// content key then decrypts the page. Any authorized password works.
+async function decryptWith(kek){{
+  for(const s of P.slots){{
+    try{{
+      const raw=await crypto.subtle.decrypt({{name:"AES-GCM",iv:b64(s.iv)}},kek,b64(s.k));
+      const ck=await crypto.subtle.importKey("raw",raw,{{name:"AES-GCM"}},false,["decrypt"]);
+      const pt=await crypto.subtle.decrypt({{name:"AES-GCM",iv:b64(P.iv)}},ck,b64(P.data));
+      return new TextDecoder().decode(pt);
+    }}catch(e){{}}
+  }}
+  throw new Error("no matching slot");
 }}
 function render(html){{document.open();document.write(html);document.close();}}
 async function unlock(pw){{
   const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
-  const key=await crypto.subtle.deriveKey({{name:"PBKDF2",salt:b64(P.salt),iterations:P.iters,hash:"SHA-256"}},km,{{name:"AES-GCM",length:256}},true,["decrypt"]);
-  const html=await decryptWith(key);
+  const kek=await crypto.subtle.deriveKey({{name:"PBKDF2",salt:b64(P.salt),iterations:P.iters,hash:"SHA-256"}},km,{{name:"AES-GCM",length:256}},true,["decrypt"]);
+  const html=await decryptWith(kek);
   try{{
-    const raw=await crypto.subtle.exportKey("raw",key);
+    const raw=await crypto.subtle.exportKey("raw",kek);
     sessionStorage.setItem(KEYSTORE,btoa(String.fromCharCode(...new Uint8Array(raw))));
   }}catch(e){{}}
   render(html);
@@ -101,9 +116,9 @@ async function autoUnlock(){{
   const k=sessionStorage.getItem(KEYSTORE);
   if(!k)return;
   try{{
-    const key=await crypto.subtle.importKey("raw",b64(k),{{name:"AES-GCM"}},false,["decrypt"]);
-    render(await decryptWith(key));
-  }}catch(e){{sessionStorage.removeItem(KEYSTORE);}}
+    const kek=await crypto.subtle.importKey("raw",b64(k),{{name:"AES-GCM"}},false,["decrypt"]);
+    render(await decryptWith(kek));
+  }}catch(e){{}}
 }}
 // document.open() is silently ignored while the parser is still active,
 // so wait for the document to finish loading before auto-unlocking.
@@ -114,9 +129,12 @@ else autoUnlock();
 </html>
 """
 
-def protect(path: Path, password: str) -> None:
+def b64(b: bytes) -> str:
+    return base64.b64encode(b).decode()
+
+def protect(path: Path, passwords: list[str]) -> None:
     html = path.read_text()
-    if 'const P={"salt"' in html or "ec_k" in html:
+    if "ec_k" in html:
         print(f"skip (already protected): {path.name}")
         return
     title_m = re.search(r"<title>(.*?)</title>", html, re.S)
@@ -124,19 +142,27 @@ def protect(path: Path, password: str) -> None:
     # carry over description/og meta so shared links still preview nicely
     meta = "".join(m.group(0) + "\n" for m in re.finditer(
         r'<meta (?:name="description"|property="og:[a-z_:]+"|name="twitter:card")[^>]*>', html))
-    kdf = PBKDF2HMAC(algorithm=SHA256(), length=32, salt=SALT, iterations=ITERATIONS)
-    key = kdf.derive(password.encode())
+    # envelope encryption: seal the page with a random content key, then
+    # wrap that key once per password so any of them can open the page
+    content_key = secrets.token_bytes(32)
     iv = secrets.token_bytes(12)
-    ct = AESGCM(key).encrypt(iv, html.encode(), None)
+    ct = AESGCM(content_key).encrypt(iv, html.encode(), None)
+    slots = []
+    for pw in passwords:
+        kdf = PBKDF2HMAC(algorithm=SHA256(), length=32, salt=SALT, iterations=ITERATIONS)
+        kek = kdf.derive(pw.encode())
+        siv = secrets.token_bytes(12)
+        slots.append({"iv": b64(siv), "k": b64(AESGCM(kek).encrypt(siv, content_key, None))})
     shell = SHELL.format(
         title=title, meta=meta, favicon=FAVICON,
-        salt=base64.b64encode(SALT).decode(), iv=base64.b64encode(iv).decode(),
-        iters=ITERATIONS, data=base64.b64encode(ct).decode())
+        salt=b64(SALT), iv=b64(iv), iters=ITERATIONS,
+        slots=json.dumps(slots, separators=(",", ":")), data=b64(ct))
     path.write_text(shell)
-    print(f"protected: {path.name}")
+    print(f"protected ({len(slots)} password{'s' if len(slots) > 1 else ''}): {path.name}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(__doc__)
+    pws = [p for p in sys.argv[1].split(",") if p]
     for f in sys.argv[2:]:
-        protect(Path(f), sys.argv[1])
+        protect(Path(f), pws)
