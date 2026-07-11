@@ -25,10 +25,10 @@ ITERATIONS = 600_000
 SALT = base64.b64decode("RW56eW1lQ29uc3VsdDE=")
 
 FAVICON = ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>"
-           "<path d='M18 20L46 16M18 20L38 46M46 16L38 46' stroke='%231C2B2D' stroke-width='4' fill='none'/>"
-           "<circle cx='18' cy='20' r='10' fill='%232D5F5D'/>"
-           "<circle cx='46' cy='16' r='7' fill='%23C4622D'/>"
-           "<circle cx='38' cy='46' r='9' fill='%237BAF9E'/></svg>")
+           "<path d='M18 20L46 16M18 20L38 46M46 16L38 46' stroke='%231E3D31' stroke-width='4' fill='none'/>"
+           "<circle cx='18' cy='20' r='10' fill='%232E5946'/>"
+           "<circle cx='46' cy='16' r='7' fill='%23C9683C'/>"
+           "<circle cx='38' cy='46' r='9' fill='%2375885F'/></svg>")
 
 SHELL = """<!DOCTYPE html>
 <html lang="en">
@@ -40,28 +40,28 @@ SHELL = """<!DOCTYPE html>
 {meta}<link rel="icon" href="{favicon}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;600&family=DM+Mono:wght@400&display=swap">
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
-body{{font-family:'Jost',Arial,sans-serif;background:#EDE8E0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}}
-.card{{background:#FAFAF7;border:1px solid #C8C3BA;border-radius:10px;padding:40px 36px 32px;max-width:400px;width:100%;text-align:center;box-shadow:0 12px 32px rgba(28,43,45,.1)}}
-.brand{{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:#1C2B2D;margin:12px 0 2px}}
-.sub{{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#7BAF9E;margin-bottom:22px}}
-h1{{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:600;color:#2D5F5D;line-height:1.3;margin-bottom:8px}}
-.hint{{font-size:12px;font-weight:300;color:#555550;margin-bottom:22px;line-height:1.6}}
-input{{width:100%;font-family:'Jost',Arial,sans-serif;font-size:14px;padding:11px 14px;border:1px solid #C8C3BA;border-radius:6px;background:#fff;color:#111;outline:none;text-align:center;letter-spacing:.04em}}
-input:focus{{border-color:#2D5F5D}}
-button{{width:100%;margin-top:12px;font-family:'Jost',Arial,sans-serif;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#FAFAF7;background:#2D5F5D;border:none;padding:12px;border-radius:6px;cursor:pointer;transition:background .15s}}
-button:hover{{background:#1C2B2D}}
-button:disabled{{background:#7BAF9E;cursor:wait}}
+body{{font-family:'Inter',Arial,sans-serif;background:#EFE9DD;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}}
+.card{{background:#FAF7F0;border:1px solid #D9D1C1;padding:48px 40px 36px;max-width:420px;width:100%;text-align:center}}
+.brand{{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:500;color:#141F1A;margin:14px 0 4px}}
+.sub{{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#C9683C;margin-bottom:26px}}
+h1{{font-family:'Fraunces',Georgia,serif;font-size:23px;font-weight:500;color:#2E5946;line-height:1.28;margin-bottom:10px;letter-spacing:-.005em}}
+.hint{{font-size:12.5px;font-weight:300;color:#4A5450;margin-bottom:26px;line-height:1.7}}
+input{{width:100%;font-family:'Inter',Arial,sans-serif;font-size:14px;padding:12px 14px;border:1px solid #D9D1C1;background:#fff;color:#141F1A;outline:none;text-align:center;letter-spacing:.04em}}
+input:focus{{border-color:#1E3D31}}
+button{{width:100%;margin-top:12px;font-family:'Inter',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#F6F3EB;background:#1E3D31;border:none;padding:14px;cursor:pointer;transition:background .15s}}
+button:hover{{background:#10231C}}
+button:disabled{{background:#75885F;cursor:wait}}
 .err{{font-size:11.5px;color:#B04A32;margin-top:12px;min-height:16px}}
-.foot{{margin-top:20px;font-size:10px;font-weight:300;color:#8a867d}}
-.foot a{{color:#2D5F5D;text-decoration:none}}
+.foot{{margin-top:22px;font-size:10.5px;font-weight:300;color:#4A5450}}
+.foot a{{color:#1E3D31;text-decoration:none;border-bottom:1px solid rgba(30,61,49,.35);padding-bottom:2px}}
 </style>
 </head>
 <body>
 <form class="card" id="f">
-  <svg width="40" height="40" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 20L46 16M18 20L38 46M46 16L38 46" stroke="#1C2B2D" stroke-width="4" fill="none"/><circle cx="18" cy="20" r="10" fill="#2D5F5D"/><circle cx="46" cy="16" r="7" fill="#C4622D"/><circle cx="38" cy="46" r="9" fill="#7BAF9E"/></svg>
+  <svg width="38" height="38" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 20L46 16M18 20L38 46M46 16L38 46" stroke="#1E3D31" stroke-width="4" fill="none"/><circle cx="18" cy="20" r="10" fill="#2E5946"/><circle cx="46" cy="16" r="7" fill="#C9683C"/><circle cx="38" cy="46" r="9" fill="#75885F"/></svg>
   <div class="brand">Enzyme Consulting</div>
   <div class="sub">Protected Map</div>
   <h1>{title}</h1>

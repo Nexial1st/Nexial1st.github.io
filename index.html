@@ -4,149 +4,173 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enzyme Consulting — Systems Maps &amp; Strategic Intelligence</title>
-<meta name="description" content="Interactive systems maps and strategic intelligence briefings by Enzyme Consulting — regenerative hospitality, circular economies, supply chains and place-based strategy.">
+<meta name="description" content="Interactive systems maps and strategic intelligence briefings by Enzyme Consulting — regenerative hospitality, circular economies, supply chains and place-based strategy across Asia Pacific.">
 <meta property="og:title" content="Enzyme Consulting — Systems Maps &amp; Strategic Intelligence">
 <meta property="og:description" content="Interactive systems maps and strategic intelligence briefings — regenerative hospitality, circular economies, supply chains and place-based strategy.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://nexial1st.github.io/">
 <meta property="og:site_name" content="Enzyme Consulting">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path d='M18 20L46 16M18 20L38 46M46 16L38 46' stroke='%231C2B2D' stroke-width='4' fill='none'/><circle cx='18' cy='20' r='10' fill='%232D5F5D'/><circle cx='46' cy='16' r='7' fill='%23C4622D'/><circle cx='38' cy='46' r='9' fill='%237BAF9E'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path d='M18 20L46 16M18 20L38 46M46 16L38 46' stroke='%231E3D31' stroke-width='4' fill='none'/><circle cx='18' cy='20' r='10' fill='%232E5946'/><circle cx='46' cy='16' r='7' fill='%23C9683C'/><circle cx='38' cy='46' r='9' fill='%2375885F'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --slate:#1C2B2D;--forest:#2D5F5D;--sage:#7BAF9E;--linen:#EDE8E0;
-  --terra:#C4622D;--harvest:#C9983A;--dusk:#4A6FA5;
-  --nb:#111;--wg:#555550;--pale:#C8C3BA;--white:#FAFAF7;--cream:#F7F3EE;
+  --ivory:#F6F3EB;--cream:#EFE9DD;--card:#FAF7F0;
+  --ink:#141F1A;--pine:#1E3D31;--pinedark:#10231C;
+  --leaf:#2E5946;--sage:#9DB5A4;--olive:#75885F;
+  --terra:#C9683C;--stone:#4A5450;--line:#D9D1C1;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Jost',Arial,sans-serif;background:var(--linen);color:var(--nb);min-height:100vh;display:flex;flex-direction:column}
+body{font-family:'Inter',Arial,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
 
-.hdr{background:var(--slate);padding:40px 28px 36px;text-align:center}
-.hdr .mark{display:inline-flex;align-items:center;gap:12px;margin-bottom:10px}
-.hdr h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:34px;color:var(--cream);letter-spacing:.01em}
-.hdr .tag{font-size:13px;font-weight:300;color:var(--sage);letter-spacing:.14em;text-transform:uppercase}
+.top{background:var(--ivory);padding:22px 32px;display:flex;align-items:center;justify-content:space-between}
+.top .mark{display:flex;align-items:center;gap:12px;text-decoration:none}
+.top .mark span{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:600;color:var(--ink);letter-spacing:.01em}
+.toplink{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--pine);text-decoration:none;border-bottom:1px solid rgba(30,61,49,.45);padding-bottom:5px;transition:color .15s,border-color .15s}
+.toplink:hover{color:var(--terra);border-color:var(--terra)}
 
-.intro{max-width:820px;margin:0 auto;padding:36px 28px 8px;text-align:center}
-.intro p{font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-style:italic;line-height:1.6;color:var(--forest)}
+.hero{background:var(--pine);padding:88px 32px 92px}
+.hero .in{max-width:1060px;margin:0 auto}
+.kicker{display:flex;align-items:center;gap:14px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--terra)}
+.kicker::before{content:"";width:44px;height:1px;background:var(--terra);flex-shrink:0}
+.hero h1{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(40px,6.5vw,72px);line-height:1.06;color:var(--ivory);margin:26px 0 28px;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;color:var(--sage)}
+.hero p{font-size:17px;font-weight:300;line-height:1.7;color:#DCE5DC;max-width:640px}
 
-main{flex:1;max-width:1120px;width:100%;margin:0 auto;padding:16px 28px 56px}
-.sec{margin-top:36px}
-.sec h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--wg);border-bottom:1px solid var(--pale);padding-bottom:8px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+main{flex:1;max-width:1124px;width:100%;margin:0 auto;padding:24px 32px 72px}
+.sec{margin-top:60px}
+.sec .kicker{margin-bottom:26px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
 
-.card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--pale);border-radius:8px;padding:22px 24px 18px;text-decoration:none;color:var(--nb);transition:transform .18s,box-shadow .18s,border-color .18s}
-.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(28,43,45,.14);border-color:var(--sage)}
-.card:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
-.card .kicker{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
-.card .type{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;padding:3px 9px;border-radius:10px}
-.type-eco{background:rgba(45,95,93,.12);color:var(--forest)}
-.type-intel{background:rgba(196,98,45,.12);color:var(--terra)}
-.card .date{font-family:'DM Mono',monospace;font-size:10px;color:var(--wg)}
-.card h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:600;color:var(--slate);line-height:1.25;margin-bottom:8px}
-.card p{font-size:12.5px;line-height:1.65;color:var(--wg);font-weight:300;flex:1}
-.card .go{margin-top:14px;font-size:11px;font-weight:500;color:var(--forest);letter-spacing:.04em}
-.card:hover .go{color:var(--terra)}
+.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);padding:28px 28px 24px;text-decoration:none;color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(20,31,26,.12);border-color:var(--olive)}
+.card:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+.card .meta{display:flex;justify-content:space-between;align-items:baseline;font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.card .meta .t{color:var(--terra)}
+.card .meta .d{color:var(--stone)}
+.card h3{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:500;color:var(--leaf);line-height:1.22;margin-bottom:12px;letter-spacing:-.005em}
+.card p{font-size:13.5px;font-weight:300;line-height:1.7;color:var(--stone);flex:1}
+.card .go{margin-top:20px;font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--pine);align-self:flex-start;border-bottom:1px solid rgba(30,61,49,.4);padding-bottom:4px;transition:color .15s,border-color .15s}
+.card:hover .go{color:var(--terra);border-color:var(--terra)}
 
-.note{margin-top:34px;text-align:center;font-size:11.5px;font-weight:300;color:var(--wg);font-style:italic}
+.note{margin-top:52px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.8;color:var(--stone)}
+.note a{color:var(--pine)}
 
-.ftr{background:var(--slate);padding:26px 28px;text-align:center}
-.ftr .fname{font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:600;color:var(--cream)}
-.ftr .fsub{font-size:11px;font-weight:300;color:var(--sage);margin-top:4px}
-.ftr a{color:var(--sage);text-decoration:none;border-bottom:1px solid rgba(123,175,158,.4)}
-.ftr a:hover{color:var(--cream)}
+.ftr{background:var(--pine);padding:56px 32px 48px}
+.ftr .in{max-width:1060px;margin:0 auto}
+.ftr .fname{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:500;color:var(--ivory)}
+.ftr .cred{margin-top:22px;padding-top:22px;border-top:1px solid rgba(157,181,164,.28);font-size:13px;font-weight:300;line-height:1.8;color:var(--sage);max-width:720px}
+.ftr .links{margin-top:22px;display:flex;flex-wrap:wrap;gap:26px}
+.ftr .links a{font-size:13px;font-weight:400;color:#DCE5DC;text-decoration:none;border-bottom:1px solid rgba(220,229,220,.3);padding-bottom:3px;transition:color .15s}
+.ftr .links a:hover{color:var(--ivory);border-color:var(--ivory)}
+.base{background:var(--pinedark);padding:20px 32px;text-align:center}
+.base p{font-size:11.5px;font-weight:300;color:var(--sage);line-height:1.8}
 
-@media (max-width:600px){
-  .hdr{padding:30px 20px 26px}
-  .hdr h1{font-size:26px}
-  main{padding:8px 20px 44px}
+@media (max-width:640px){
+  .top{padding:18px 22px}
+  .hero{padding:60px 22px 64px}
+  main{padding:12px 22px 56px}
+  .ftr{padding:44px 22px 38px}
 }
 </style>
 </head>
 <body>
 
-<header class="hdr">
-  <div class="mark">
-    <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 20L46 16M18 20L38 46M46 16L38 46" stroke="#7BAF9E" stroke-width="4" fill="none"/><circle cx="18" cy="20" r="10" fill="#2D5F5D"/><circle cx="46" cy="16" r="7" fill="#C4622D"/><circle cx="38" cy="46" r="9" fill="#7BAF9E"/></svg>
-    <h1>Enzyme Consulting</h1>
-  </div>
-  <div class="tag">Systems Maps &middot; Strategic Intelligence</div>
+<header class="top">
+  <a class="mark" href="/">
+    <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 20L46 16M18 20L38 46M46 16L38 46" stroke="#1E3D31" stroke-width="4" fill="none"/><circle cx="18" cy="20" r="10" fill="#2E5946"/><circle cx="46" cy="16" r="7" fill="#C9683C"/><circle cx="38" cy="46" r="9" fill="#75885F"/></svg>
+    <span>Enzyme Consulting</span>
+  </a>
+  <a class="toplink" href="mailto:andrew@enzyme.consulting">Request Access</a>
 </header>
 
-<div class="intro">
-  <p>Complex systems, made visible. Interactive maps of ecosystems, supply chains and strategy &mdash; built to reveal the connections that matter.</p>
-</div>
+<section class="hero">
+  <div class="in">
+    <div class="kicker">Systems Maps &middot; Strategic Intelligence</div>
+    <h1>The whole system, <em>made visible.</em></h1>
+    <p>Dozens of actors, one web. Interactive maps of ecosystems, supply chains and strategy &mdash; built to find the few places where a single decision compounds across ecology, community, guests and return.</p>
+  </div>
+</section>
 
 <main>
   <section class="sec">
-    <h2>Ecosystem &amp; Strategy Maps</h2>
+    <div class="kicker">Ecosystem &amp; Strategy Maps</div>
     <div class="grid">
       <a class="card" href="hotel-lifecycle-ecosystem.html">
-        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <div class="meta"><span class="t">Ecosystem Map</span><span class="d">2026</span></div>
         <h3>Hotel Lifecycle Ecosystem — From Place to Experience</h3>
         <p>The full hotel lifecycle as a living system: an integrated stewardship model set against conventional development, across eight phases from land and finance to guest experience.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
       <a class="card" href="urak-lawoi-regen-hospitality-map.html">
-        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <div class="meta"><span class="t">Ecosystem Map</span><span class="d">2026</span></div>
         <h3>Urak Lawoi Regenerative Hospitality</h3>
         <p>Regenerative hospitality with the Urak Lawoi community &mdash; culture, ecology, livelihoods and tourism woven into one connected picture.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
       <a class="card" href="muuse-ecosystem-map.html">
-        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <div class="meta"><span class="t">Ecosystem Map</span><span class="d">2026</span></div>
         <h3>City-Wide Reuse Ecosystem — Gold Coast</h3>
         <p>How venues, users, infrastructure and incentives connect in a city-scale reuse system designed to eliminate single-use packaging.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
       <a class="card" href="cook-islands-fuel-system-map.html">
-        <div class="kicker"><span class="type type-eco">Ecosystem Map</span><span class="date">2026</span></div>
+        <div class="meta"><span class="t">Ecosystem Map</span><span class="d">2026</span></div>
         <h3>Cook Islands Fuel Supply System</h3>
         <p>The fuel supply chain of a remote island nation &mdash; imports, shipping, storage, distribution, pricing and the resilience pressures across it.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
     </div>
   </section>
 
   <section class="sec">
-    <h2>Intelligence Briefings</h2>
+    <div class="kicker">Intelligence Briefings</div>
     <div class="grid">
       <a class="card" href="2026-04-25-hormuz-system-map.html">
-        <div class="kicker"><span class="type type-intel">Special Briefing</span><span class="date">25 Apr 2026</span></div>
+        <div class="meta"><span class="t">Special Briefing</span><span class="d">25 Apr 2026</span></div>
         <h3>Hormuz Crisis — SE Asia Supply Chains</h3>
         <p>The Strait of Hormuz crisis and its knock-on effects across South-East Asian supply chains, mapped as a connected system of actors and pressures.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
       <a class="card" href="2026-04-25-system-map.html">
-        <div class="kicker"><span class="type type-intel">Daily Map</span><span class="date">25 Apr 2026</span></div>
+        <div class="meta"><span class="t">Daily Map</span><span class="d">25 Apr 2026</span></div>
         <h3>Daily Intelligence System Map</h3>
         <p>Key events, actors and second-order effects for 25 April 2026, mapped as an interactive network.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
       <a class="card" href="2026-04-24-system-map.html">
-        <div class="kicker"><span class="type type-intel">Daily Map</span><span class="date">24 Apr 2026</span></div>
+        <div class="meta"><span class="t">Daily Map</span><span class="d">24 Apr 2026</span></div>
         <h3>Daily Intelligence System Map</h3>
         <p>Key events, actors and second-order effects for 24 April 2026, mapped as an interactive network.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
       <a class="card" href="2026-04-23-system-map.html">
-        <div class="kicker"><span class="type type-intel">Daily Map</span><span class="date">23 Apr 2026</span></div>
+        <div class="meta"><span class="t">Daily Map</span><span class="d">23 Apr 2026</span></div>
         <h3>Daily Intelligence System Map</h3>
         <p>Key events, actors and second-order effects for 23 April 2026, mapped as an interactive network.</p>
-        <span class="go">Explore the map →</span>
+        <span class="go">Explore the map &rarr;</span>
       </a>
     </div>
   </section>
 
-  <p class="note">Maps are password-protected &mdash; <a href="mailto:andrew@enzyme.consulting" style="color:inherit">request access</a>. Best explored on a tablet or larger screen.</p>
+  <p class="note">Maps are password-protected &mdash; <a href="mailto:andrew@enzyme.consulting">request access</a>.<br>Best explored on a tablet or larger screen.</p>
 </main>
 
 <footer class="ftr">
-  <div class="fname">Enzyme Consulting</div>
-  <div class="fsub">Systems thinking for regenerative business &middot; <a href="mailto:andrew@enzyme.consulting">andrew@enzyme.consulting</a></div>
+  <div class="in">
+    <div class="fname">Enzyme Consulting</div>
+    <p class="cred">Certified Regenerative Practitioner &middot; Former Accor Global Sustainability Director &middot; James Cook University doctoral candidate</p>
+    <div class="links">
+      <a href="https://www.enzyme.consulting">www.enzyme.consulting</a>
+      <a href="mailto:andrew@enzyme.consulting">andrew@enzyme.consulting</a>
+    </div>
+  </div>
 </footer>
+<div class="base">
+  <p>&copy; 2026 Enzyme Consulting Pte Ltd &middot; Singapore<br>Regenerative hospitality systems across Asia Pacific</p>
+</div>
 
 </body>
 </html>
