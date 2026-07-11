@@ -13,7 +13,7 @@ Every `.html` file in the root of this repo is automatically published as a page
 | City-Wide Reuse Ecosystem (Gold Coast) | [/muuse-ecosystem-map.html](https://maps.enzyme.consulting/muuse-ecosystem-map.html) |
 | Cook Islands Fuel Supply System | [/cook-islands-fuel-system-map.html](https://maps.enzyme.consulting/cook-islands-fuel-system-map.html) |
 | Hormuz Crisis — SE Asia Supply Chains | [/2026-04-25-hormuz-system-map.html](https://maps.enzyme.consulting/2026-04-25-hormuz-system-map.html) |
-| Daily Intelligence Maps (23–25 Apr 2026) | [/2026-04-23-system-map.html](https://maps.enzyme.consulting/2026-04-23-system-map.html) etc. |
+| Daily Intelligence Maps (23–25 Apr 2026) *(unlisted — direct link only)* | [/2026-04-23-system-map.html](https://maps.enzyme.consulting/2026-04-23-system-map.html) etc. |
 | Family Strategy Dashboard *(unlisted — direct link only)* | [/family-strategy-dashboard-final.html](https://maps.enzyme.consulting/family-strategy-dashboard-final.html) |
 
 Every map is a **single self-contained HTML file** — all styling and interactivity is inline, with only Google Fonts loaded externally. This is deliberate: files are portable, never break from missing dependencies, and can be emailed or archived as-is.
