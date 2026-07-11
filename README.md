@@ -21,21 +21,29 @@ Every map is a **single self-contained HTML file** — all styling and interacti
 ## Password protection
 
 All maps are **encrypted** (AES-256-GCM). Visiting a map shows an Enzyme-branded
-login screen; the correct password decrypts the page in the browser. Without the
-password the file contents are unreadable — this is real encryption, not a
-cosmetic gate. One shared password unlocks every map, and the browser remembers
-it for the rest of the tab session. The landing page stays public.
+login screen; a correct password decrypts the page in the browser. Without one
+the file contents are unreadable — this is real encryption, not a cosmetic gate.
+The landing page stays public.
+
+Access is **per client**: each map is sealed with the master password *plus*
+that client's own password, so a client password only opens that client's maps
+while the master password opens everything. The browser remembers a password
+for the rest of the tab session, so moving between maps it unlocks doesn't
+re-prompt.
 
 Because the files in this repo are encrypted, **keep unencrypted master copies
 of every map on your own computer**. To publish or update a protected map:
 
 ```
 pip install cryptography              # once
-python3 tools/protect.py 'THE-PASSWORD' my-map.html
+python3 tools/protect.py 'MASTER-PW,CLIENT-PW' client-map.html
 ```
 
-…then upload the resulting file. To change the site password, re-run the script
-on all master copies with the new password and upload everything again.
+Comma-separate every password that should open the file (typically the master
+plus one client password), then upload the resulting file. To change any
+password, re-run the script on the affected master copies and upload again.
+Passwords themselves are never stored in this repo — keep the list somewhere
+private.
 
 ## How to add a new map
 
