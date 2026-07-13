@@ -62,8 +62,22 @@ the pipeline overwrites in place):
 | banyan/procurement-dashboard.html | Procurement_Dashboard.html | 1zmQFN82j3t1axgPPMp42CYi72EVYFgZJ |
 | banyan/data-coverage.html | Data_Coverage_Dashboard.html | 1yCOfQgDfaBjxmYR9IrbTDyjky5-QBcbF |
 | banyan/sustainability-insights.html | Sustainability_Insights_Dashboard.html | 1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe |
+| banyan/systems-map.html | banyan-spend-risk-map_map.html | 1HXABCKdE0Cli_RpFUTTxRyaWX8zDUNYC |
 
-**Refresh workflow** (when Andrew says "refresh the Banyan dashboards"):
+The systems map source is the **04_delivery** copy (a sibling exists in
+03_build — do not publish that one). Its `<title>` is the generic framework
+name; on publish, replace it with "Banyan Group — Procurement Spend & Risk
+Systems Map" and insert the meta block in the same edit (see git history of
+banyan/systems-map.html for the exact pattern).
+
+**Auto-refresh is live**: an hourly Routine (bound to the session that set it
+up) checks the Drive modifiedTime of each source against
+`tools/banyan-sources.json`. When a source changed, it re-publishes that file,
+updates the state JSON, pushes, opens a PR and merges it — Andrew authorised
+fully automatic publishing for Banyan updates on 13 Jul 2026. When nothing
+changed, it does nothing and stays silent.
+
+**Refresh workflow** (manual, or executed by the Routine):
 1. Get master + Banyan passwords from Andrew / conversation context.
 2. Download the three files from Drive (`download_file_content`, base64).
 3. Insert the meta block after `</title>` (description + og tags with the

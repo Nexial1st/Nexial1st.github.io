@@ -1,0 +1,21 @@
+{
+  "comment": "Drive modifiedTime of each Banyan source at last publish — the hourly auto-refresh compares against this to detect changes.",
+  "sources": {
+    "banyan/procurement-dashboard.html": {
+      "driveId": "1zmQFN82j3t1axgPPMp42CYi72EVYFgZJ",
+      "publishedModifiedTime": "2026-07-12T17:31:30.698Z"
+    },
+    "banyan/data-coverage.html": {
+      "driveId": "1yCOfQgDfaBjxmYR9IrbTDyjky5-QBcbF",
+      "publishedModifiedTime": "2026-07-12T17:44:24.822Z"
+    },
+    "banyan/sustainability-insights.html": {
+      "driveId": "1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe",
+      "publishedModifiedTime": "2026-07-13T02:34:37.048Z"
+    },
+    "banyan/systems-map.html": {
+      "driveId": "1HXABCKdE0Cli_RpFUTTxRyaWX8zDUNYC",
+      "publishedModifiedTime": "2026-07-13T03:32:17.220Z"
+    }
+  }
+}
