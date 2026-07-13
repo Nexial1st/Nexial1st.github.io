@@ -62,6 +62,13 @@ the pipeline overwrites in place):
 | banyan/procurement-dashboard.html | Procurement_Dashboard.html | 1zmQFN82j3t1axgPPMp42CYi72EVYFgZJ |
 | banyan/data-coverage.html | Data_Coverage_Dashboard.html | 1yCOfQgDfaBjxmYR9IrbTDyjky5-QBcbF |
 | banyan/sustainability-insights.html | Sustainability_Insights_Dashboard.html | 1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe |
+| banyan/systems-map.html | banyan-spend-risk-map_map.html | 1HXABCKdE0Cli_RpFUTTxRyaWX8zDUNYC |
+
+The systems map source is the **04_delivery** copy (a sibling exists in
+03_build — do not publish that one). Its `<title>` is the generic framework
+name; on publish, replace it with "Banyan Group — Procurement Spend & Risk
+Systems Map" and insert the meta block in the same edit (see git history of
+banyan/systems-map.html for the exact pattern).
 
 **Refresh workflow** (when Andrew says "refresh the Banyan dashboards"):
 1. Get master + Banyan passwords from Andrew / conversation context.
