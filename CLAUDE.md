@@ -45,6 +45,40 @@ says otherwise:
    (`https://github.com/Nexial1st/Nexial1st.github.io/pull/new/<branch>`) and
    remind him to Create pull request → Merge to go live.
 
+## Private client portals (currently: banyan/)
+
+Per-client folders hold **unlisted** private engagements. NEVER add them to
+the landing page, README, sitemap, or hero constellation. Everything in the
+folder — including its `index.html` portal page — is encrypted with
+master + that client's password.
+
+**Banyan Group** (`banyan/`, portal at /banyan/): three dashboards regenerated
+by Andrew's data pipeline, published here as encrypted copies. Source files
+live in Andrew's Google Drive (use the Google Drive connector; IDs stable as
+the pipeline overwrites in place):
+
+| Repo file | Drive title | Drive file ID |
+|---|---|---|
+| banyan/procurement-dashboard.html | Procurement_Dashboard.html | 1zmQFN82j3t1axgPPMp42CYi72EVYFgZJ |
+| banyan/data-coverage.html | Data_Coverage_Dashboard.html | 1yCOfQgDfaBjxmYR9IrbTDyjky5-QBcbF |
+| banyan/sustainability-insights.html | Sustainability_Insights_Dashboard.html | 1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe |
+
+**Refresh workflow** (when Andrew says "refresh the Banyan dashboards"):
+1. Get master + Banyan passwords from Andrew / conversation context.
+2. Download the three files from Drive (`download_file_content`, base64).
+3. Insert the meta block after `</title>` (description + og tags with the
+   `https://maps.enzyme.consulting/banyan/<file>` URL — copy the pattern by
+   running `--decrypt` on the current repo file first).
+4. Encrypt: `python3 tools/protect.py 'MASTER,BANYAN' --home '/banyan/|Banyan portal' banyan/<file>.html`
+5. Update the "Data through …" stat line on the portal: `--decrypt` the
+   current `banyan/index.html`, edit, re-encrypt (no --home; default is fine).
+6. Verify with Playwright (portal unlocks, click-through auto-unlocks), then
+   commit, push, give Andrew the PR link.
+
+A "Procurement Systems Map" slot (04) is reserved on the portal — when Andrew
+provides it, publish as `banyan/systems-map.html`, same passwords, swap the
+placeholder card for a real link.
+
 ## Facts to know
 
 - **Master password opens everything**; each client password opens only that

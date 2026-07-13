@@ -8,11 +8,15 @@ the browser via WebCrypto; without one the content is unreadable.
 Usage:
     python3 tools/protect.py 'password' file1.html file2.html ...
     python3 tools/protect.py 'master-pw,client-pw' client-map.html ...
+    python3 tools/protect.py 'master-pw,client-pw' --home '/banyan/|Banyan portal' f.html
+    python3 tools/protect.py --decrypt 'any-valid-pw' file.html   # recover master copy
 
 Comma-separated passwords all unlock the file (envelope encryption: the
 page is sealed with a random key, which is wrapped once per password).
 Typical use: every file gets the master password plus that client's own
 password, so each client only ever unlocks their own maps.
+--home sets the login page's back-link (default '/|All maps').
+--decrypt writes the decrypted original to <file>.master.html.
 
 Keep unencrypted master copies of your maps somewhere private (e.g. on
 your own computer) — to update a protected page, edit the master copy and
@@ -71,7 +75,7 @@ button:disabled{{background:#75885F;cursor:wait}}
   <input type="password" id="pw" placeholder="Password" autocomplete="current-password" autofocus>
   <button type="submit" id="btn">Unlock</button>
   <div class="err" id="err"></div>
-  <div class="foot"><a href="/">&larr; All maps</a> &middot; Access: <a href="mailto:andrew@enzyme.consulting">andrew@enzyme.consulting</a></div>
+  <div class="foot"><a href="{home_url}">&larr; {home_label}</a> &middot; Access: <a href="mailto:andrew@enzyme.consulting">andrew@enzyme.consulting</a></div>
 </form>
 <script>
 const P={{salt:"{salt}",iv:"{iv}",iters:{iters},slots:{slots},data:"{data}"}};
@@ -132,7 +136,31 @@ else autoUnlock();
 def b64(b: bytes) -> str:
     return base64.b64encode(b).decode()
 
-def protect(path: Path, passwords: list[str]) -> None:
+def derive(pw: str) -> bytes:
+    kdf = PBKDF2HMAC(algorithm=SHA256(), length=32, salt=SALT, iterations=ITERATIONS)
+    return kdf.derive(pw.encode())
+
+def decrypt(path: Path, password: str) -> None:
+    html = path.read_text()
+    m = re.search(r'const P=\{salt:"([^"]+)",iv:"([^"]+)",iters:\d+,slots:(\[[^\]]+\]),data:"([^"]+)"\}', html)
+    if not m:
+        print(f"skip (not a protected page): {path.name}")
+        return
+    _, iv, slots, data = m.groups()
+    kek = derive(password)
+    for slot in json.loads(slots):
+        try:
+            content_key = AESGCM(kek).decrypt(base64.b64decode(slot["iv"]), base64.b64decode(slot["k"]), None)
+            pt = AESGCM(content_key).decrypt(base64.b64decode(iv), base64.b64decode(data), None)
+            out = path.with_suffix(".master.html")
+            out.write_text(pt.decode())
+            print(f"decrypted: {path.name} -> {out.name}")
+            return
+        except Exception:
+            continue
+    print(f"FAILED (wrong password?): {path.name}")
+
+def protect(path: Path, passwords: list[str], home: str = "/|All maps") -> None:
     html = path.read_text()
     if "ec_k" in html:
         print(f"skip (already protected): {path.name}")
@@ -153,16 +181,29 @@ def protect(path: Path, passwords: list[str]) -> None:
         kek = kdf.derive(pw.encode())
         siv = secrets.token_bytes(12)
         slots.append({"iv": b64(siv), "k": b64(AESGCM(kek).encrypt(siv, content_key, None))})
+    home_url, _, home_label = home.partition("|")
     shell = SHELL.format(
         title=title, meta=meta, favicon=FAVICON,
         salt=b64(SALT), iv=b64(iv), iters=ITERATIONS,
-        slots=json.dumps(slots, separators=(",", ":")), data=b64(ct))
+        slots=json.dumps(slots, separators=(",", ":")), data=b64(ct),
+        home_url=home_url, home_label=home_label or "All maps")
     path.write_text(shell)
     print(f"protected ({len(slots)} password{'s' if len(slots) > 1 else ''}): {path.name}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    args = sys.argv[1:]
+    if args and args[0] == "--decrypt":
+        if len(args) < 3:
+            sys.exit(__doc__)
+        for f in args[2:]:
+            decrypt(Path(f), args[1])
+        sys.exit(0)
+    if len(args) < 2:
         sys.exit(__doc__)
-    pws = [p for p in sys.argv[1].split(",") if p]
-    for f in sys.argv[2:]:
-        protect(Path(f), pws)
+    pws = [p for p in args.pop(0).split(",") if p]
+    home = "/|All maps"
+    if args and args[0] == "--home":
+        args.pop(0)
+        home = args.pop(0)
+    for f in args:
+        protect(Path(f), pws, home)
