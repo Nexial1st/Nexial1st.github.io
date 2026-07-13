@@ -94,7 +94,21 @@ async function decryptWith(kek){{
   }}
   throw new Error("no matching slot");
 }}
-function render(html){{document.open();document.write(html);document.close();}}
+function render(html){{
+  // document.write does not reliably execute inline scripts, so parse the
+  // markup without running anything (DOMParser never executes scripts),
+  // write the script-free document, then run each script exactly once.
+  var pd=new DOMParser().parseFromString(html,"text/html");
+  var scripts=[].slice.call(pd.querySelectorAll("script"));
+  scripts.forEach(function(s){{s.parentNode.removeChild(s);}});
+  document.open();document.write("<!DOCTYPE html>"+pd.documentElement.outerHTML);document.close();
+  scripts.forEach(function(old){{
+    var s=document.createElement("script");
+    for(var i=0;i<old.attributes.length;i++) s.setAttribute(old.attributes[i].name,old.attributes[i].value);
+    s.textContent=old.textContent;
+    document.body.appendChild(s);
+  }});
+}}
 async function unlock(pw){{
   const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
   const kek=await crypto.subtle.deriveKey({{name:"PBKDF2",salt:b64(P.salt),iterations:P.iters,hash:"SHA-256"}},km,{{name:"AES-GCM",length:256}},true,["decrypt"]);
