@@ -63,6 +63,14 @@ the pipeline overwrites in place):
 | banyan/data-coverage.html | Data_Coverage_Dashboard.html | 1yCOfQgDfaBjxmYR9IrbTDyjky5-QBcbF |
 | banyan/sustainability-insights.html | Sustainability_Insights_Dashboard.html | 1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe |
 | banyan/systems-map.html | banyan-spend-risk-map_map.html | 1HXABCKdE0Cli_RpFUTTxRyaWX8zDUNYC |
+| banyan/delivery-tracker.html *(master-only, unlisted)* | Banyan_Delivery-Tracker.html | 1r8XCVYbQO0jIaNAxRN6rrvYc7goBY_9P |
+
+**delivery-tracker is different**: it holds candid internal delivery notes
+and named client staff, so it is encrypted with the **master password only**
+(no Banyan password) and is **unlisted** — never add it to the portal
+`index.html` cards, the `.pweb` node web, or the sitemap. Refresh it with
+`python3 tools/protect.py 'MASTER' banyan/delivery-tracker.html` (no client
+password, no --home). Andrew reaches it by direct link; Banyan cannot open it.
 
 The systems map source is the **04_delivery** copy (a sibling exists in
 03_build — do not publish that one). Its `<title>` is the generic framework
