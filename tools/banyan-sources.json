@@ -19,7 +19,7 @@
     },
     "banyan/delivery-tracker.html": {
       "driveId": "1r8XCVYbQO0jIaNAxRN6rrvYc7goBY_9P",
-      "publishedModifiedTime": "2026-07-13T20:21:18.002Z",
+      "publishedModifiedTime": "2026-07-14T02:02:13.965Z",
       "masterOnly": true,
       "unlisted": true,
       "note": "Internal tracker — encrypt with MASTER only (no Banyan password), no --home, and never add to the portal index/cards/node web or sitemap."
