@@ -63,6 +63,7 @@ the pipeline overwrites in place):
 | banyan/data-coverage.html | Data_Coverage_Dashboard.html | 1yCOfQgDfaBjxmYR9IrbTDyjky5-QBcbF |
 | banyan/sustainability-insights.html | Sustainability_Insights_Dashboard.html | 1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe |
 | banyan/systems-map.html | banyan-spend-risk-map_map.html | 1HXABCKdE0Cli_RpFUTTxRyaWX8zDUNYC |
+| banyan/gallery-insights.html | Gallery_Dashboard.html | 11ZXGPh5dtfkRmtzorGvngyPoQ0GfS1uB |
 | banyan/delivery-tracker.html *(master-only, unlisted)* | Banyan_Delivery-Tracker.html | 1r8XCVYbQO0jIaNAxRN6rrvYc7goBY_9P |
 
 **delivery-tracker is different**: it holds candid internal delivery notes
