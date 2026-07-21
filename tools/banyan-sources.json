@@ -1,5 +1,5 @@
 {
-  "comment": "Drive modifiedTime of each Banyan source at last publish — the hourly auto-refresh compares against this to detect changes.",
+  "comment": "Drive modifiedTime of each Banyan source at last publish \u2014 the hourly auto-refresh compares against this to detect changes.",
   "sources": {
     "banyan/procurement-dashboard.html": {
       "driveId": "1zmQFN82j3t1axgPPMp42CYi72EVYFgZJ",
@@ -15,7 +15,7 @@
     },
     "banyan/sustainability-insights.html": {
       "driveId": "1aFcqVZpTMsctJf1gSH7dkn95vtGh37Qe",
-      "publishedModifiedTime": "2026-07-13T02:34:37.048Z"
+      "publishedModifiedTime": "2026-07-21T08:20:20.967Z"
     },
     "banyan/systems-map.html": {
       "driveId": "1HXABCKdE0Cli_RpFUTTxRyaWX8zDUNYC",
@@ -26,7 +26,7 @@
       "publishedModifiedTime": "2026-07-14T02:02:13.965Z",
       "masterOnly": true,
       "unlisted": true,
-      "note": "Internal tracker — encrypt with MASTER only (no Banyan password), no --home, and never add to the portal index/cards/node web or sitemap."
+      "note": "Internal tracker \u2014 encrypt with MASTER only (no Banyan password), no --home, and never add to the portal index/cards/node web or sitemap."
     }
   }
 }
