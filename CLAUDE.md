@@ -102,6 +102,24 @@ A "Procurement Systems Map" slot (04) is reserved on the portal — when Andrew
 provides it, publish as `banyan/systems-map.html`, same passwords, swap the
 placeholder card for a real link.
 
+**Gallery Spend Explorer** (`banyan/gallery-explorer.html`, portal card 06) is a
+**hand-built interactive snapshot**, NOT pipeline output — do NOT add it to
+`banyan-sources.json` or the auto-refresh will leave it alone (good) but it also
+won't self-update. It has donut charts (spend by category + by supplier, brand-
+validated categorical palette), a year filter, and click-to-drill from category
+to individual products. Data is embedded as a `var G={…}` JSON aggregated from
+the Gallery line-item source. To refresh it: download `gallery_po_lines.parquet`
+(Drive ID `1tSgFaJA6nnqK3ZzQ5q_Dj6OdoDjeMKAM`, ~1.8MB — the 16.5MB CSV twin
+`gallery_po_lines.csv` exceeds the 10MB Drive-download cap, so use the parquet),
+aggregate with pandas (product rows = `IsNonStock==False`; group by FileYear /
+ProductFamily / VendorName / Description; blank VendorName→"Unclassified"; top
+120 products per family + an "Other" bucket; families & vendors must each sum to
+`product_usd`), splice into the `/*__GALLERY_DATA__*/` slot of the reusable
+template `tools/gallery-explorer.tpl.html`, then encrypt
+`'MASTER,BANYAN' --home '/banyan/|Banyan portal'`. EstateCategory/
+Subcategory are 100% null in the source, so drill-down is two-level (category →
+product), no middle tier.
+
 ## Facts to know
 
 - **Master password opens everything**; each client password opens only that
