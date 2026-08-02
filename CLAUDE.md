@@ -121,6 +121,30 @@ template `tools/gallery-explorer.tpl.html`, then encrypt
 Subcategory are 100% null in the source, so drill-down is two-level (category →
 product), no middle tier.
 
+**Estate basis (restated 2026-07-31).** The estate is **11 reporting properties
+of 14 estate entities**, **USD 99,112,374** / 1,240,900 spend lines. Corporate
+(`CORP`) and Gallery (`GALLERY`) are **separate scopes** — their own ledgers and
+dashboards, never inside the estate denominator or the 99,112,374. Legacy site
+codes attach to a canonical row (`HOIDBN (legacy: ANIDBN)`,
+`DHMVMI (legacy: DHVMVI, ANMVMI)`) — an alias must never render as its own
+hotel. Stale-build markers: `94,191,177`, `94.19M`, `94.2M`, `USD 94M`,
+`8 of 16`, `11 of 16`, CEBR hashes `b4b88eac`/`1b044e9b`. If a source carries
+any of these, it is a stale copy — do not publish it; ask Andrew to re-run the
+pipeline stage.
+
+**Deliberately NOT on the portal** (Andrew's call, 2 Aug 2026): `Board_Pack.html`,
+`Banyan_M1_Current-State-Assessment.html`, `exports/cebr/CEBR_Robustness_Briefing.html`
+and `Gallery_Sourcing_Briefing.html`. They exist in Drive and are current, but are
+not client-portal material — do not add them to the portal, `banyan-sources.json`,
+the node web or the sitemap unless Andrew says otherwise.
+
+**Sustainability sync caveat.** The pipeline rebuilds land in Drive automatically,
+but on 2 Aug the Sustainability export did not sync (Drive still held the 21 Jul
+build: 13,820 bytes, `8 of 16`, `94.19M`) while coverage/corporate/gallery all
+synced within a 90-second window. Always check the Drive `modifiedTime` against
+the expected rebuild before publishing — a stale Drive copy is indistinguishable
+from a fresh one by filename alone.
+
 ## Facts to know
 
 - **Master password opens everything**; each client password opens only that
